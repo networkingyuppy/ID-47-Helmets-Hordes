@@ -2,8 +2,10 @@
 #define GLOBALS_H
 
 #include <Arduino.h>
-#include "Arglib.h"
+#include <Arduboy2.h>
+#include <ATMlib.h>
 #include "bitmaps.h"
+#include "songs.h"
 
 //define menu states (on main menu)
 #define STATE_MENU_INTRO             0
@@ -32,8 +34,9 @@
 #define FIRST_LEVEL                  0
 
 
-Arduboy arduboy;
-Sprites sprites(arduboy);
+Arduboy2Base arduboy;
+Sprites sprites;
+ATMsynth ATM;
 
 byte gameState = STATE_MENU_INTRO;   // start the game with the TEAM a.r.g. logo
 byte menuSelection = STATE_MENU_PLAY; // PLAY menu item is pre-selected

@@ -1,7 +1,6 @@
 #ifndef INPUTS_H
 #define INPUTS_H
 
-#include <Arduino.h>
 #include "globals.h"
 #include "player.h"
 
@@ -34,7 +33,7 @@ void checkInputs()
   }
 
   if (arduboy.justPressed(A_BUTTON)) gameState = STATE_GAME_PAUSE;
-  if (arduboy.justPressed(B_BUTTON)) arduboy.audio.tone(880, 20);
+  if (arduboy.justPressed(B_BUTTON));
 }
 
 
