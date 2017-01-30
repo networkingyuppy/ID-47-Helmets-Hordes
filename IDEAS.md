@@ -1,25 +1,37 @@
 ## Helmets & Hordes
 
-Helmets & Hordes is an endless runner where you need to avoid enemies, dodge traps and collect coins and other treasures. You can also defeat enemies to obtain extra treasure. You can find and wear 7 helmets which give you unique powerups that let you play the game in different ways. The goal is to gather as much treasure as possible before the enemies defeat you.
+Helmets & Hordes is an endless runner where you need to avoid enemies, dodge traps and collect coins and other treasures. You can also defeat enemies to obtain extra treasure. You can find and wear 7 helmets which give you unique powerups that let you play the game in different ways. The goal is to gather as much treasure as possible before the enemies defeat you. We need to find the right balance of game speed, enemy variety, wave intensity and powerup functions to make this a fun game.
 
-We need to find the right balance of game speed, enemy variety, wave intensity and powerup functions to make this a fun game.
+I think we should use a jump button, an action button (for helmet abilities) and the left/right buttons for movement. The down button should probably pause the game.
 
-* Helena: The main character, a warrior who is trying to take as much loot as she can from a trapped dungeon filled with savage Orks (and maybe other creatures, too).
-* HEALTH: Helga has 3 hit points, which are indicated through the character sprite.
-  * Naked (no helmet, no armour) - Helga will die if she is hit.
-  * Armoured (no helmet) - Helga will lose her armour if she is hit and will become Naked.
-  * Armoured with Helmet (any helmet) - Helga will lose her helmet if she is hit and will become Armoured.
+* Helena: The main character, a warrior who is trying to take as much loot as she can from a trapped dungeon filled with savage Orks (and maybe other creatures, too). She can equip different helmets that grant her special abilities.
+* Health: Helena has 3 hit points, which are indicated through the character sprite.
+  * Naked (no helmet, no armour) - Helena will die if she is hit.
+  * Armoured (no helmet) - Helena will lose her armour if she is hit and will become naked.
+  * Armoured (with helmet) - Helena will lose her helmet if she is hit and will become armoured.
+* Armour: Helena wears protective armour that is discarded when she is hit while not wearing a helmet. She can find more armour in the dungeon by touching an armour icon. If Helena is already armoured, the armour she touches will turn to treasure (score) instead.
+* The Helmets: There will be 8 helmet abilities (to fit 1 byte). You can retrieve them by opening (touching) treasure chests. They are given to the player randomly, and some have a higher rate of probability than others. This should add a kind of risk/reward aspect to the gameplay - do I touch this treasure chest, gaining a new helmet and losing the one I have now? It should not be possible to find the helmet you are currently wearing in a new treasure chest - the helmet should always be different.
+  * Warrior's Helm: Helena performs an automatic downwards attack in midair - she can kill enemies by landing on them.
+  * Mercury's Helm: Helena can glide downwards while jumping/falling by holding the jump button.
+  * Helm of Atlas: Helena causes a shockwave each time she lands from a jump/fall. This shockwave knocks all enemies over.
+  * Thief's Hood: Helena can become intangible for a short time when the action button is pressed, allowing her to pass through traps without taking damage.
+  * Magnet Helm: Treasure (coins) is automatically pulled towards Helena, elimainating some potentially risky scenarios.
+  * Battery Hat: Pressing the action button will cause an electrical discharge around Helena that has a long reach and defeats any enemy it touches.
+  * Cutter Mask: Helena can throw a boomerang cutter in a wide arc. Inspired by this helmet in Dragon Ball! https://www.youtube.com/watch?v=WPOMIQyLTbM
+  * Football Helmet: I just really want to put a football helmet in the game!! I'll think of a cool ability later.
+* Mana Stones: Some of the helmet abilities use Mana Stones. These are collectible items that are spent each time an ability is used. You can find more in the dungeon, but you can only carry 3 at a time! Use them wisely.
+* Combat:
 * Enemies:
   * Unarmed Ork: Charges at the player and carries no weapon. Can be defeated if you simply walk into it with your sword or dagger.
   * Ork Spearman (forward): Charges at the player and carries a spear pointed forwards. You need to jump over him or defeat him in some other manner.
   * Ork Spearman (upward): Charges at the player and carries a spear pointed upwards. If you try to jump over him, you'll be hurt by his spear. You can simply run into him with your sword or dagger to defeat him.
-  * It would be cool to have other enemies too, like Skeletons or Slimes.
+  * It would be cool to have other enemies too, like Skeletons or Slimes. As long as they have cool gameplay functions!
 * Traps:
   * Spikes: These are laid in groups of 3 on the ground and will hurt the player if they are touched.
-  * Arrows: Arrows are fired from trap pillars and must be avoided or hit with a special Helmet Ability.
-  * Boulders: The Orks will sometimes drop boulders from overhead - you need to dodge them!
-* Collecting treasure (coins) will give you points. You also get coins for killing enemies.
-* There will be 8 Helmet Abilities (to fit 1 byte).
+  * Arrows: Arrows are fired from trap pillars and must be avoided or hit with a special helmet ability (for example, the Cutter Mask can be thrown at them in midair).
+  * Boulders: The Orks will sometimes drop boulders from overhead - you need to dodge them by moving left or right!
+* Collecting treasure (coins) will give you points. You also get coins for killing enemies, and for collecting armour when you don't need it.
+
 
 ## ENEMY LIST (this is just a PLACEHOLDER right now)
 | **SPRITE** | **SIZE** | **FRAMES** | **NAME** | **HP** | **SWIMMING** |
