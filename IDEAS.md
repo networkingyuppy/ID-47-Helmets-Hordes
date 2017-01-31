@@ -20,9 +20,20 @@ I think we should use a jump button, an action button (for helmet abilities) and
   * Cutter Mask: Helena can throw a boomerang cutter in a wide arc. Inspired by this helmet in Dragon Ball! https://www.youtube.com/watch?v=WPOMIQyLTbM
   * Football Helmet: I just really want to put a football helmet in the game!! I'll think of a cool ability later.
 * Mana Stones: Some of the helmet abilities use Mana Stones. These are collectible items that are spent each time an ability is used. You can find more in the dungeon, but you can only carry 3 at a time! Use them wisely.
-* Combat:
+* Sword, dagger or unarmed: Helena will be equipped with either a sword, a dagger or nothing (unarmed) depending on the helmet she is wearing or her current health state.
+  * Naked (no helmet, no armour) - Helena carries a dagger.
+  * Armoured (no helmet) - Helena carries a sword.
+  * Warrior's Helm: Sword.
+  * Mercury's Helm: Sword.
+  * Helm of Atlas: Unarmed.
+  * Thief's Hood: Dagger.
+  * Magnet Helm: Sword.
+  * Battery Hat: Unarmed.
+  * Cutter Mask: Unarmed.
+  * Football Helmet: Unarmed.
+* Combat: Helena can defeat most enemies by running into them with her sword or dagger. Additionally, some helmet abilities can be used to defeat enemies.
 * Enemies:
-  * Unarmed Ork: Charges at the player and carries no weapon. Can be defeated if you simply walk into it with your sword or dagger.
+  * Unarmed Ork: Charges at the player and carries no weapon. Can be defeated if you simply run into him with your sword or dagger.
   * Ork Spearman (forward): Charges at the player and carries a spear pointed forwards. You need to jump over him or defeat him in some other manner.
   * Ork Spearman (upward): Charges at the player and carries a spear pointed upwards. If you try to jump over him, you'll be hurt by his spear. You can simply run into him with your sword or dagger to defeat him.
   * It would be cool to have other enemies too, like Skeletons or Slimes. As long as they have cool gameplay functions!
