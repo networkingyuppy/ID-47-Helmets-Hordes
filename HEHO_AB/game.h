@@ -13,6 +13,8 @@ void stateMenuPlay()
 //void stateGamePrepareLevel()
 {
   player.score = 0; 
+  player.armor = false;
+  player.helmet = 0;
   gameState = STATE_GAME_NEXT_LEVEL;
 };
 
@@ -28,7 +30,6 @@ void stateGamePlaying()
 {
   checkInputs();
   drawPlayer();
-  checkCollisions();
 };
 
 void stateGamePause()

@@ -6,34 +6,13 @@
 
 void checkInputs()
 {
-  player.walking = false;
-  if (arduboy.pressed(DOWN_BUTTON) && (player.y < GAME_BOTTOM))
-  {
-    player.direction = FACING_SOUTH;
-    player.y++;
-    player.walking = true;
-  }
-  if (arduboy.pressed(LEFT_BUTTON) && (player.x > GAME_LEFT))
-  {
-    player.direction = FACING_WEST;
-    player.x--;
-    player.walking = true;
-  }
-  if (arduboy.pressed(UP_BUTTON) && (player.y > GAME_TOP))
-  {
-    player.direction = FACING_NORTH;
-    player.y--;
-    player.walking = true;
-  }
-  if (arduboy.pressed(RIGHT_BUTTON) && (player.x < GAME_RIGHT))
-  {
-    player.direction = FACING_EAST;
-    player.x++;
-    player.walking = true;
-  }
+  if (arduboy.pressed(DOWN_BUTTON));
+  if (arduboy.pressed(LEFT_BUTTON));
+  if (arduboy.pressed(UP_BUTTON));
+  if (arduboy.pressed(RIGHT_BUTTON));
 
-  if (arduboy.justPressed(A_BUTTON)) gameState = STATE_GAME_PAUSE;
-  if (arduboy.justPressed(B_BUTTON));
+  if (arduboy.justPressed(A_BUTTON)) player.armor = !player.armor;
+  if (arduboy.justPressed(B_BUTTON)) player.helmet = (++player.helmet) %8;
 }
 
 
