@@ -3,7 +3,7 @@
 
 #include "globals.h"
 
-#define WALKINGSPEED                               16 // lower number = higher speed
+#define WALKINGSPEED                               12 // lower number = higher speed
 
 struct Players
 {

@@ -4,6 +4,7 @@ Helmets & Hordes is an endless runner where you need to avoid enemies, dodge tra
 
 I think we should use a jump button, an action button (for helmet abilities) and the left/right buttons for movement. The down button should probably pause the game.
 
+* GAMEPLAY IDEAS
 * Helena: The main character, a warrior who is trying to take as much loot as she can from a trapped dungeon filled with savage Orks (and maybe other creatures, too). She can equip different helmets that grant her special abilities.
 * Health: Helena has 3 hit points, which are indicated through the character sprite.
   * Naked (no helmet, no armour) - Helena will die if she is hit.
@@ -18,7 +19,7 @@ I think we should use a jump button, an action button (for helmet abilities) and
   * Magnet Helm: Treasure (coins) is automatically pulled towards Helena, elimainating some potentially risky scenarios.
   * Battery Hat: Pressing the action button will cause an electrical discharge around Helena that has a long reach and defeats any enemy it touches.
   * Cutter Mask: Helena can throw a boomerang cutter in a wide arc. Inspired by this helmet in Dragon Ball! https://www.youtube.com/watch?v=WPOMIQyLTbM
-  * Football Helmet: I just really want to put a football helmet in the game!! I'll think of a cool ability later.
+  * Football Helmet: Helena can perform a running tackle that can smash anything, including traps.
 * Mana Stones: Some of the helmet abilities use Mana Stones. These are collectible items that are spent each time an ability is used. You can find more in the dungeon, but you can only carry 3 at a time! Use them wisely.
 * Sword, dagger or unarmed: Helena will be equipped with either a sword, a dagger or nothing (unarmed) depending on the helmet she is wearing or her current health state.
   * Naked (no helmet, no armour) - Helena carries a dagger.
@@ -43,6 +44,16 @@ I think we should use a jump button, an action button (for helmet abilities) and
   * Boulders: The Orks will sometimes drop boulders from overhead - you need to dodge them by moving left or right!
 * Collecting treasure (coins) will give you points. You also get coins for killing enemies, and for collecting armour when you don't need it.
 
+*GRAPHICS IDEAS
+* Background scrolling: The background (a dark dungeon) will be composed of 3 different layers that will use a scrolling effect.
+  * Layer 3 (back): This layer contains some brick wall tiles and barred dungeon windows.
+    * Bricks: There are 3 brick wall graphics - they can be arranged randomly via code.
+    * Windows: These can be arranged via code, but only near the top of the screen.
+  * Layer 2 (mid): This layer has some hanging chains, stone pillars and wooden crates (loot stolen by the Orks).
+    * Chains: There is a vertically repeatable chain graphic. These can be arranged to hang from the ceiling randomly, but should probably not be more than 16 pixels high.
+    * Pillars: These should be placed more evenly, to indicate a bit of a regular structure to the Ork dungeon.
+    * Wooden crates: I suppose we can just arrange these randomly? Maybe they should be object in the playing field that you need to jump over?
+  * Layer 1 (front): This layer contains the floor brick tiles, pebbles and other debris, weeds, etc. This is the level that the player is running on. Maybe the weeds/pebbles/debris can be drawn on top of the player sprite?
 
 ## ENEMY LIST (this is just a PLACEHOLDER right now)
 | **SPRITE** | **SIZE** | **FRAMES** | **NAME** | **HP** | **SWIMMING** |
