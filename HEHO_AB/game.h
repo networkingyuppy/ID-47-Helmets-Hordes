@@ -10,11 +10,9 @@
 #include "levels.h"
 
 void stateMenuPlay()
-//void stateGamePrepareLevel()
 {
-  player.score = 0; 
-  player.armor = false;
-  player.helmet = 0;
+  setPlayer();
+  setFloorPart();
   gameState = STATE_GAME_NEXT_LEVEL;
 };
 
@@ -29,6 +27,7 @@ void stateGameNextLevel()
 void stateGamePlaying()
 {
   checkInputs();
+  drawFloor();
   drawPlayer();
 };
 
@@ -39,7 +38,7 @@ void stateGamePause()
 
 void stateGameOver()
 {
-  
+
 };
 
 
