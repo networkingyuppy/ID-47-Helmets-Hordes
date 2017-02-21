@@ -26,18 +26,20 @@
 
 struct Players
 {
+  public:
     int x, y;
     byte life, frame, helmet, weapon;
     unsigned long score;
-    char frameSequence[4];
+    boolean isVisible;
+    boolean isImune;
 };
 
 
-Players player;
+Players helena;
 
-void setPlayer()
+void setHelena()
 {
-  player =
+  helena =
   {
     PLAYER_START_X, PLAYER_START_Y,                     // start position
     PLAYER_ARMOR,                                       // start life with armor
@@ -45,22 +47,29 @@ void setPlayer()
     HELMET_NO_HELMET,                                   // start without a helmet
     WEAPON_SWORD,                                       // start with the sword
     0,                                                  // start without score ;)
-    {0, 1, 2, 1},                                       // this is the frame frequence we are using for the walking animation
+    true,                                               // start with the player visible (used to make her blink)
+    true,                                               // start with the player being imune for a short while
   };
 }
 
 void checkWeapon()
 {
-  
+
 }
 
-void drawPlayer()
+void updateHelena()
 {
-  if (arduboy.everyXFrames(WALKINGSPEED*2)) player.frame = (++player.frame) % 4;
-  if (player.weapon) sprites.drawPlusMask(player.x + 13 + player.frameSequence[player.frame], player.y  + (player.frame % 2) - 1, playerWeapon_plus_mask, player.weapon - 1);
-  sprites.drawPlusMask(player.x, player.y + (player.frame % 2), playerBody_plus_mask, player.frameSequence[player.frame]);
-  sprites.drawPlusMask(player.x - 4 , player.y - 16 + (player.frame % 2), playerHead_plus_mask, player.helmet);
-  if (player.life > PLAYER_NAKED) sprites.drawPlusMask(player.x - 2 , player.y - 3 + (player.frame % 2), playerArmor_plus_mask, player.frameSequence[player.frame]);
+  if (arduboy.everyXFrames(WALKINGSPEED * 3)) helena.frame = (++helena.frame) % 4;
+}
+
+void drawHelena()
+{
+  if (helena.isVisible) {
+    if (helena.weapon) sprites.drawPlusMask(helena.x + 13 + frameSequence[helena.frame], helena.y  + (helena.frame % 2) - 1, playerWeapon_plus_mask, helena.weapon - 1);
+    sprites.drawPlusMask(helena.x, helena.y + (helena.frame % 2), playerBody_plus_mask, frameSequence[helena.frame]);
+    sprites.drawPlusMask(helena.x - 4 , helena.y - 16 + (helena.frame % 2), playerHead_plus_mask, helena.helmet);
+    if (helena.life > PLAYER_NAKED) sprites.drawPlusMask(helena.x - 2 , helena.y - 3 + (helena.frame % 2), playerArmor_plus_mask, frameSequence[helena.frame]);
+  }
 }
 
 #endif

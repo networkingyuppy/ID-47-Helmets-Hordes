@@ -11,8 +11,9 @@
 
 void stateMenuPlay()
 {
-  setPlayer();
+  setHelena();
   setFloorPart();
+  setEnemies();
   gameState = STATE_GAME_NEXT_LEVEL;
 };
 
@@ -27,8 +28,13 @@ void stateGameNextLevel()
 void stateGamePlaying()
 {
   checkInputs();
+  
+  updateOrcs();
+  updateHelena();
+
   drawFloor();
-  drawPlayer();
+  drawOrcs();
+  drawHelena();
 };
 
 void stateGamePause()

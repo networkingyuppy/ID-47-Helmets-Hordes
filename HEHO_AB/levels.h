@@ -22,7 +22,7 @@ void drawFloor()
   
   for (byte i = 0; i < 3; i++)
   {
-    if (arduboy.everyXFrames(WALKINGSPEED)) floorPart[i].x -=2;
+    if (arduboy.everyXFrames(2)) floorPart[i].x --;
     if (floorPart[i].x < -63) floorPart[i].x = 128;
     sprites.drawSelfMasked (floorPart[i].x, FLOORPART_Y, dungeonFloor, 0);
   }
