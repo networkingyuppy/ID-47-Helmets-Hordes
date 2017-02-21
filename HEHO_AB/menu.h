@@ -3,6 +3,12 @@
 
 #include "globals.h"
 
+void titleScreen()
+{
+  sprites.drawSelfMasked(2, 0, titleName, 0);
+  sprites.drawSelfMasked(35, 22, titleHead, 0);
+}
+
 void stateMenuIntro()
 {
   globalCounter++;
@@ -14,7 +20,7 @@ void stateMenuMain()
 {
   for (byte i = 0; i < 4; i++)
   {
-    sprites.drawSelfMasked(i*32,0, titleScreen, i);
+    titleScreen();
     {
       if (((2 + i) - menuSelection) != 0)
       {
