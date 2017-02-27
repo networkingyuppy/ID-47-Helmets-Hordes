@@ -6,7 +6,7 @@
 void titleScreen()
 {
   sprites.drawSelfMasked(2, 0, titleName, 0);
-  for (byte i = 0; i < 3; i++) sprites.drawSelfMasked(1 + (i*42), 24, titleImage, i);
+  for (byte i = 0; i < 3; i++) sprites.drawSelfMasked(1 + (i * 42), 24, titleImage, i);
 }
 
 void stateMenuIntro()
@@ -18,22 +18,24 @@ void stateMenuIntro()
 
 void stateMenuMain()
 {
+  if (arduboy.everyXFrames(6))blingBlingFrame = (++blingBlingFrame) %12;
   titleScreen();
-  /*
-  for (byte i = 0; i < 4; i++)
+
+  for (byte k = 0; k < 2; k++)
   {
+    for (byte j = 0; j < 2; j++)
     {
-      if (((2 + i) - menuSelection) != 0)
-      {
-        sprites.drawSelfMasked(21 + (22 * i), 60, menuText, i);
-      }
-      if (((2 + i) - menuSelection) == 0) sprites.drawSelfMasked(21 + (22 * i), 56, menuText, i);
+      sprites.drawSelfMasked((24 - (9 * k)) + (j * (61 + (k * 18))), 34 + (k * 11), titleMenu, j + (2 * k));
     }
   }
-  */
-  if (arduboy.justPressed(RIGHT_BUTTON) && (menuSelection < 5)) menuSelection++;
-  if (arduboy.justPressed(LEFT_BUTTON) && (menuSelection > 2)) menuSelection--;
-  if (arduboy.justPressed(B_BUTTON)) gameState = menuSelection;
+
+  sprites.drawPlusMask((22 - (9 * menuY)) + (menuX * (61 + (menuY * 18))), 32 + (menuY * 11), bubbles_plus_mask, blingBlingFrame);
+
+  if (arduboy.justPressed(RIGHT_BUTTON) && (!menuX)) menuX = !menuX;
+  if (arduboy.justPressed(LEFT_BUTTON) && (menuX)) menuX = !menuX;
+  if (arduboy.justPressed(DOWN_BUTTON) && (!menuY)) menuY = !menuY;
+  if (arduboy.justPressed(UP_BUTTON) && (menuY)) menuY = !menuY;
+  if (arduboy.justPressed(A_BUTTON | B_BUTTON)) gameState = 2 + menuX + (2 * menuY);
 }
 
 void stateMenuHelp()
@@ -51,8 +53,18 @@ void stateMenuInfo()
 
 void stateMenuSoundfx()
 {
-  if (arduboy.justPressed(RIGHT_BUTTON)) arduboy.audio.on();
-  if (arduboy.justPressed(LEFT_BUTTON)) arduboy.audio.off();
+  if (arduboy.everyXFrames(6))blingBlingFrame = (++blingBlingFrame) %12;
+  titleScreen();
+    for (byte k = 0; k < 2; k++)
+  {
+    for (byte j = 0; j < 2; j++)
+    {
+      sprites.drawSelfMasked((24 - (9 * k)) + (j * (61 + (k * 18))), 34 + (k * 11), soundMenu, j + (2 * k));
+    }
+  }
+  sprites.drawPlusMask((22 - (9 * arduboy.audio.enabled())) + (61 + (arduboy.audio.enabled() * 18)), 32 + (arduboy.audio.enabled() * 11), bubbles_plus_mask, blingBlingFrame);
+  if (arduboy.justPressed(RIGHT_BUTTON | DOWN_BUTTON)) arduboy.audio.on();
+  if (arduboy.justPressed(LEFT_BUTTON | UP_BUTTON)) arduboy.audio.off();
   if (arduboy.justPressed(A_BUTTON | B_BUTTON))
   {
     arduboy.audio.saveOnOff();

@@ -36,9 +36,11 @@ Sprites sprites;
 ATMsynth ATM;
 
 byte gameState = STATE_MENU_INTRO;      // start the game with the TEAM a.r.g. logo
-byte menuSelection = STATE_MENU_PLAY;   // PLAY menu item is pre-selected
 byte globalCounter = 0;
 byte level = FIRST_LEVEL;
 char frameSequence[4] = {0, 1, 2, 1};   // this is the frame frequence we are using for the walking animations
+boolean menuX = true;
+boolean menuY = false;
+byte blingBlingFrame = 0;
 
 #endif
