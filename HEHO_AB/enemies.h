@@ -68,15 +68,15 @@ void drawOrcs()
   {
     if (bitRead(orcs[i].characteristics, 4))
     {
-      sprites.drawPlusMask(orcs[i].x - 2, orcs[i].y - 12, orcHead_plus_mask, 0);
+      sprites.drawPlusMask(orcs[i].x - 2, orcs[i].y - 12 + ((enemyFrames + i) % 2), orcHead_plus_mask, 0);
 
       switch (orcs[i].characteristics & 0b00000011)
       {
         case ENEMY_ORC_NO_SPEAR:
-          sprites.drawPlusMask(orcs[i].x, orcs[i].y, orcBody_plus_mask, frameSequence[(enemyFrames + i) % 4]);
+          sprites.drawPlusMask(orcs[i].x, orcs[i].y + ((enemyFrames + i) % 2), orcBody_plus_mask, pgm_read_byte(&frameSequence[(enemyFrames + i) % 4]));
           break;
         case ENEMY_ORC_FLAT_SPEAR:
-          sprites.drawPlusMask(orcs[i].x - 18, orcs[i].y, orcBodySpearF_plus_mask, frameSequence[(enemyFrames + i) % 4]);
+          sprites.drawPlusMask(orcs[i].x - 18, orcs[i].y + ((enemyFrames + i) % 2), orcBodySpearF_plus_mask, pgm_read_byte(&frameSequence[(enemyFrames + i) % 4]));
           break;
         case ENEMY_ORC_UP_SPEAR:
           break;

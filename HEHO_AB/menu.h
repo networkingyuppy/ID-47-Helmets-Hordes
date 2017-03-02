@@ -3,10 +3,25 @@
 
 #include "globals.h"
 
+const unsigned char PROGMEM sparkleFrameSequence[15] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5};
+byte sparkleFrame = 0;
+
+
 void titleScreen()
 {
   sprites.drawSelfMasked(2, 0, titleName, 0);
   for (byte i = 0; i < 3; i++) sprites.drawSelfMasked(1 + (i * 42), 24, titleImage, i);
+}
+
+
+void showSparkles()
+{
+  if (arduboy.everyXFrames(6))sparkleFrame++;
+  sprites.drawPlusMask((20 - (9 * menuY)) + (menuX * (61 + (menuY * 18))), 28 + (menuY * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 9) % 15]));
+  sprites.drawPlusMask((24 - (9 * menuY)) + (menuX * (61 + (menuY * 18))), 36 + (menuY * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 15) % 15]));
+  sprites.drawPlusMask((28 - (9 * menuY)) + (menuX * (61 + (menuY * 18))), 28 + (menuY * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 3) % 15]));
+  sprites.drawPlusMask((32 - (9 * menuY)) + (menuX * (61 + (menuY * 18))), 36 + (menuY * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 6) % 15]));
+  sprites.drawPlusMask((36 - (9 * menuY)) + (menuX * (61 + (menuY * 18))), 28 + (menuY * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 12) % 15]));
 }
 
 void stateMenuIntro()
@@ -18,7 +33,6 @@ void stateMenuIntro()
 
 void stateMenuMain()
 {
-  if (arduboy.everyXFrames(6))blingBlingFrame = (++blingBlingFrame) %12;
   titleScreen();
 
   for (byte k = 0; k < 2; k++)
@@ -29,8 +43,8 @@ void stateMenuMain()
     }
   }
 
-  sprites.drawPlusMask((22 - (9 * menuY)) + (menuX * (61 + (menuY * 18))), 32 + (menuY * 11), bubbles_plus_mask, blingBlingFrame);
-
+  //sprites.drawPlusMask((22 - (9 * menuY)) + (menuX * (61 + (menuY * 18))), 32 + (menuY * 11), bubbles_plus_mask, blingBlingFrame);
+  showSparkles();
   if (arduboy.justPressed(RIGHT_BUTTON) && (!menuX)) menuX = !menuX;
   if (arduboy.justPressed(LEFT_BUTTON) && (menuX)) menuX = !menuX;
   if (arduboy.justPressed(DOWN_BUTTON) && (!menuY)) menuY = !menuY;
@@ -53,16 +67,15 @@ void stateMenuInfo()
 
 void stateMenuSoundfx()
 {
-  if (arduboy.everyXFrames(6))blingBlingFrame = (++blingBlingFrame) %12;
   titleScreen();
-    for (byte k = 0; k < 2; k++)
+  for (byte k = 0; k < 2; k++)
   {
     for (byte j = 0; j < 2; j++)
     {
       sprites.drawSelfMasked((24 - (9 * k)) + (j * (61 + (k * 18))), 34 + (k * 11), soundMenu, j + (2 * k));
     }
   }
-  sprites.drawPlusMask((22 - (9 * arduboy.audio.enabled())) + (61 + (arduboy.audio.enabled() * 18)), 32 + (arduboy.audio.enabled() * 11), bubbles_plus_mask, blingBlingFrame);
+  //sprites.drawPlusMask((22 - (9 * arduboy.audio.enabled())) + (61 + (arduboy.audio.enabled() * 18)), 32 + (arduboy.audio.enabled() * 11), bubbles_plus_mask, blingBlingFrame);
   if (arduboy.justPressed(RIGHT_BUTTON | DOWN_BUTTON)) arduboy.audio.on();
   if (arduboy.justPressed(LEFT_BUTTON | UP_BUTTON)) arduboy.audio.off();
   if (arduboy.justPressed(A_BUTTON | B_BUTTON))

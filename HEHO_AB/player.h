@@ -65,10 +65,10 @@ void updateHelena()
 void drawHelena()
 {
   if (helena.isVisible) {
-    if (helena.weapon) sprites.drawPlusMask(helena.x + 13 + frameSequence[helena.frame], helena.y  + (helena.frame % 2) - 1, playerWeapon_plus_mask, helena.weapon - 1);
-    sprites.drawPlusMask(helena.x, helena.y + (helena.frame % 2), playerBody_plus_mask, frameSequence[helena.frame]);
+    if (helena.weapon) sprites.drawPlusMask(helena.x + 13 + pgm_read_byte(&frameSequence[helena.frame]), helena.y  + (helena.frame % 2) - 1, playerWeapon_plus_mask, helena.weapon - 1);
+    sprites.drawPlusMask(helena.x, helena.y + (helena.frame % 2), playerBody_plus_mask, pgm_read_byte(&frameSequence[helena.frame]));
     sprites.drawPlusMask(helena.x - 4 , helena.y - 16 + (helena.frame % 2), playerHead_plus_mask, helena.helmet);
-    if (helena.life > PLAYER_NAKED) sprites.drawPlusMask(helena.x - 2 , helena.y - 3 + (helena.frame % 2), playerArmor_plus_mask, frameSequence[helena.frame]);
+    if (helena.life > PLAYER_NAKED) sprites.drawPlusMask(helena.x - 2 , helena.y - 3 + (helena.frame % 2), playerArmor_plus_mask, pgm_read_byte(&frameSequence[helena.frame]));
   }
 }
 
