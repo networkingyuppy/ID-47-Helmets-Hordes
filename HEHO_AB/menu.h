@@ -3,7 +3,7 @@
 
 #include "globals.h"
 
-const unsigned char PROGMEM sparkleFrameSequence[15] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5};
+const unsigned char PROGMEM sparkleFrameSequence[15] = {0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8};
 byte sparkleFrame = 0;
 
 
