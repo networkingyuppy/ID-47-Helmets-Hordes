@@ -9,19 +9,19 @@ byte sparkleFrame = 0;
 
 void titleScreen()
 {
-  sprites.drawSelfMasked(2, 0, titleName, 0);
-  for (byte i = 0; i < 3; i++) sprites.drawSelfMasked(1 + (i * 42), 24, titleImage, i);
+  for (byte i = 0; i < 4; i++) sprites.drawSelfMasked((i * 32), 0, titleImage, i);
+  sprites.drawSelfMasked(52, 46, titleEyes, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame) % 8]));
 }
 
 
-void showSparkles()
+void showSparkles(byte x, byte y)
 {
   if (arduboy.everyXFrames(6))sparkleFrame++;
-  sprites.drawPlusMask((22 - (9 * menuY)) + (menuX * (61 + (menuY * 18))), 28 + (menuY * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 9) % 15]));
-  sprites.drawPlusMask((26 - (9 * menuY)) + (menuX * (61 + (menuY * 18))), 36 + (menuY * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 15) % 15]));
-  sprites.drawPlusMask((30 - (9 * menuY)) + (menuX * (61 + (menuY * 18))), 28 + (menuY * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 3) % 15]));
-  sprites.drawPlusMask((34 - (9 * menuY)) + (menuX * (61 + (menuY * 18))), 36 + (menuY * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 6) % 15]));
-  sprites.drawPlusMask((38 - (9 * menuY)) + (menuX * (61 + (menuY * 18))), 28 + (menuY * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 12) % 15]));
+  sprites.drawPlusMask((22 - (9 * y)) + (x * (61 + (y * 18))), 28 + (y * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 9) % 15]));
+  sprites.drawPlusMask((26 - (9 * y)) + (x * (61 + (y * 18))), 36 + (y * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 15) % 15]));
+  sprites.drawPlusMask((30 - (9 * y)) + (x * (61 + (y * 18))), 28 + (y * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 3) % 15]));
+  sprites.drawPlusMask((34 - (9 * y)) + (x * (61 + (y * 18))), 36 + (y * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 6) % 15]));
+  sprites.drawPlusMask((38 - (9 * y)) + (x * (61 + (y * 18))), 28 + (y * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 12) % 15]));
 }
 
 void stateMenuIntro()
@@ -39,12 +39,11 @@ void stateMenuMain()
   {
     for (byte j = 0; j < 2; j++)
     {
-      sprites.drawSelfMasked((24 - (9 * k)) + (j * (61 + (k * 18))), 34 + (k * 11), titleMenu, j + (2 * k));
+      sprites.drawSelfMasked((24 - (9 * k)) + (j * (61 + (k * 18))), 33 + (k * 11), titleMenu, j + (2 * k));
     }
   }
+  showSparkles(menuX, menuY);
 
-  //sprites.drawPlusMask((22 - (9 * menuY)) + (menuX * (61 + (menuY * 18))), 32 + (menuY * 11), bubbles_plus_mask, blingBlingFrame);
-  showSparkles();
   if (arduboy.justPressed(RIGHT_BUTTON) && (!menuX)) menuX = !menuX;
   if (arduboy.justPressed(LEFT_BUTTON) && (menuX)) menuX = !menuX;
   if (arduboy.justPressed(DOWN_BUTTON) && (!menuY)) menuY = !menuY;
@@ -72,10 +71,11 @@ void stateMenuSoundfx()
   {
     for (byte j = 0; j < 2; j++)
     {
-      sprites.drawSelfMasked((24 - (9 * k)) + (j * (61 + (k * 18))), 34 + (k * 11), soundMenu, j + (2 * k));
+      sprites.drawSelfMasked((24 - (9 * k)) + (j * (61 + (k * 18))), 33 + (k * 11), soundMenu, j + (2 * k));
     }
   }
-  //sprites.drawPlusMask((22 - (9 * arduboy.audio.enabled())) + (61 + (arduboy.audio.enabled() * 18)), 32 + (arduboy.audio.enabled() * 11), bubbles_plus_mask, blingBlingFrame);
+  showSparkles(true, arduboy.audio.enabled());
+  
   if (arduboy.justPressed(RIGHT_BUTTON | DOWN_BUTTON)) arduboy.audio.on();
   if (arduboy.justPressed(LEFT_BUTTON | UP_BUTTON)) arduboy.audio.off();
   if (arduboy.justPressed(A_BUTTON | B_BUTTON))
