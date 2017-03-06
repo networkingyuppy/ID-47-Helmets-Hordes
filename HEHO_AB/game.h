@@ -14,6 +14,7 @@ void stateMenuPlay()
   setHelena();
   setFloorPart();
   setEnemies();
+  setChains();
   gameState = STATE_GAME_NEXT_LEVEL;
 };
 
@@ -35,6 +36,7 @@ void stateGamePlaying()
   drawFloor();
   drawOrcs();
   drawHelena();
+  drawChains();
 };
 
 void stateGamePause()

@@ -3,14 +3,14 @@
 
 #include "globals.h"
 
-const unsigned char PROGMEM sparkleFrameSequence[15] = {0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7, 8};
+const unsigned char PROGMEM sparkleFrameSequence[15] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5};
 byte sparkleFrame = 0;
 
 
 void titleScreen()
 {
   for (byte i = 0; i < 4; i++) sprites.drawSelfMasked((i * 32), 0, titleImage, i);
-  sprites.drawSelfMasked(52, 46, titleEyes, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame) % 8]));
+  sprites.drawSelfMasked(52, 46, titleEyes, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame) % 11]));
 }
 
 
@@ -75,7 +75,7 @@ void stateMenuSoundfx()
     }
   }
   showSparkles(true, arduboy.audio.enabled());
-  
+
   if (arduboy.justPressed(RIGHT_BUTTON | DOWN_BUTTON)) arduboy.audio.on();
   if (arduboy.justPressed(LEFT_BUTTON | UP_BUTTON)) arduboy.audio.off();
   if (arduboy.justPressed(A_BUTTON | B_BUTTON))
