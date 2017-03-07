@@ -12,7 +12,7 @@
 
 #define ENEMY_ORC_NO_SPEAR                      0
 #define ENEMY_ORC_FLAT_SPEAR                    1
-#define ENEMY_ORC_UP_SPEAR                      3
+#define ENEMY_ORC_UP_SPEAR                      2
 
 byte enemyFrames;
 
@@ -43,7 +43,7 @@ void setEnemies()
     {
       ENEMY_START_X,
       ENEMY_START_Y,
-      0b00010001,
+      0b00010010,
     };
   }
 }
@@ -57,7 +57,12 @@ void updateOrcs()
     for (byte i = 0; i < MAX_ONSCREEN_ORCS; i++)
     {
       if (orcs[i].x > ENEMY_LEFT_OFFSCREEN_LIMIT) orcs[i].x -= 3;
-      else orcs[i].x = ENEMY_START_X;
+      else 
+      {
+        orcs[i].x = ENEMY_START_X;
+        orcs[i].characteristics++;
+        if ((orcs[i].characteristics & 0b00000011) > 2) orcs[i].characteristics = orcs[i].characteristics & 0B11111100;
+      }
     }
   }
 }
@@ -79,6 +84,8 @@ void drawOrcs()
           sprites.drawPlusMask(orcs[i].x - 18, orcs[i].y + ((enemyFrames + i) % 2), orcBodySpearF_plus_mask, pgm_read_byte(&frameSequence[(enemyFrames + i) % 4]));
           break;
         case ENEMY_ORC_UP_SPEAR:
+          sprites.drawPlusMask(orcs[i].x - 1, orcs[i].y + ((enemyFrames + i) % 2), orcBodySpearU_plus_mask, pgm_read_byte(&frameSequence[(enemyFrames + i) % 4]));
+          sprites.drawPlusMask(orcs[i].x - 2, orcs[i].y + ((enemyFrames + i) % 2)-24, orcSpearU_plus_mask, 0);
           break;
       }
     }
