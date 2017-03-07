@@ -12,7 +12,7 @@ void checkInputs()
   if (arduboy.pressed(RIGHT_BUTTON));
 
   if (arduboy.justPressed(A_BUTTON)) ;
-  if (arduboy.justPressed(B_BUTTON)) ;
+  if (arduboy.justPressed(B_BUTTON)) helena.jumping = true ;
 }
 
 
