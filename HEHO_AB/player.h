@@ -24,7 +24,8 @@
 #define WEAPON_DAGGER                               1
 #define WEAPON_SWORD                                2
 
-const unsigned char PROGMEM helenaJumpSequence[] = {15, 21, 24, 24, 26, 26, 26, 27, 27, 27, 27, 26, 26, 26, 24, 24, 21, 15, 9};
+//const unsigned char PROGMEM helenaJumpSequence[] = {15, 21, 24, 24, 26, 26, 26, 27, 27, 27, 27, 26, 26, 26, 24, 24, 21, 15, 9};
+const unsigned char PROGMEM helenaJumpSequence[] = {6, 14, 20, 23, 23, 25, 25, 25, 26, 26, 26, 26, 25, 25, 25, 23, 23, 20, 14, 6};
 
 struct Players
 {
@@ -83,16 +84,24 @@ void drawHelena()
     if (helena.jumping)
     {
       if (helena.weapon) sprites.drawPlusMask(helena.x + 17, helena.y  - 3 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerWeapon_plus_mask, helena.weapon - 1);
-      //sprites.drawPlusMask(helena.x, helena.y - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerBody_plus_mask, 0);
+      sprites.drawPlusMask(helena.x - 3 , helena.y - 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerBodyJump_plus_mask, 0);
       sprites.drawPlusMask(helena.x - 4 , helena.y - 16 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerHead_plus_mask, helena.helmet);
-      if (helena.life > PLAYER_NAKED) sprites.drawPlusMask(helena.x - 3 , helena.y -2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerJump_plus_mask, 0);
+      
+      if (helena.life > PLAYER_NAKED) sprites.drawPlusMask(helena.x - 3 , helena.y - 3 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerArmorJump_plus_mask, 0);
     }
     else
     {
-      if (helena.weapon) sprites.drawPlusMask(helena.x + 13 + pgm_read_byte(&frameSequence[helena.frame]), helena.y  + (helena.frame % 2) - 1, playerWeapon_plus_mask, helena.weapon - 1);
       sprites.drawPlusMask(helena.x, helena.y + (helena.frame % 2), playerBody_plus_mask, pgm_read_byte(&frameSequence[helena.frame]));
       sprites.drawPlusMask(helena.x - 4 , helena.y - 16 + (helena.frame % 2), playerHead_plus_mask, helena.helmet);
-      if (helena.life > PLAYER_NAKED) sprites.drawPlusMask(helena.x - 2 , helena.y - 3 + (helena.frame % 2), playerArmor_plus_mask, pgm_read_byte(&frameSequence[helena.frame]));
+      if (helena.life > PLAYER_NAKED)
+      {
+        if (helena.weapon) sprites.drawPlusMask(helena.x + 13 + pgm_read_byte(&frameSequence[helena.frame]), helena.y  + (helena.frame % 2) - 1, playerWeapon_plus_mask, helena.weapon - 1);
+        sprites.drawPlusMask(helena.x - 2 , helena.y - 3 + (helena.frame % 2), playerArmor_plus_mask, pgm_read_byte(&frameSequence[helena.frame]));
+      }
+      else
+      {
+        if (helena.weapon) sprites.drawPlusMask(helena.x + 12 + pgm_read_byte(&frameSequence[helena.frame]), helena.y  + (helena.frame % 2) - 1, playerWeapon_plus_mask, helena.weapon - 1);
+      }
     }
   }
 }
