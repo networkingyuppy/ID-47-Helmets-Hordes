@@ -78,7 +78,7 @@ void setTorchHandles()
 
 void setTorchFlames()
 {
-  torchFlames[0].x = 16;
+  torchFlames[0].x = 15;
   torchFlames[1].x = 95;
 }
 
