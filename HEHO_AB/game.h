@@ -15,6 +15,9 @@ void stateMenuPlay()
   setFloorPart();
   setEnemies();
   setChains();
+  setBricks();
+  setTorchHandles();
+  setTorchFlames();
   gameState = STATE_GAME_NEXT_LEVEL;
 };
 
@@ -33,6 +36,9 @@ void stateGamePlaying()
   updateOrcs();
   updateHelena();
 
+  drawBricks();
+  drawTorchHandles();
+  drawTorchFlames();
   drawFloor();
   drawOrcs();
   drawHelena();
