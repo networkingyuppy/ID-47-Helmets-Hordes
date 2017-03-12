@@ -46,7 +46,7 @@ void drawGoldBars()
 
     if (goldBar[i].isVisible == true)
     {
-      sprites.drawPlusMask(goldBar[i].x, goldBar[i].y, treasureBar_plus_mask,  pgm_read_byte(&goldBarSequence[(goldBarFrames + i) % 8]));
+      sprites.drawPlusMask(goldBar[i].x, goldBar[i].y, treasureBar_plus_mask,  pgm_read_byte(&goldBarSequence[(goldBarFrames) % 8]));
     }
   }
 }
