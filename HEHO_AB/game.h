@@ -7,25 +7,22 @@
 #include "player.h"
 #include "enemies.h"
 #include "elements.h"
-#include "levels.h"
+#include "waves.h"
 
 void stateMenuPlay()
 {
   setHelena();
   setFloorPart();
-  setEnemies();
+  setFLoorWeed();
+  setOrcs();
   setChains();
   setBricks();
   setTorchHandles();
   setTorchFlames();
   setGoldBarsRow();
-  gameState = STATE_GAME_NEXT_LEVEL;
-};
-
-
-void stateGameNextLevel()
-{
-  level++;
+  currentWave = WAVE_TO_START_WITH;
+  previousWave = 255;
+  globalCounter = 0;
   gameState = STATE_GAME_PLAYING;
 };
 
@@ -33,15 +30,19 @@ void stateGameNextLevel()
 void stateGamePlaying()
 {
   checkInputs();
-  
-  updateOrcs();
+
   updateHelena();
+
+  ((FunctionPointer) pgm_read_word (&allWaves[currentWave]))();
+
+  drawFloorPart();
+  drawFloorWeed();
 
   drawBricks();
   drawTorchHandles();
   drawTorchFlames();
-  drawGoldBars();
-  drawFloor();
+  //drawGoldBars();
+
   drawOrcs();
   drawHelena();
   drawChains();

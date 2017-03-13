@@ -4,22 +4,24 @@
 #include <Arduino.h>
 #include "globals.h"
 
-#define MAX_ONSCREEN_ORCS                       1
 #define ENEMY_LEFT_OFFSCREEN_LIMIT              -32
+#define ENEMY_START_X                           144
 
-#define ENEMY_START_X                           160
-#define ENEMY_START_Y                           40
+#define MAX_ORCS_IN_WAVE                        9
+#define ORC_Y                                   40
 
 #define ENEMY_ORC_NO_SPEAR                      0
 #define ENEMY_ORC_FLAT_SPEAR                    1
 #define ENEMY_ORC_UP_SPEAR                      2
 
-byte enemyFrames;
+byte orcFrames;
 
-struct Orc
+//////// Orc functions ///////////////////
+//////////////////////////////////////////
+struct Orcs
 {
   public:
-    int x, y;
+    int x;
     byte characteristics;   //0b00000000;   //this byte holds all the orc characteristics
     //                          ||||||||
     //                          |||||||└->  0 \
@@ -33,59 +35,68 @@ struct Orc
 };
 
 
-Orc orcs[MAX_ONSCREEN_ORCS];
+Orcs orc[MAX_ORCS_IN_WAVE];
 
-void setEnemies()
+void setOrcs()
 {
-  for (byte i = 0; i < MAX_ONSCREEN_ORCS; i++)
+  for (byte i = 0; i < MAX_ORCS_IN_WAVE; i++)
   {
-    orcs[i] =
+    orc[i] =
     {
       ENEMY_START_X,
-      ENEMY_START_Y,
-      0b00010010,
+      0,
     };
   }
 }
 
 void updateOrcs()
 {
-  if (arduboy.everyXFrames(WALKINGSPEED * 3)) enemyFrames++;
+  if (arduboy.everyXFrames(WALKINGSPEED * 3)) orcFrames++;
 
   if (arduboy.everyXFrames(WALKINGSPEED))
   {
-    for (byte i = 0; i < MAX_ONSCREEN_ORCS; i++)
+    for (byte i = 0; i < MAX_ORCS_IN_WAVE; i++)
     {
-      if (orcs[i].x > ENEMY_LEFT_OFFSCREEN_LIMIT) orcs[i].x -= 3;
+      if (orc[i].x > ENEMY_LEFT_OFFSCREEN_LIMIT) orc[i].x -= 3;
       else 
       {
-        orcs[i].x = ENEMY_START_X;
-        orcs[i].characteristics++;
-        if ((orcs[i].characteristics & 0b00000011) > 2) orcs[i].characteristics = orcs[i].characteristics & 0B11111100;
+        orc[i].x = ENEMY_START_X;
+        orc[i].characteristics = 0;
       }
     }
   }
 }
 
+
+void OrcsSetInLine(byte orcType, byte firstOrc, byte lastOrc, int x, int spacingX)
+{
+  for (byte i = firstOrc; i < lastOrc + 1; i++)
+  {
+    orc[i].characteristics = orcType;
+    bitSet(orc[i].characteristics, 4);
+    bitSet(orc[i].characteristics, 7);
+    orc[i].x = x + (spacingX * (i - firstOrc));
+  }
+}
+
 void drawOrcs()
 {
-  for (byte i = 0; i < MAX_ONSCREEN_ORCS; i++)
+  for (byte i = 0; i < MAX_ORCS_IN_WAVE; i++)
   {
-    if (bitRead(orcs[i].characteristics, 4))
+    if (bitRead(orc[i].characteristics, 4))
     {
-      sprites.drawPlusMask(orcs[i].x - 2, orcs[i].y - 12 + ((enemyFrames + i) % 2), orcHead_plus_mask, 0);
-
-      switch (orcs[i].characteristics & 0b00000011)
+      sprites.drawPlusMask(orc[i].x - 2, ORC_Y - 12 + ((orcFrames + i) % 2), orcHead_plus_mask, 0);
+      switch (orc[i].characteristics & 0b00000011)
       {
         case ENEMY_ORC_NO_SPEAR:
-          sprites.drawPlusMask(orcs[i].x, orcs[i].y + ((enemyFrames + i) % 2), orcBody_plus_mask, pgm_read_byte(&frameSequence[(enemyFrames + i) % 4]));
+          sprites.drawPlusMask(orc[i].x, ORC_Y + ((orcFrames + i) % 2), orcBody_plus_mask, pgm_read_byte(&frameSequence[(orcFrames + i) % 4]));
           break;
         case ENEMY_ORC_FLAT_SPEAR:
-          sprites.drawPlusMask(orcs[i].x - 18, orcs[i].y + ((enemyFrames + i) % 2), orcBodySpearF_plus_mask, pgm_read_byte(&frameSequence[(enemyFrames + i) % 4]));
+          sprites.drawPlusMask(orc[i].x - 18, ORC_Y + ((orcFrames + i) % 2), orcBodySpearF_plus_mask, pgm_read_byte(&frameSequence[(orcFrames + i) % 4]));
           break;
         case ENEMY_ORC_UP_SPEAR:
-          sprites.drawPlusMask(orcs[i].x - 1, orcs[i].y + ((enemyFrames + i) % 2), orcBodySpearU_plus_mask, pgm_read_byte(&frameSequence[(enemyFrames + i) % 4]));
-          sprites.drawPlusMask(orcs[i].x - 2, orcs[i].y + ((enemyFrames + i) % 2)-24, orcSpearU_plus_mask, 0);
+          sprites.drawPlusMask(orc[i].x - 1, ORC_Y + ((orcFrames + i) % 2), orcBodySpearU_plus_mask, pgm_read_byte(&frameSequence[(orcFrames + i) % 4]));
+          sprites.drawPlusMask(orc[i].x - 2, ORC_Y + ((orcFrames + i) % 2)-24, orcSpearU_plus_mask, 0);
           break;
       }
     }

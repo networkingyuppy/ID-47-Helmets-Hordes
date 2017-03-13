@@ -16,10 +16,9 @@
 #define STATE_MENU_SOUNDFX           5
 
 //define game states (on main menu)
-#define STATE_GAME_NEXT_LEVEL        6
-#define STATE_GAME_PLAYING           7
-#define STATE_GAME_PAUSE             8
-#define STATE_GAME_OVER              9
+#define STATE_GAME_PLAYING           6
+#define STATE_GAME_PAUSE             7
+#define STATE_GAME_OVER              8
 
 #define GAME_TOP                     0
 #define GAME_BOTTOM                  48
@@ -28,7 +27,7 @@
 
 #define WALKINGSPEED                 3 // lower number = higher speed
 
-#define FIRST_LEVEL                  0
+#define WAVE_TO_START_WITH           0
 
 
 Arduboy2Base arduboy;
@@ -37,9 +36,10 @@ ATMsynth ATM;
 
 byte gameState = STATE_MENU_INTRO;                             // start the game with the TEAM a.r.g. logo
 byte globalCounter = 0;
-byte level = FIRST_LEVEL;
 const unsigned char PROGMEM frameSequence[4] = {0, 1, 2, 1};   // this is the frame frequence we are using for the walking animations
 boolean menuX = true;
 boolean menuY = false;
+byte currentWave;
+byte previousWave;
 
 #endif
