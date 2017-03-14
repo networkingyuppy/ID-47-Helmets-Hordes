@@ -20,6 +20,8 @@ void stateMenuPlay()
   setBricks();
   setTorchHandles();
   setTorchFlames();
+  setBadFlame();
+  
   setGoldBarsRow();
   currentWave = WAVE_TO_START_WITH;
   previousWave = 255;
@@ -44,6 +46,7 @@ void stateGamePlaying()
   drawBricks();
   drawTorchHandles();
   drawTorchFlames();
+  drawBadFlame();
   //drawGoldBars();
 
   drawOrcs();

@@ -3,20 +3,33 @@
 
 #include <Arduino.h>
 #include "globals.h"
+#include "elements.h"
 
 #define ENEMY_LEFT_OFFSCREEN_LIMIT              -32
+#define FLAME_FALL_OFF_LIMIT                    102
 #define ENEMY_START_X                           144
+#define BADFLAME_START_X                        128
 
 #define MAX_ORCS_IN_WAVE                        9
 #define MAX_SPIKES_IN_WAVE                      3
+
 #define ORC_Y                                   40
 #define SPIKE_Y                                 41
+#define BADFLAME_Y                              4
 
 #define ENEMY_ORC_NO_SPEAR                      0
 #define ENEMY_ORC_FLAT_SPEAR                    1
 #define ENEMY_ORC_UP_SPEAR                      2
 
+#define BADFLAME_ON_TORCH                       0
+#define BADFLAME_FALLING                        1
+#define BADFLAME_RUNNING                        2
+
+#define BADFLAME_TOTAL_FALING_FRAMES            10
+
 byte orcFrames;
+
+const unsigned char PROGMEM flameJumpSequence[] = {3, 0, 0, 0, 3, 6, 10, 15, 21, 32};
 
 //////// Orc functions ///////////////////
 //////////////////////////////////////////
@@ -60,7 +73,7 @@ void updateOrcs()
     for (byte i = 0; i < MAX_ORCS_IN_WAVE; i++)
     {
       if (orc[i].x > ENEMY_LEFT_OFFSCREEN_LIMIT) orc[i].x -= 3;
-      else 
+      else
       {
         orc[i].x = ENEMY_START_X;
         orc[i].characteristics = 0;
@@ -98,7 +111,7 @@ void drawOrcs()
           break;
         case ENEMY_ORC_UP_SPEAR:
           sprites.drawPlusMask(orc[i].x - 1, ORC_Y + ((orcFrames + i) % 2), orcBodySpearU_plus_mask, pgm_read_byte(&frameSequence[(orcFrames + i) % 4]));
-          sprites.drawPlusMask(orc[i].x - 2, ORC_Y + ((orcFrames + i) % 2)-24, orcSpearU_plus_mask, 0);
+          sprites.drawPlusMask(orc[i].x - 2, ORC_Y + ((orcFrames + i) % 2) - 24, orcSpearU_plus_mask, 0);
           break;
       }
     }
@@ -144,7 +157,7 @@ void updateSpikes()
     for (byte i = 0; i < MAX_SPIKES_IN_WAVE; i++)
     {
       if (spike[i].x > ENEMY_LEFT_OFFSCREEN_LIMIT) spike[i].x--;
-      else 
+      else
       {
         spike[i].x = ENEMY_START_X;
         spike[i].characteristics = 0;
@@ -176,8 +189,109 @@ void drawSpikes()
   }
 }
 
+//////// Flame functions /////////////////
+//////////////////////////////////////////
+struct BadFlames
+{
+  public:
+    int x;
+    byte y;
+    byte fallingFrame;
+    byte characteristics;   //0b00000000;   //this byte holds all the spike characteristics
+    //                          ||||||||
+    //                          |||||||└->  0 \
+    //                          ||||||└-->  1 / flame type: 0 = on torch | 1 = falling | 2 = running
+    //                          |||||└--->  2
+    //                          ||||└---->  3
+    //                          |||└----->  4 the enemy is visible  (0 = false / 1 = true)
+    //                          ||└------>  5 the enemy is dying    (0 = false / 1 = true)
+    //                          |└------->  6 the enemy is imune    (0 = false / 1 = true)
+    //                          └-------->  7 the enemy is alive    (0 = false / 1 = true)
+};
 
+BadFlames badFlame;
 
+void setBadFlame()
+{
+  badFlame =
+  {
+    BADFLAME_START_X,
+    BADFLAME_Y,
+    0,
+    0,
+  };
+}
+
+void updateBadFlame()
+{
+  switch (badFlame.characteristics & 0B00000011)
+  {
+    case BADFLAME_ON_TORCH:
+      if (arduboy.everyXFrames(3))
+      {
+
+        if (badFlame.x > FLAME_FALL_OFF_LIMIT) badFlame.x--;
+        else badFlame.characteristics++;
+      }
+      break;
+    case BADFLAME_FALLING:
+      if (arduboy.everyXFrames(WALKINGSPEED))
+      {
+        if (badFlame.fallingFrame < BADFLAME_TOTAL_FALING_FRAMES)
+        {
+          badFlame.x -= 3;
+          badFlame.y = pgm_read_byte(&flameJumpSequence[badFlame.fallingFrame]);
+          badFlame.fallingFrame++;
+        }
+        else
+        {
+          badFlame.fallingFrame = 0;
+          badFlame.characteristics++;
+        }
+      }
+      break;
+    case BADFLAME_RUNNING:
+      if (arduboy.everyXFrames(WALKINGSPEED))
+      {
+        if (badFlame.x > ENEMY_LEFT_OFFSCREEN_LIMIT) badFlame.x -= 3;
+        else
+        {
+          badFlame.x = BADFLAME_START_X;
+          badFlame.y = BADFLAME_Y;
+          badFlame.characteristics = 0;
+        }
+      }
+      break;
+  }
+}
+
+void badFlameSetInLine()
+{
+  badFlame.characteristics = 0;
+  bitSet(badFlame.characteristics, 4);
+  bitSet(badFlame.characteristics, 6);
+  bitSet(badFlame.characteristics, 7);
+  badFlame.x = BADFLAME_START_X;
+}
+
+void drawBadFlame()
+{
+  if (bitRead(badFlame.characteristics, 4))
+  {
+    switch (badFlame.characteristics & 0B00000011)
+    {
+      case BADFLAME_ON_TORCH:
+        sprites.drawPlusMask(badFlame.x, badFlame.y, monsterFlame_plus_mask, flameFrame);
+        break;
+      case BADFLAME_FALLING:
+        sprites.drawPlusMask(badFlame.x, badFlame.y, monsterFlame_plus_mask, flameFrame);
+        break;
+      case BADFLAME_RUNNING:
+        sprites.drawPlusMask(badFlame.x, badFlame.y, monsterFlame_plus_mask, flameFrame);
+        break;
+    }
+  }
+}
 
 
 #endif

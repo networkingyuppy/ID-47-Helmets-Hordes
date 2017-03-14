@@ -472,6 +472,7 @@ const unsigned char PROGMEM hazardSpike[] =
 };
 
 
+
 //////// dungeon bitmaps //////////////////////
 //////////////////////////////////////////////
 const unsigned char PROGMEM dungeonFloor[] =

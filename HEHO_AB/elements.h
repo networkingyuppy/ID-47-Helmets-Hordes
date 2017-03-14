@@ -137,7 +137,7 @@ void drawBricks()
 {
   for (byte i = 0; i < 12; i++)
   {
-    if (arduboy.everyXFrames(3)) bricks[i].x --;
+    if (arduboy.everyXFrames(3)) bricks[i].x--;
     if (bricks[i].x < -111) bricks[i].x = 128;
     if (bricks[i].type < 3) sprites.drawSelfMasked (bricks[i].x, bricks[i].y, dungeonBricks, bricks[i].type);
   }
@@ -147,7 +147,7 @@ void drawTorchHandles()
 {
   for (byte i = 0; i < 2; i++)
   {
-    if (arduboy.everyXFrames(3)) torchHandles[i].x --;
+    if (arduboy.everyXFrames(3)) torchHandles[i].x--;
     if (torchHandles[i].x < -31) torchHandles[i].x = 128;
     sprites.drawSelfMasked (torchHandles[i].x, TORCHHANDLE_Y, torchHandle, 0);
 
@@ -159,7 +159,7 @@ void drawTorchFlames()
   if (arduboy.everyXFrames(4)) flameFrame = (++flameFrame) % 4;
   for (byte i = 0; i < 2; i++)
   {
-    if (arduboy.everyXFrames(3)) torchFlames[i].x --;
+    if (arduboy.everyXFrames(3)) torchFlames[i].x--;
     if (torchFlames[i].x < -31) torchFlames[i].x = 128;
     sprites.drawSelfMasked (torchFlames[i].x, TORCHFLAME_Y, torchFlame, flameFrame);
 

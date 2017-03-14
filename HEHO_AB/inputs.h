@@ -11,7 +11,7 @@ void checkInputs()
   if (arduboy.pressed(UP_BUTTON));
   if (arduboy.pressed(RIGHT_BUTTON));
 
-  if (arduboy.justPressed(A_BUTTON)) ;
+  if (arduboy.justPressed(A_BUTTON)) gameState = STATE_MENU_MAIN;
   if (arduboy.justPressed(B_BUTTON)) helena.jumping = true ;
 }
 

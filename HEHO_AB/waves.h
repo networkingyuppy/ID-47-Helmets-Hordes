@@ -17,6 +17,15 @@ boolean checkStartWave()
   return false;
 }
 
+boolean checkFlamePosition()
+{
+  for (byte i = 0; i < 2; i++)
+  {
+    if (torchFlames[i].x == 128) return true;
+  }
+  return false;
+}
+
 boolean checkEndWave()
 {
   byte test = 0;
@@ -28,6 +37,8 @@ boolean checkEndWave()
   {
     test += bitRead(spike[i].characteristics, 7);
   }
+  test += bitRead(badFlame.characteristics, 7);
+
   if (test < 1) currentWave++;
 }
 
@@ -101,6 +112,19 @@ void wave005()
   checkEndWave();
 }
 
+void wave006()
+{
+  if (checkFlamePosition())
+  {
+    if (checkStartWave()) badFlameSetInLine();
+  }
+  if (badFlame.characteristics)
+  {
+    updateBadFlame();
+    checkEndWave();
+  }
+}
+
 
 void wave255()
 {
@@ -118,6 +142,7 @@ const FunctionPointer PROGMEM allWaves[] =
   wave003,
   wave004,
   wave005,
+  wave006,
   wave255,
 };
 
