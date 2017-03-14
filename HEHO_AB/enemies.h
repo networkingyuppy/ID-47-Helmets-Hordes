@@ -16,6 +16,8 @@
 #define ORC_Y                                   39
 #define SPIKE_Y                                 41
 #define BADFLAME_Y                              4
+#define STATUE_Y                                32
+#define ARROW_Y                                 40
 
 #define ENEMY_ORC_NO_SPEAR                      0
 #define ENEMY_ORC_FLAT_SPEAR                    1
@@ -189,7 +191,7 @@ void drawSpikes()
   }
 }
 
-//////// Flame functions /////////////////
+//////// Bad Flame functions /////////////
 //////////////////////////////////////////
 struct BadFlames
 {
@@ -197,7 +199,7 @@ struct BadFlames
     int x;
     byte y;
     byte fallingFrame;
-    byte characteristics;   //0b00000000;   //this byte holds all the spike characteristics
+    byte characteristics;   //0b00000000;   //this byte holds all the bad flame characteristics
     //                          ||||||||
     //                          |||||||└->  0 \
     //                          ||||||└-->  1 / flame type: 0 = on torch | 1 = falling | 2 = running
@@ -290,6 +292,103 @@ void drawBadFlame()
         sprites.drawPlusMask(badFlame.x, badFlame.y, monsterFlame_plus_mask, flameFrame);
         break;
     }
+  }
+}
+
+//////// Statue functions /////////////
+///////////////////////////////////////
+struct Statues
+{
+  public:
+    int x;
+    byte characteristics;   //0b00000000;   //this byte holds all the statue characteristics
+    //                          ||||||||
+    //                          |||||||└->  0
+    //                          ||||||└-->  1
+    //                          |||||└--->  2
+    //                          ||||└---->  3
+    //                          |||└----->  4 the enemy is visible  (0 = false / 1 = true)
+    //                          ||└------>  5 the enemy is dying    (0 = false / 1 = true)
+    //                          |└------->  6 the enemy is imune    (0 = false / 1 = true)
+    //                          └-------->  7 the enemy is alive    (0 = false / 1 = true)
+};
+
+Statues statue;
+Statues arrow;
+
+void setStatue()
+{
+  statue =
+  {
+    ENEMY_START_X,
+    0,
+  };
+  arrow =
+  {
+    ENEMY_START_X,
+    0,
+  };
+}
+
+void updateStatue()
+{
+  if (arduboy.everyXFrames(2))
+  {
+    if (statue.x > ENEMY_LEFT_OFFSCREEN_LIMIT) statue.x--;
+    else
+    {
+      statue.x = ENEMY_START_X;
+      statue.characteristics = 0;
+    }
+    if (statue.x > 102) arrow.x--;
+    else
+    {
+      if (arrow.x > ENEMY_LEFT_OFFSCREEN_LIMIT) arrow.x -= 4;
+      else
+      {
+        arrow.x = ENEMY_START_X + 3;
+        arrow.characteristics = 0;
+      }
+    }
+  }
+}
+
+void statueSetInLine()
+{
+  statue.characteristics = 0;
+  bitSet(statue.characteristics, 4);
+  bitSet(statue.characteristics, 6);
+  bitSet(statue.characteristics, 7);
+  statue.x = ENEMY_START_X;
+
+  arrow.characteristics = 0;
+  bitSet(arrow.characteristics, 4);
+  bitSet(arrow.characteristics, 6);
+  bitSet(arrow.characteristics, 7);
+  arrow.x = ENEMY_START_X + 3;
+}
+
+void drawStatueFront()
+{
+  if (bitRead(statue.characteristics, 4))
+  {
+    sprites.drawPlusMask(statue.x, STATUE_Y, statueFront_plus_mask, 0);
+  }
+}
+
+void drawStatueBack()
+{
+  if (bitRead(statue.characteristics, 4))
+  {
+    sprites.drawPlusMask(statue.x + 7, STATUE_Y, statueBack_plus_mask, 0);
+  }
+}
+
+void drawArrows()
+{
+  if (bitRead(arrow.characteristics, 4))
+  {
+    sprites.drawPlusMask(arrow.x, ARROW_Y, statueArrow_plus_mask, 0);
   }
 }
 

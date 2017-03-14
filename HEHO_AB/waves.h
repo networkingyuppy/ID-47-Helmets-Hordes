@@ -38,6 +38,8 @@ boolean checkEndWave()
     test += bitRead(spike[i].characteristics, 7);
   }
   test += bitRead(badFlame.characteristics, 7);
+  test += bitRead(statue.characteristics, 7);
+  test += bitRead(arrow.characteristics, 7);
 
   if (test < 1) currentWave++;
 }
@@ -125,6 +127,16 @@ void wave006()
   }
 }
 
+void wave007()
+{
+  if (checkStartWave())
+  {
+    statueSetInLine();
+  }
+  updateStatue();
+  checkEndWave();
+}
+
 
 void wave255()
 {
@@ -144,6 +156,7 @@ const FunctionPointer PROGMEM allWaves[] =
   wave005,
   wave006,
   wave006,
+  wave007,
   wave255,
 };
 

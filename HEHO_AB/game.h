@@ -50,6 +50,9 @@ void stateGamePlaying()
   //drawGoldBars();
 
   drawOrcs();
+  drawStatueFront();
+  drawArrows();
+  drawStatueBack();
   drawHelena();
   drawChains();
 };
