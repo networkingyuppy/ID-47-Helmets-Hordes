@@ -13,7 +13,7 @@
 #define MAX_ORCS_IN_WAVE                        9
 #define MAX_SPIKES_IN_WAVE                      3
 
-#define ORC_Y                                   40
+#define ORC_Y                                   39
 #define SPIKE_Y                                 41
 #define BADFLAME_Y                              4
 

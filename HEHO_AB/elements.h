@@ -6,7 +6,7 @@
 
 #define MAX_ONSCREEN_GOLDBARS                             9
 #define FLOORPART_Y                                       48
-#define FLOORWEED_Y                                       40
+#define FLOORWEED_Y                                       41
 #define TORCHHANDLE_Y                                     20
 #define TORCHFLAME_Y                                      4
 
