@@ -29,6 +29,7 @@ DifferentItems goldBar[MAX_ONSCREEN_GOLDBARS];
 struct BackGroundStuff
 {
   int x;
+  boolean isVisible;
 };
 
 BackGroundStuff floorPart[3];
@@ -103,6 +104,8 @@ void setTorchFlames()
 {
   torchFlames[0].x = 15;
   torchFlames[1].x = 95;
+  torchFlames[0].isVisible = true;
+  torchFlames[1].isVisible = true;
 }
 
 void drawFloorPart()
@@ -160,9 +163,12 @@ void drawTorchFlames()
   for (byte i = 0; i < 2; i++)
   {
     if (arduboy.everyXFrames(3)) torchFlames[i].x--;
-    if (torchFlames[i].x < -31) torchFlames[i].x = 128;
-    sprites.drawSelfMasked (torchFlames[i].x, TORCHFLAME_Y, torchFlame, flameFrame);
-
+    if (torchFlames[i].x < -31)
+    {
+      torchFlames[i].x = 128;
+      torchFlames[i].isVisible = true;
+    }
+    if (torchFlames[i].isVisible)sprites.drawSelfMasked (torchFlames[i].x, TORCHFLAME_Y, torchFlame, flameFrame);
   }
 }
 

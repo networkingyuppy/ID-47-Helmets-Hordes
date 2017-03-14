@@ -21,7 +21,11 @@ boolean checkFlamePosition()
 {
   for (byte i = 0; i < 2; i++)
   {
-    if (torchFlames[i].x == 128) return true;
+    if (torchFlames[i].x == 128)
+    {
+      torchFlames[i].isVisible = false;
+      return true;
+    }
   }
   return false;
 }
