@@ -8,7 +8,9 @@
 #define ENEMY_START_X                           144
 
 #define MAX_ORCS_IN_WAVE                        9
+#define MAX_SPIKES_IN_WAVE                      3
 #define ORC_Y                                   40
+#define SPIKE_Y                                 41
 
 #define ENEMY_ORC_NO_SPEAR                      0
 #define ENEMY_ORC_FLAT_SPEAR                    1
@@ -68,7 +70,7 @@ void updateOrcs()
 }
 
 
-void OrcsSetInLine(byte orcType, byte firstOrc, byte lastOrc, int x, int spacingX)
+void orcsSetInLine(byte orcType, byte firstOrc, byte lastOrc, int x, int spacingX)
 {
   for (byte i = firstOrc; i < lastOrc + 1; i++)
   {
@@ -102,6 +104,80 @@ void drawOrcs()
     }
   }
 }
+
+//////// Spike functions /////////////////
+//////////////////////////////////////////
+struct Spikes
+{
+  public:
+    int x;
+    byte characteristics;   //0b00000000;   //this byte holds all the spike characteristics
+    //                          ||||||||
+    //                          |||||||└->  0
+    //                          ||||||└-->  1
+    //                          |||||└--->  2
+    //                          ||||└---->  3
+    //                          |||└----->  4 the enemy is visible  (0 = false / 1 = true)
+    //                          ||└------>  5 the enemy is dying    (0 = false / 1 = true)
+    //                          |└------->  6 the enemy is imune    (0 = false / 1 = true)
+    //                          └-------->  7 the enemy is alive    (0 = false / 1 = true)
+};
+
+Spikes spike[MAX_SPIKES_IN_WAVE];
+
+void setSpikes()
+{
+  for (byte i = 0; i < MAX_SPIKES_IN_WAVE; i++)
+  {
+    spike[i] =
+    {
+      ENEMY_START_X,
+      0,
+    };
+  }
+}
+
+void updateSpikes()
+{
+  if (arduboy.everyXFrames(2))
+  {
+    for (byte i = 0; i < MAX_SPIKES_IN_WAVE; i++)
+    {
+      if (spike[i].x > ENEMY_LEFT_OFFSCREEN_LIMIT) spike[i].x--;
+      else 
+      {
+        spike[i].x = ENEMY_START_X;
+        spike[i].characteristics = 0;
+      }
+    }
+  }
+}
+
+void spikesSetInLine(byte firstspike, byte lastspike, int x, int spacingX)
+{
+  for (byte i = firstspike; i < lastspike + 1; i++)
+  {
+    spike[i].characteristics = 0;
+    bitSet(spike[i].characteristics, 4);
+    bitSet(spike[i].characteristics, 6);
+    bitSet(spike[i].characteristics, 7);
+    spike[i].x = x + (spacingX * (i - firstspike));
+  }
+}
+
+void drawSpikes()
+{
+  for (byte i = 0; i < MAX_SPIKES_IN_WAVE; i++)
+  {
+    if (bitRead(spike[i].characteristics, 4))
+    {
+      sprites.drawSelfMasked(spike[i].x, SPIKE_Y, hazardSpike, 0);
+    }
+  }
+}
+
+
+
 
 
 #endif

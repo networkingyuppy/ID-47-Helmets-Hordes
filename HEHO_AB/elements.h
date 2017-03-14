@@ -62,7 +62,7 @@ void setFloorPart()
 
 void setFLoorWeed()
 {
-  floorWeed.x = 128;
+  floorWeed.x = 64;
 }
 
 void setChains()

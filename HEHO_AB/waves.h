@@ -5,9 +5,6 @@
 #include "enemies.h"
 #include "elements.h"
 
-#define TOTAL_AMOUNT_OF_WAVES                                 6
-
-
 // HELPER FUNCTIONS
 ///////////////////
 boolean checkStartWave()
@@ -26,6 +23,10 @@ boolean checkEndWave()
   for (byte i = 0; i < MAX_ORCS_IN_WAVE; i++)
   {
     test += bitRead(orc[i].characteristics, 7);
+  }
+  for (byte i = 0; i < MAX_SPIKES_IN_WAVE; i++)
+  {
+    test += bitRead(spike[i].characteristics, 7);
   }
   if (test < 1) currentWave++;
 }
@@ -52,7 +53,7 @@ void wave001()
 {
   if (checkStartWave())
   {
-    OrcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 2, 128, 64);
+    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 2, 128, 64);
   }
   updateOrcs();
   checkEndWave();
@@ -62,7 +63,7 @@ void wave002()
 {
   if (checkStartWave())
   {
-    OrcsSetInLine(ENEMY_ORC_FLAT_SPEAR, 0, 2, 128, 64);
+    orcsSetInLine(ENEMY_ORC_FLAT_SPEAR, 0, 2, 128, 64);
   }
   updateOrcs();
   checkEndWave();
@@ -72,7 +73,7 @@ void wave003()
 {
   if (checkStartWave())
   {
-    OrcsSetInLine(ENEMY_ORC_UP_SPEAR, 0, 2, 128, 64);
+    orcsSetInLine(ENEMY_ORC_UP_SPEAR, 0, 2, 128, 64);
   }
   updateOrcs();
   checkEndWave();
@@ -82,11 +83,21 @@ void wave004()
 {
   if (checkStartWave())
   {
-    OrcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 0, 128, 0);
-    OrcsSetInLine(ENEMY_ORC_FLAT_SPEAR, 1, 1, 192, 0);
-    OrcsSetInLine(ENEMY_ORC_UP_SPEAR, 2, 2, 256, 0);
+    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 0, 128, 0);
+    orcsSetInLine(ENEMY_ORC_FLAT_SPEAR, 1, 1, 192, 0);
+    orcsSetInLine(ENEMY_ORC_UP_SPEAR, 2, 2, 256, 0);
   }
   updateOrcs();
+  checkEndWave();
+}
+
+void wave005()
+{
+  if (checkStartWave())
+  {
+    spikesSetInLine(0, 2, 128, 56);
+  }
+  updateSpikes();
   checkEndWave();
 }
 
@@ -99,13 +110,14 @@ void wave255()
 
 
 typedef void (*FunctionPointer) ();
-const FunctionPointer PROGMEM allWaves[TOTAL_AMOUNT_OF_WAVES] =
+const FunctionPointer PROGMEM allWaves[] =
 {
   wave000,
   wave001,
   wave002,
   wave003,
   wave004,
+  wave005,
   wave255,
 };
 
