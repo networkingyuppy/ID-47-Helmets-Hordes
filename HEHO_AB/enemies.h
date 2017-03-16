@@ -186,7 +186,7 @@ void drawSpikes()
   {
     if (bitRead(spike[i].characteristics, 4))
     {
-      sprites.drawSelfMasked(spike[i].x, SPIKE_Y, hazardSpike, 0);
+      sprites.drawPlusMask(spike[i].x, SPIKE_Y, hazardSpike_plus_mask, 0);
     }
   }
 }

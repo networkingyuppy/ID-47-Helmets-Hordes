@@ -40,9 +40,9 @@ void stateGamePlaying()
   ((FunctionPointer) pgm_read_word (&allWaves[currentWave]))();
 
   drawFloorPart();
+  drawPillars();
   drawSpikes();
   drawFloorWeed();
-  drawPillars();
   
 
   drawBricks();

@@ -178,7 +178,7 @@ void drawFloorWeed()
 {
   if (arduboy.everyXFrames(2)) floorWeed.x--;
   if (floorWeed.x < -512) floorWeed.x = 128;
-  sprites.drawSelfMasked (floorWeed.x, FLOORWEED_Y, dungeonWeed, 0);
+  sprites.drawPlusMask (floorWeed.x, FLOORWEED_Y, dungeonWeed_plus_mask, 0);
 }
 
 void drawPillars()
