@@ -21,8 +21,9 @@ void stateMenuPlay()
   setTorchHandles();
   setTorchFlames();
   setBadFlame();
+  setPillars();
   
-  setGoldBarsRow();
+  setGoldBars();
   currentWave = WAVE_TO_START_WITH;
   previousWave = 255;
   globalCounter = 0;
@@ -41,6 +42,7 @@ void stateGamePlaying()
   drawFloorPart();
   drawSpikes();
   drawFloorWeed();
+  drawPillars();
   
 
   drawBricks();

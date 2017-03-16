@@ -6,6 +6,7 @@
 
 #define MAX_ONSCREEN_GOLDBARS                             9
 #define FLOORPART_Y                                       48
+#define PILLAR_Y                                          32
 #define FLOORWEED_Y                                       41
 #define TORCHHANDLE_Y                                     20
 #define TORCHFLAME_Y                                      4
@@ -13,6 +14,9 @@
 const unsigned char PROGMEM goldBarSequence[] = {0, 1, 2, 3, 4, 3, 2, 1};
 byte goldBarFrames = 0;
 byte flameFrame = 0;
+
+// create all elements
+//////////////////////
 
 struct DifferentItems
 {
@@ -36,6 +40,7 @@ BackGroundStuff floorPart[3];
 BackGroundStuff torchHandles[2];
 BackGroundStuff torchFlames[2];
 BackGroundStuff floorWeed;
+BackGroundStuff pillar[2];
 
 
 struct ForGroundStuff
@@ -56,14 +61,37 @@ struct BrickParts
 BrickParts bricks[12];
 
 
+// Set all elements
+///////////////////
+
 void setFloorPart()
 {
   for (byte i = 0; i < 3; i++) floorPart[i].x = 64 * i;
 }
 
+void setTorchHandles()
+{
+  torchHandles[0].x = 18;
+  torchHandles[1].x = 98;
+}
+
+void setTorchFlames()
+{
+  torchFlames[0].x = 15;
+  torchFlames[1].x = 95;
+  torchFlames[0].isVisible = true;
+  torchFlames[1].isVisible = true;
+}
+
 void setFLoorWeed()
 {
   floorWeed.x = 64;
+}
+
+void setPillars()
+{
+  pillar[0].x = 56;
+  pillar[1].x = 136;
 }
 
 void setChains()
@@ -94,19 +122,21 @@ void setBricks()
   }
 }
 
-void setTorchHandles()
+
+void setGoldBars()
 {
-  torchHandles[0].x = 18;
-  torchHandles[1].x = 98;
+  for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++)
+  {
+    goldBar[i].x = 128;
+    goldBar[i].y = 28;
+    goldBar[i].isVisible = false;
+    goldBar[i].active = false;
+  }
 }
 
-void setTorchFlames()
-{
-  torchFlames[0].x = 15;
-  torchFlames[1].x = 95;
-  torchFlames[0].isVisible = true;
-  torchFlames[1].isVisible = true;
-}
+
+// Draw all elementes
+/////////////////////
 
 void drawFloorPart()
 {
@@ -119,11 +149,48 @@ void drawFloorPart()
   }
 }
 
+void drawTorchHandles()
+{
+  for (byte i = 0; i < 2; i++)
+  {
+    if (arduboy.everyXFrames(3)) torchHandles[i].x--;
+    if (torchHandles[i].x < -31) torchHandles[i].x = 128;
+    sprites.drawSelfMasked (torchHandles[i].x, TORCHHANDLE_Y, torchHandle, 0);
+  }
+}
+
+void drawTorchFlames()
+{
+  if (arduboy.everyXFrames(4)) flameFrame = (++flameFrame) % 4;
+  for (byte i = 0; i < 2; i++)
+  {
+    if (arduboy.everyXFrames(3)) torchFlames[i].x--;
+    if (torchFlames[i].x < -31)
+    {
+      torchFlames[i].x = 128;
+      torchFlames[i].isVisible = true;
+    }
+    if (torchFlames[i].isVisible)sprites.drawSelfMasked (torchFlames[i].x, TORCHFLAME_Y, torchFlame, flameFrame);
+  }
+}
+
 void drawFloorWeed()
 {
   if (arduboy.everyXFrames(2)) floorWeed.x--;
   if (floorWeed.x < -512) floorWeed.x = 128;
   sprites.drawSelfMasked (floorWeed.x, FLOORWEED_Y, dungeonWeed, 0);
+}
+
+void drawPillars()
+{
+  for (byte i = 0; i < 2; i++)
+  {
+    if (arduboy.everyXFrames(3)) pillar[i].x--;
+    if (pillar[i].x < -31) pillar[i].x = 128;
+    sprites.drawSelfMasked (pillar[i].x, PILLAR_Y, dungeonPillarBase, 0);
+    sprites.drawSelfMasked (pillar[i].x+2, PILLAR_Y-16, dungeonPillar, 0);
+    sprites.drawSelfMasked (pillar[i].x+2, PILLAR_Y-32, dungeonPillar, 0);
+  }
 }
 
 void drawChains()
@@ -143,50 +210,6 @@ void drawBricks()
     if (arduboy.everyXFrames(3)) bricks[i].x--;
     if (bricks[i].x < -111) bricks[i].x = 128;
     if (bricks[i].type < 3) sprites.drawSelfMasked (bricks[i].x, bricks[i].y, dungeonBricks, bricks[i].type);
-  }
-}
-
-void drawTorchHandles()
-{
-  for (byte i = 0; i < 2; i++)
-  {
-    if (arduboy.everyXFrames(3)) torchHandles[i].x--;
-    if (torchHandles[i].x < -31) torchHandles[i].x = 128;
-    sprites.drawSelfMasked (torchHandles[i].x, TORCHHANDLE_Y, torchHandle, 0);
-
-  }
-}
-
-void drawTorchFlames()
-{
-  if (arduboy.everyXFrames(4)) flameFrame = (++flameFrame) % 4;
-  for (byte i = 0; i < 2; i++)
-  {
-    if (arduboy.everyXFrames(3)) torchFlames[i].x--;
-    if (torchFlames[i].x < -31)
-    {
-      torchFlames[i].x = 128;
-      torchFlames[i].isVisible = true;
-    }
-    if (torchFlames[i].isVisible)sprites.drawSelfMasked (torchFlames[i].x, TORCHFLAME_Y, torchFlame, flameFrame);
-  }
-}
-
-void checkCollisions()
-{
-
-}
-
-
-
-void setGoldBarsRow()
-{
-  for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++)
-  {
-    goldBar[i].x = 128 + (16 * i);
-    goldBar[i].y = 28;
-    goldBar[i].isVisible = true;
-    goldBar[i].active = true;
   }
 }
 

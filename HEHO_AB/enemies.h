@@ -239,9 +239,9 @@ void updateBadFlame()
     case BADFLAME_FALLING:
       if (arduboy.everyXFrames(WALKINGSPEED))
       {
+        badFlame.x -= 3;
         if (badFlame.fallingFrame < BADFLAME_TOTAL_FALING_FRAMES)
         {
-          badFlame.x -= 3;
           badFlame.y = pgm_read_byte(&flameJumpSequence[badFlame.fallingFrame]);
           badFlame.fallingFrame++;
         }
