@@ -4,19 +4,23 @@
 #include "globals.h"
 
 const unsigned char PROGMEM sparkleFrameSequence[15] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5};
+const unsigned char PROGMEM eyesFrameSequence[] = {1, 1, 2, 2, 3, 3, 3, 2};
 byte sparkleFrame = 0;
+byte eyesFrame = 0;
 
 
 void titleScreen()
 {
   for (byte i = 0; i < 4; i++) sprites.drawSelfMasked((i * 32), 0, titleImage, i);
-  sprites.drawSelfMasked(52, 46, titleEyes, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame) % 11]));
+  if (eyesFrame < 8)sprites.drawSelfMasked(53, 46, titleEyes, pgm_read_byte(&eyesFrameSequence[eyesFrame]));
+  else sprites.drawSelfMasked(53, 46, titleEyes, 1);
 }
 
 
 void showSparkles(byte x, byte y)
 {
   if (arduboy.everyXFrames(6))sparkleFrame++;
+  if (arduboy.everyXFrames(2))(++eyesFrame) % 20;
   sprites.drawPlusMask((22 - (9 * y)) + (x * (61 + (y * 18))), 28 + (y * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 9) % 15]));
   sprites.drawPlusMask((26 - (9 * y)) + (x * (61 + (y * 18))), 36 + (y * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 15) % 15]));
   sprites.drawPlusMask((30 - (9 * y)) + (x * (61 + (y * 18))), 28 + (y * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 3) % 15]));
