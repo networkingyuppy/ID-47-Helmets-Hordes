@@ -4,7 +4,7 @@
 #include "globals.h"
 
 const unsigned char PROGMEM sparkleFrameSequence[15] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5};
-const unsigned char PROGMEM eyesFrameSequence[] = {1, 1, 2, 2, 3, 3, 3, 2};
+const unsigned char PROGMEM eyesFrameSequence[] = {1, 2, 2, 3, 3, 4, 4, 4, 3, 3, 2};
 byte sparkleFrame = 0;
 byte eyesFrame = 0;
 
@@ -12,8 +12,8 @@ byte eyesFrame = 0;
 void titleScreen()
 {
   for (byte i = 0; i < 4; i++) sprites.drawSelfMasked((i * 32), 0, titleImage, i);
-  if (eyesFrame < 8)sprites.drawSelfMasked(53, 46, titleEyes, pgm_read_byte(&eyesFrameSequence[eyesFrame]));
-  else sprites.drawSelfMasked(53, 46, titleEyes, 1);
+  if (eyesFrame < 11)sprites.drawSelfMasked(53, 46, titleEyes, pgm_read_byte(&eyesFrameSequence[eyesFrame]));
+  else sprites.drawSelfMasked(53, 46, titleEyes, 0);
 }
 
 
