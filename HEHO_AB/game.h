@@ -22,7 +22,7 @@ void stateMenuPlay()
   setTorchFlames();
   setBadFlame();
   setPillars();
-  
+
   setGoldBars();
   currentWave = WAVE_TO_START_WITH;
   previousWave = 255;
@@ -40,10 +40,9 @@ void stateGamePlaying()
   ((FunctionPointer) pgm_read_word (&allWaves[currentWave]))();
 
   drawFloorPart();
-  drawPillars();
   drawSpikes();
   drawFloorWeed();
-  
+
 
   drawBricks();
   drawTorchHandles();
@@ -57,6 +56,7 @@ void stateGamePlaying()
   drawStatueBack();
   drawHelena();
   drawChains();
+  drawPillars();
 };
 
 void stateGamePause()
