@@ -27,6 +27,7 @@ void stateMenuPlay()
   currentWave = WAVE_TO_START_WITH;
   previousWave = 255;
   globalCounter = 0;
+  scorePlayer = 0;
   gameState = STATE_GAME_PLAYING;
 };
 
@@ -57,6 +58,8 @@ void stateGamePlaying()
   drawHelena();
   drawChains();
   drawPillars();
+  drawScore(62, 52);
+  scorePlayer++;
 };
 
 void stateGamePause()

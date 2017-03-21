@@ -20,7 +20,8 @@ void titleScreen()
 void showSparkles(byte x, byte y)
 {
   if (arduboy.everyXFrames(6))sparkleFrame++;
-  if (arduboy.everyXFrames(2))(++eyesFrame) % 20;
+  if (arduboy.everyXFrames(2))++eyesFrame = (++eyesFrame) % 128;
+  Serial.println(eyesFrame);
   sprites.drawPlusMask((22 - (9 * y)) + (x * (61 + (y * 18))), 28 + (y * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 9) % 15]));
   sprites.drawPlusMask((26 - (9 * y)) + (x * (61 + (y * 18))), 36 + (y * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 15) % 15]));
   sprites.drawPlusMask((30 - (9 * y)) + (x * (61 + (y * 18))), 28 + (y * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 3) % 15]));
