@@ -37,7 +37,7 @@ ATMsynth ATM;
 byte gameState = STATE_MENU_INTRO;                             // start the game with the TEAM a.r.g. logo
 byte globalCounter = 0;
 const unsigned char PROGMEM frameSequence[4] = {0, 1, 2, 1};   // this is the frame frequence we are using for the walking animations
-unsigned long scorePlayer; 
+unsigned long scorePlayer;
 boolean menuX = true;
 boolean menuY = false;
 byte currentWave;
@@ -45,6 +45,8 @@ byte previousWave;
 
 void drawScore(byte x, byte y)
 {
+  sprites.drawPlusMask(x, y, uiScroll_plus_mask, 0);
+  sprites.drawPlusMask(x + 8, y, uiScroll_plus_mask, 1);
   char buf[10];
   //scorePlayer = arduboy.cpuLoad();
   ltoa(scorePlayer, buf, 10);
@@ -52,7 +54,7 @@ void drawScore(byte x, byte y)
   char pad = 8 - charLen;
 
   // draw 0 padding
-  for (byte i = 0; i < pad; i++) sprites.drawPlusMask(x + (8 * i), y, numbersInGame_plus_mask, 0);
+  //for (byte i = 0; i < pad; i++) sprites.drawPlusMask(x + 16 + (8 * i), y, numbersInGame_plus_mask, 0);
   // draw numbers
   for (byte i = 0; i < charLen; i++)
   {
@@ -66,9 +68,10 @@ void drawScore(byte x, byte y)
     }
 
     for (byte z = 0; z < 10; z++) if (digit == z) j = z;
-    sprites.drawPlusMask(x + (pad * 8) + (8 * i), y, numbersInGame_plus_mask, digit);
-
+    sprites.drawPlusMask(x + 16  + (8 * i), y, numbersInGame_plus_mask, digit);
   }
+  sprites.drawPlusMask(x + 16 + (8 * charLen), y, uiScroll_plus_mask, 1);
+  sprites.drawPlusMask(x + 24  + (8 * charLen), y, uiScroll_plus_mask, 2);
 }
 
 #endif

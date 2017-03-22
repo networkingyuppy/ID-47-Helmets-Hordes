@@ -58,7 +58,7 @@ void stateGamePlaying()
   drawHelena();
   drawChains();
   drawPillars();
-  drawScore(62, 52);
+  drawScore(2, 48);
   scorePlayer++;
 };
 
