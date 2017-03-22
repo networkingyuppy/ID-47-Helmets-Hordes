@@ -21,7 +21,6 @@ void stateMenuPlay()
   setTorchHandles();
   setTorchFlames();
   setBadFlame();
-  setPillars();
 
   setGoldBars();
   currentWave = WAVE_TO_START_WITH;
@@ -57,7 +56,6 @@ void stateGamePlaying()
   drawStatueBack();
   drawHelena();
   drawChains();
-  drawPillars();
   drawScore(2, 48);
   scorePlayer++;
 };

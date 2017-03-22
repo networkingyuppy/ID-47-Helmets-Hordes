@@ -6,7 +6,6 @@
 
 #define MAX_ONSCREEN_GOLDBARS                             9
 #define FLOORPART_Y                                       48
-#define PILLAR_Y                                          48
 #define FLOORWEED_Y                                       41
 #define TORCHHANDLE_Y                                     20
 #define TORCHFLAME_Y                                      4
@@ -40,7 +39,6 @@ BackGroundStuff floorPart[3];
 BackGroundStuff torchHandles[2];
 BackGroundStuff torchFlames[2];
 BackGroundStuff floorWeed;
-BackGroundStuff pillar;
 
 
 struct ForGroundStuff
@@ -88,10 +86,6 @@ void setFLoorWeed()
   floorWeed.x = 64;
 }
 
-void setPillars()
-{
-  pillar.x = 196;
-}
 
 void setChains()
 {
@@ -180,16 +174,6 @@ void drawFloorWeed()
   sprites.drawPlusMask (floorWeed.x, FLOORWEED_Y, dungeonWeed_plus_mask, 0);
 }
 
-void drawPillars()
-{
-
-  if (arduboy.everyXFrames(1)) pillar.x -= 2;
-  if (pillar.x < -63) pillar.x = 128;
-  sprites.drawPlusMask (pillar.x, PILLAR_Y, dungeonPillarBase_plus_mask, 0);
-  sprites.drawPlusMask (pillar.x + 2, PILLAR_Y - 16, dungeonPillar_plus_mask, 0);
-  sprites.drawPlusMask (pillar.x + 2, PILLAR_Y - 32, dungeonPillar_plus_mask, 0);
-  sprites.drawPlusMask (pillar.x + 2, PILLAR_Y - 48, dungeonPillar_plus_mask, 0);
-}
 
 void drawChains()
 {
