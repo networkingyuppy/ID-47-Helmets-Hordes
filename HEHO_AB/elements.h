@@ -4,30 +4,15 @@
 #include <Arduino.h>
 #include "globals.h"
 
-#define MAX_ONSCREEN_GOLDBARS                             9
 #define FLOORPART_Y                                       48
 #define FLOORWEED_Y                                       41
 #define TORCHHANDLE_Y                                     20
 #define TORCHFLAME_Y                                      4
 
-const unsigned char PROGMEM goldBarSequence[] = {0, 1, 2, 3, 4, 3, 2, 1};
-byte goldBarFrames = 0;
 byte flameFrame = 0;
 
 // create all elements
 //////////////////////
-
-struct DifferentItems
-{
-  public:
-    int x;
-    byte y;
-    boolean isVisible;
-    boolean active;
-};
-
-DifferentItems goldBar[MAX_ONSCREEN_GOLDBARS];
-
 
 struct BackGroundStuff
 {
@@ -116,17 +101,6 @@ void setBricks()
 }
 
 
-void setGoldBars()
-{
-  for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++)
-  {
-    goldBar[i].x = 128;
-    goldBar[i].y = 28;
-    goldBar[i].isVisible = false;
-    goldBar[i].active = false;
-  }
-}
-
 
 // Draw all elementes
 /////////////////////
@@ -194,25 +168,5 @@ void drawBricks()
     if (bricks[i].type < 3) sprites.drawSelfMasked (bricks[i].x, bricks[i].y, dungeonBricks, bricks[i].type);
   }
 }
-
-void drawGoldBars()
-{
-  if (arduboy.everyXFrames(8))goldBarFrames++;
-  for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++)
-  {
-
-    if (arduboy.everyXFrames(2))goldBar[i].x--;
-    if (goldBar[i].x < -16)
-    {
-      goldBar[i].x = 128;
-    }
-
-    if (goldBar[i].isVisible == true)
-    {
-      sprites.drawPlusMask(goldBar[i].x, goldBar[i].y, treasureBar_plus_mask,  pgm_read_byte(&goldBarSequence[(goldBarFrames) % 8]));
-    }
-  }
-}
-
 
 #endif

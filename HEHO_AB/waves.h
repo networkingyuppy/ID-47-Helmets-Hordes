@@ -4,6 +4,7 @@
 #include "globals.h"
 #include "enemies.h"
 #include "elements.h"
+#include "collectables.h"
 
 // HELPER FUNCTIONS
 ///////////////////
@@ -44,6 +45,10 @@ boolean checkEndWave()
   test += bitRead(badFlame.characteristics, 7);
   test += bitRead(statue.characteristics, 7);
   test += bitRead(arrow.characteristics, 7);
+  for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++)
+  {
+    test += goldBar[i].active;
+  }
 
   if (test < 1) currentWave++;
 }
@@ -141,6 +146,16 @@ void wave007()
   checkEndWave();
 }
 
+void wave008()
+{
+  if (checkStartWave())
+  {
+    goldBarSetInLine();
+  }
+  updateGoldBars();
+  checkEndWave();
+}
+
 
 void wave255()
 {
@@ -161,6 +176,7 @@ const FunctionPointer PROGMEM allWaves[] =
   wave006,
   wave006,
   wave007,
+  wave008,
   wave255,
 };
 

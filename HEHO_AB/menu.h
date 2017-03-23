@@ -11,7 +11,7 @@ byte eyesFrame = 0;
 
 void titleScreen()
 {
-  for (byte i = 0; i < 4; i++) sprites.drawSelfMasked((i * 32), 0, titleImage, i);
+  sprites.drawSelfMasked(0, 0, titleImage, 0);
   if (eyesFrame < 11)sprites.drawSelfMasked(53, 46, titleEyes, pgm_read_byte(&eyesFrameSequence[eyesFrame]));
   else sprites.drawSelfMasked(53, 46, titleEyes, 0);
 }

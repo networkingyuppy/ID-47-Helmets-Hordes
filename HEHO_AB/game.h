@@ -7,6 +7,7 @@
 #include "player.h"
 #include "enemies.h"
 #include "elements.h"
+#include "collectables.h"
 #include "waves.h"
 
 void stateMenuPlay()
@@ -47,13 +48,14 @@ void stateGamePlaying()
   drawBricks();
   drawTorchHandles();
   drawTorchFlames();
+  drawGoldBars();
   drawBadFlame();
-  //drawGoldBars();
 
   drawOrcs();
   drawStatueFront();
   drawArrows();
   drawStatueBack();
+
   drawHelena();
   drawChains();
   drawScore(2, 48);

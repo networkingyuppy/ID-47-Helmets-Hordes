@@ -46,7 +46,7 @@ byte previousWave;
 void drawScore(byte x, byte y)
 {
   sprites.drawPlusMask(x, y, uiScroll_plus_mask, 0);
-  sprites.drawPlusMask(x + 8, y, uiScroll_plus_mask, 1);
+  //sprites.drawPlusMask(x + 8, y, uiScroll_plus_mask, 1);
   char buf[10];
   //scorePlayer = arduboy.cpuLoad();
   ltoa(scorePlayer, buf, 10);
@@ -70,7 +70,7 @@ void drawScore(byte x, byte y)
     for (byte z = 0; z < 10; z++) if (digit == z) j = z;
     sprites.drawPlusMask(x + 16  + (8 * i), y, numbersInGame_plus_mask, digit);
   }
-  sprites.drawPlusMask(x + 16 + (8 * charLen), y, uiScroll_plus_mask, 1);
+  //sprites.drawPlusMask(x + 16 + (8 * charLen), y, uiScroll_plus_mask, 1);
   sprites.drawPlusMask(x + 24  + (8 * charLen), y, uiScroll_plus_mask, 2);
 }
 

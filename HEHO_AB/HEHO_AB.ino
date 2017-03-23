@@ -19,6 +19,7 @@
 #include "game.h"
 #include "inputs.h"
 #include "player.h"
+#include "collectables.h"
 #include "elements.h"
 #include "enemies.h"
 #include "waves.h"
