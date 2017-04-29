@@ -27,9 +27,9 @@
 #define HELENA_IMUNE_TIME                          30
 
 #define HELENA_COLLISION_X_OFFSET                   2
-#define HELENA_COLLISION_Y_OFFSET                   0
-#define HELENA_COLLISION_WIDTH                      12
-#define HELENA_COLLISION_HEIGHT                     12
+#define HELENA_COLLISION_Y_OFFSET                   -2
+#define HELENA_COLLISION_WIDTH                      10
+#define HELENA_COLLISION_HEIGHT                     14
 
 
 const unsigned char PROGMEM helenaJumpSequence[] = {6, 14, 20, 23, 23, 25, 25, 25, 26, 26, 26, 26, 25, 25, 25, 23, 23, 20, 14, 6};

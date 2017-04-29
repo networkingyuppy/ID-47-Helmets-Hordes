@@ -18,6 +18,7 @@ void stateMenuPlay()
   setFLoorWeed();
   setSpikes();
   setOrcs();
+  setStatue();
   setChains();
   setBricks();
   setTorchHandles();

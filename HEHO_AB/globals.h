@@ -30,7 +30,8 @@
 #define WAVE_TO_START_WITH           0
 
 
-Arduboy2Base arduboy;
+//Arduboy2Base arduboy;
+Arduboy2 arduboy;
 Sprites sprites;
 ATMsynth ATM;
 
