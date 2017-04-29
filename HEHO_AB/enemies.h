@@ -9,6 +9,7 @@
 #define FLAME_FALL_OFF_LIMIT                    102
 #define WEED_HIDING_LIMIT                       102
 #define ENEMY_START_X                           144
+#define BADWALKINGFLAME_START_X                 128
 #define BADFLAME_START_X                        128
 #define BADWEED_START_X                         128
 
@@ -17,10 +18,27 @@
 
 #define ORC_Y                                   39
 #define SPIKE_Y                                 41
+#define BADWALKINGFLAME_Y                       4
 #define BADFLAME_Y                              4
 #define STATUE_Y                                32
 #define ARROW_Y                                 40
 #define BADWEED_Y                               40
+
+#define ORC_COLLISION_WIDTH                     14
+#define SPIKE_COLLISION_WIDTH                   80
+#define BADWALKINGFLAME_COLLISION_WIDTH         80
+#define BADFLAME_COLLISION_WIDTH                80
+#define STATUE_COLLISION_WIDTH                  80
+#define ARROW_COLLISION_WIDTH                   80
+#define BADWEED_COLLISION_WIDTH                 80
+
+#define ORC_COLLISION_HEIGHT                    22
+#define SPIKE_COLLISION_HEIGHT                  80
+#define BADWALKINGFLAME_COLLISION_HEIGHT        80
+#define BADFLAME_COLLISION_HEIGHT               80
+#define STATUE_COLLISION_HEIGHT                 80
+#define ARROW_COLLISION_HEIGHT                  80
+#define BADWEED_COLLISION_HEIGHT                80
 
 #define ENEMY_ORC_NO_SPEAR                      0
 #define ENEMY_ORC_FLAT_SPEAR                    1
@@ -229,8 +247,8 @@ void setBadWalkingFlame()
 {
   badWalkingFlame =
   {
-    BADFLAME_START_X,
-    BADFLAME_Y,
+    BADWALKINGFLAME_START_X,
+    BADWALKINGFLAME_Y,
     0,
     0,
   };
@@ -270,8 +288,8 @@ void updateBadWalkingFlame()
         if (badWalkingFlame.x > ENEMY_LEFT_OFFSCREEN_LIMIT) badWalkingFlame.x -= 3;
         else
         {
-          badWalkingFlame.x = BADFLAME_START_X;
-          badWalkingFlame.y = BADFLAME_Y;
+          badWalkingFlame.x = BADWALKINGFLAME_START_X;
+          badWalkingFlame.y = BADWALKINGFLAME_Y;
           badWalkingFlame.characteristics = 0;
         }
       }

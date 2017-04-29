@@ -9,6 +9,7 @@
 #include "elements.h"
 #include "collectables.h"
 #include "waves.h"
+#include "collision.h"
 
 void stateMenuPlay()
 {
@@ -29,7 +30,7 @@ void stateMenuPlay()
   currentWave = WAVE_TO_START_WITH;
   previousWave = 255;
   globalCounter = 0;
-  scorePlayer = 0;
+  playerScore = 0;
   gameState = STATE_GAME_PLAYING;
 };
 
@@ -47,10 +48,7 @@ void stateGamePlaying()
   drawFloorWeed();
   drawFloorPart();
   drawSpikes();
-  //drawFloorWeed();
 
-
-  //drawBricks();
   drawTorchHandles();
   drawTorchFlames();
   drawGoldBars();
@@ -63,9 +61,10 @@ void stateGamePlaying()
   drawStatueBack();
 
   drawHelena();
+  checkCollisions();
   drawChains();
   drawScore(2, 48);
-  scorePlayer++;
+  playerScore++;
 };
 
 void stateGamePause()

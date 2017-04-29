@@ -3,13 +3,13 @@
 
 #include "globals.h"
 
-#define PLAYER_START_X                             20
-#define PLAYER_START_Y                             33
+#define HELENA_START_X                             20
+#define HELENA_START_Y                             33
 
-#define PLAYER_DEAD                                 0
-#define PLAYER_NAKED                                1
-#define PLAYER_ARMOR                                2
-#define PLAYER_HELMET                               3
+#define HELENA_DEAD                                 0
+#define HELENA_NAKED                                1
+#define HELENA_ARMOR                                2
+#define HELENA_HELMET                               3
 
 #define HELMET_NO_HELMET                            0
 #define HELMET_ONE                                  1
@@ -24,14 +24,21 @@
 #define WEAPON_DAGGER                               1
 #define WEAPON_SWORD                                2
 
+#define HELENA_IMUNE_TIME                          30
+
+#define HELENA_COLLISION_X_OFFSET                   2
+#define HELENA_COLLISION_Y_OFFSET                   0
+#define HELENA_COLLISION_WIDTH                      12
+#define HELENA_COLLISION_HEIGHT                     12
+
+
 const unsigned char PROGMEM helenaJumpSequence[] = {6, 14, 20, 23, 23, 25, 25, 25, 26, 26, 26, 26, 25, 25, 25, 23, 23, 20, 14, 6};
 
 struct Players
 {
   public:
     int x, y;
-    byte life, frame, helmet, weapon, jumpSequenceCounter;
-    unsigned long score;
+    byte life, frame, helmet, weapon, jumpSequenceCounter, imuneTimer;
     boolean isVisible;
     boolean isImune;
     boolean jumping;
@@ -44,13 +51,13 @@ void setHelena()
 {
   helena =
   {
-    PLAYER_START_X, PLAYER_START_Y,                     // start position
-    PLAYER_ARMOR,                                       // start life with armor
+    HELENA_START_X, HELENA_START_Y,                     // start position
+    HELENA_ARMOR,                                       // start life with armor
     0,                                                  // start animation at frame 0
     HELMET_NO_HELMET,                                   // start without a helmet
     WEAPON_SWORD,                                       // start with the sword
     0,                                                  // start the sequence counter at 0
-    0,                                                  // start without score ;)
+    0,                                                  // start the imuneTimer at 0
     true,                                               // start with the player visible (used to make her blink)
     true,                                               // start with the player being imune for a short while
     false,                                              // start with the player NOT jumping
@@ -65,6 +72,20 @@ void checkWeapon()
 
 void updateHelena()
 {
+  if (helena.isImune)
+  {
+    if (arduboy.everyXFrames(3))
+    {
+      helena.imuneTimer++;
+      helena.isVisible = !helena.isVisible;
+    }
+    if (helena.imuneTimer > HELENA_IMUNE_TIME)
+    {
+      helena.imuneTimer = 0;
+      helena.isImune = false;
+      helena.isVisible = true;
+    }
+  }
   if (helena.jumping)
   {
     if (arduboy.everyXFrames(2)) helena.jumpSequenceCounter++;
@@ -86,13 +107,13 @@ void drawHelena()
       sprites.drawPlusMask(helena.x - 3 , helena.y - 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerNakedJump_plus_mask, 0);
       sprites.drawPlusMask(helena.x - 4 , helena.y - 11 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerHelmets_plus_mask, helena.helmet);
 
-      if (helena.life > PLAYER_NAKED) sprites.drawPlusMask(helena.x - 3 , helena.y + 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerArmorJump_plus_mask, 0);
+      if (helena.life > HELENA_NAKED) sprites.drawPlusMask(helena.x - 3 , helena.y + 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerArmorJump_plus_mask, 0);
     }
     else
     {
       sprites.drawPlusMask(helena.x, helena.y + (helena.frame % 2), playerNaked_plus_mask, pgm_read_byte(&frameSequence[helena.frame]));
       sprites.drawPlusMask(helena.x - 4 , helena.y - 9 + (helena.frame % 2), playerHelmets_plus_mask, helena.helmet);
-      if (helena.life > PLAYER_NAKED)
+      if (helena.life > HELENA_NAKED)
       {
         if (helena.weapon) sprites.drawPlusMask(helena.x + 13 + pgm_read_byte(&frameSequence[helena.frame]), helena.y  + (helena.frame % 2) + 6, playerWeapon_plus_mask, helena.weapon - 1);
         sprites.drawPlusMask(helena.x - 2 , helena.y + 4 + (helena.frame % 2), playerArmor_plus_mask, pgm_read_byte(&frameSequence[helena.frame]));

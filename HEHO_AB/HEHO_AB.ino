@@ -23,6 +23,7 @@
 #include "elements.h"
 #include "enemies.h"
 #include "waves.h"
+#include "collision.h"
 
 typedef void (*FunctionPointer) ();
 

@@ -37,7 +37,7 @@ ATMsynth ATM;
 byte gameState = STATE_MENU_INTRO;                             // start the game with the TEAM a.r.g. logo
 byte globalCounter = 0;
 const unsigned char PROGMEM frameSequence[4] = {0, 1, 2, 1};   // this is the frame frequence we are using for the walking animations
-unsigned long scorePlayer;
+unsigned long playerScore;
 boolean menuX = true;
 boolean menuY = false;
 byte currentWave;
@@ -47,8 +47,8 @@ void drawScore(byte x, byte y)
 {
   sprites.drawPlusMask(x, y, uiScroll_plus_mask, 0);
   char buf[10];
-  //scorePlayer = arduboy.cpuLoad();
-  ltoa(scorePlayer, buf, 10);
+  //playerScore = arduboy.cpuLoad();
+  ltoa(playerScore, buf, 10);
   char charLen = strlen(buf);
   char pad = 8 - charLen;
 
