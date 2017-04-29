@@ -5,7 +5,7 @@
 #include "globals.h"
 
 #define FLOORPART_Y                                       48
-#define FLOORWEED_Y                                       41
+#define FLOORWEED_Y                                       40
 #define TORCHHANDLE_Y                                     20
 #define TORCHFLAME_Y                                      4
 
@@ -145,7 +145,8 @@ void drawFloorWeed()
 {
   if (arduboy.everyXFrames(2)) floorWeed.x--;
   if (floorWeed.x < -512) floorWeed.x = 128;
-  sprites.drawPlusMask (floorWeed.x, FLOORWEED_Y, dungeonWeed_plus_mask, 0);
+  sprites.drawPlusMask (floorWeed.x, FLOORWEED_Y, monsterWeed_plus_mask, 0);
+  sprites.drawErase (floorWeed.x, FLOORWEED_Y+8, weedMask, 0);
 }
 
 

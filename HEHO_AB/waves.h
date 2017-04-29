@@ -42,9 +42,11 @@ boolean checkEndWave()
   {
     test += bitRead(spike[i].characteristics, 7);
   }
+  test += bitRead(badWalkingFlame.characteristics, 7);
   test += bitRead(badFlame.characteristics, 7);
   test += bitRead(statue.characteristics, 7);
   test += bitRead(arrow.characteristics, 7);
+  test += bitRead(badWeed.characteristics, 7);
   for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++)
   {
     test += goldBar[i].active;
@@ -127,7 +129,23 @@ void wave006()
 {
   if (checkFlamePosition())
   {
-    if (checkStartWave()) badFlameSetInLine();
+    if (checkStartWave()) badWalkingFlameSetInLine();
+  }
+  if (badWalkingFlame.characteristics)
+  {
+    updateBadWalkingFlame();
+    checkEndWave();
+  }
+}
+
+void wave007()
+{
+  if (currentWave != previousWave)
+  {
+    if (checkFlamePosition())
+    {
+      if (checkStartWave()) badFlameSetInLine();
+    }
   }
   if (badFlame.characteristics)
   {
@@ -136,7 +154,7 @@ void wave006()
   }
 }
 
-void wave007()
+void wave008()
 {
   if (checkStartWave())
   {
@@ -146,7 +164,17 @@ void wave007()
   checkEndWave();
 }
 
-void wave008()
+void wave009()
+{
+  if (checkStartWave())
+  {
+    badWeedSetInLine();
+  }
+  updateBadWeed();
+  checkEndWave();
+}
+
+void wave200()
 {
   if (checkStartWave())
   {
@@ -174,9 +202,10 @@ const FunctionPointer PROGMEM allWaves[] =
   wave004,
   wave005,
   wave006,
-  wave006,
   wave007,
   wave008,
+  wave009,
+  wave200,
   wave255,
 };
 

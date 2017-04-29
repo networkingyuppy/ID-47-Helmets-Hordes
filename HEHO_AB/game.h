@@ -22,6 +22,8 @@ void stateMenuPlay()
   setTorchHandles();
   setTorchFlames();
   setBadFlame();
+  setBadWalkingFlame();
+  setBadWeed();
 
   setGoldBars();
   currentWave = WAVE_TO_START_WITH;
@@ -39,17 +41,21 @@ void stateGamePlaying()
   updateHelena();
 
   ((FunctionPointer) pgm_read_word (&allWaves[currentWave]))();
-
+  
+  drawBricks();
+  drawBadWeed();
+  drawFloorWeed();
   drawFloorPart();
   drawSpikes();
-  drawFloorWeed();
+  //drawFloorWeed();
 
 
-  drawBricks();
+  //drawBricks();
   drawTorchHandles();
   drawTorchFlames();
   drawGoldBars();
   drawBadFlame();
+  drawBadWalkingFlame();
 
   drawOrcs();
   drawStatueFront();

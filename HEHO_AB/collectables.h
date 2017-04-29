@@ -54,7 +54,7 @@ goldBarSetInLine()
     goldBar[i].x = 128 + (16*i);
     goldBar[i].y = 28;
     goldBar[i].isVisible = true;
-    goldBar[i].active = false;
+    goldBar[i].active = true;
   }
 }
 

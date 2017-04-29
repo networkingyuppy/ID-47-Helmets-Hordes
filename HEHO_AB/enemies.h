@@ -7,8 +7,10 @@
 
 #define ENEMY_LEFT_OFFSCREEN_LIMIT              -32
 #define FLAME_FALL_OFF_LIMIT                    102
+#define WEED_HIDING_LIMIT                       102
 #define ENEMY_START_X                           144
 #define BADFLAME_START_X                        128
+#define BADWEED_START_X                         128
 
 #define MAX_ORCS_IN_WAVE                        9
 #define MAX_SPIKES_IN_WAVE                      3
@@ -18,6 +20,7 @@
 #define BADFLAME_Y                              4
 #define STATUE_Y                                32
 #define ARROW_Y                                 40
+#define BADWEED_Y                               40
 
 #define ENEMY_ORC_NO_SPEAR                      0
 #define ENEMY_ORC_FLAT_SPEAR                    1
@@ -27,11 +30,20 @@
 #define BADFLAME_FALLING                        1
 #define BADFLAME_RUNNING                        2
 
+#define BADWEED_HIDING                          0
+#define BADWEED_PEEKING                         1
+#define BADWEED_SHOWING                         2
+
 #define BADFLAME_TOTAL_FALING_FRAMES            10
+#define BADWEED_TOTAL_PEEKING_FRAMES            9
 
 byte orcFrames;
+byte weedFrame;
 
 const unsigned char PROGMEM flameJumpSequence[] = {3, 0, 0, 0, 3, 6, 10, 15, 21, 32};
+const unsigned char PROGMEM weedPeekSequence[] = {34, 34, 30, 30, 28 , 30, 30 , 32, 32};
+
+
 
 //////// Orc functions ///////////////////
 //////////////////////////////////////////
@@ -191,9 +203,9 @@ void drawSpikes()
   }
 }
 
-//////// Bad Flame functions /////////////
+//////// Bad Walking Flame functions /////
 //////////////////////////////////////////
-struct BadFlames
+struct BadWalkingFlames
 {
   public:
     int x;
@@ -211,6 +223,98 @@ struct BadFlames
     //                          └-------->  7 the enemy is alive    (0 = false / 1 = true)
 };
 
+BadWalkingFlames badWalkingFlame;
+
+void setBadWalkingFlame()
+{
+  badWalkingFlame =
+  {
+    BADFLAME_START_X,
+    BADFLAME_Y,
+    0,
+    0,
+  };
+}
+
+void updateBadWalkingFlame()
+{
+  switch (badWalkingFlame.characteristics & 0B00000011)
+  {
+    case BADFLAME_ON_TORCH:
+      if (arduboy.everyXFrames(3))
+      {
+
+        if (badWalkingFlame.x > FLAME_FALL_OFF_LIMIT) badWalkingFlame.x--;
+        else badWalkingFlame.characteristics++;
+      }
+      break;
+    case BADFLAME_FALLING:
+      if (arduboy.everyXFrames(WALKINGSPEED))
+      {
+        badWalkingFlame.x -= 3;
+        if (badWalkingFlame.fallingFrame < BADFLAME_TOTAL_FALING_FRAMES)
+        {
+          badWalkingFlame.y = pgm_read_byte(&flameJumpSequence[badWalkingFlame.fallingFrame]);
+          badWalkingFlame.fallingFrame++;
+        }
+        else
+        {
+          badWalkingFlame.fallingFrame = 0;
+          badWalkingFlame.characteristics++;
+        }
+      }
+      break;
+    case BADFLAME_RUNNING:
+      if (arduboy.everyXFrames(WALKINGSPEED))
+      {
+        if (badWalkingFlame.x > ENEMY_LEFT_OFFSCREEN_LIMIT) badWalkingFlame.x -= 3;
+        else
+        {
+          badWalkingFlame.x = BADFLAME_START_X;
+          badWalkingFlame.y = BADFLAME_Y;
+          badWalkingFlame.characteristics = 0;
+        }
+      }
+      break;
+  }
+}
+
+void badWalkingFlameSetInLine()
+{
+  badWalkingFlame.characteristics = 0;
+  bitSet(badWalkingFlame.characteristics, 4);
+  bitSet(badWalkingFlame.characteristics, 6);
+  bitSet(badWalkingFlame.characteristics, 7);
+  badWalkingFlame.x = BADFLAME_START_X;
+}
+
+void drawBadWalkingFlame()
+{
+  if (bitRead(badWalkingFlame.characteristics, 4))
+  {
+    sprites.drawPlusMask(badWalkingFlame.x, badWalkingFlame.y, monsterFlame_plus_mask, flameFrame);
+  }
+}
+
+//////// Bad Flame functions /////////////
+//////////////////////////////////////////
+struct BadFlames
+{
+  public:
+    int x;
+    byte y;
+    byte characteristics;   //0b00000000;   //this byte holds all the bad flame characteristics
+    //                          ||||||||
+    //                          |||||||└->  0
+    //                          ||||||└-->  1
+    //                          |||||└--->  2
+    //                          ||||└---->  3
+    //                          |||└----->  4 the enemy is visible  (0 = false / 1 = true)
+    //                          ||└------>  5 the enemy is dying    (0 = false / 1 = true)
+    //                          |└------->  6 the enemy is imune    (0 = false / 1 = true)
+    //                          └-------->  7 the enemy is alive    (0 = false / 1 = true)
+};
+
 BadFlames badFlame;
 
 void setBadFlame()
@@ -220,50 +324,21 @@ void setBadFlame()
     BADFLAME_START_X,
     BADFLAME_Y,
     0,
-    0,
   };
 }
 
 void updateBadFlame()
 {
-  switch (badFlame.characteristics & 0B00000011)
+  if (arduboy.everyXFrames(3))
   {
-    case BADFLAME_ON_TORCH:
-      if (arduboy.everyXFrames(3))
-      {
 
-        if (badFlame.x > FLAME_FALL_OFF_LIMIT) badFlame.x--;
-        else badFlame.characteristics++;
-      }
-      break;
-    case BADFLAME_FALLING:
-      if (arduboy.everyXFrames(WALKINGSPEED))
-      {
-        badFlame.x -= 3;
-        if (badFlame.fallingFrame < BADFLAME_TOTAL_FALING_FRAMES)
-        {
-          badFlame.y = pgm_read_byte(&flameJumpSequence[badFlame.fallingFrame]);
-          badFlame.fallingFrame++;
-        }
-        else
-        {
-          badFlame.fallingFrame = 0;
-          badFlame.characteristics++;
-        }
-      }
-      break;
-    case BADFLAME_RUNNING:
-      if (arduboy.everyXFrames(WALKINGSPEED))
-      {
-        if (badFlame.x > ENEMY_LEFT_OFFSCREEN_LIMIT) badFlame.x -= 3;
-        else
-        {
-          badFlame.x = BADFLAME_START_X;
-          badFlame.y = BADFLAME_Y;
-          badFlame.characteristics = 0;
-        }
-      }
-      break;
+    if (badFlame.x > ENEMY_LEFT_OFFSCREEN_LIMIT) badFlame.x--;
+    else
+    {
+      badFlame.x = BADFLAME_START_X;
+      badFlame.y = BADFLAME_Y;
+      badFlame.characteristics = 0;
+    }
   }
 }
 
@@ -280,18 +355,7 @@ void drawBadFlame()
 {
   if (bitRead(badFlame.characteristics, 4))
   {
-    switch (badFlame.characteristics & 0B00000011)
-    {
-      case BADFLAME_ON_TORCH:
-        sprites.drawPlusMask(badFlame.x, badFlame.y, monsterFlame_plus_mask, flameFrame);
-        break;
-      case BADFLAME_FALLING:
-        sprites.drawPlusMask(badFlame.x, badFlame.y, monsterFlame_plus_mask, flameFrame);
-        break;
-      case BADFLAME_RUNNING:
-        sprites.drawPlusMask(badFlame.x, badFlame.y, monsterFlame_plus_mask, flameFrame);
-        break;
-    }
+    sprites.drawPlusMask(badFlame.x, badFlame.y, monsterFlame_plus_mask, flameFrame);
   }
 }
 
@@ -392,5 +456,114 @@ void drawArrows()
   }
 }
 
+//////// Bad Weed functions ///////////
+///////////////////////////////////////
+struct BadWeeds
+{
+  public:
+    int x;
+    byte y;
+    byte peekingFrame;
+    byte weedFrame;
+    byte characteristics;   //0b00000000;   //this byte holds all the bad weed characteristics
+    //                          ||||||||
+    //                          |||||||└->  0 \
+    //                          ||||||└-->  1 / Weed type: 0 = hidding | 1 = peeking | 2 = showing
+    //                          |||||└--->  2
+    //                          ||||└---->  3
+    //                          |||└----->  4 the enemy is visible  (0 = false / 1 = true)
+    //                          ||└------>  5 the enemy is dying    (0 = false / 1 = true)
+    //                          |└------->  6 the enemy is imune    (0 = false / 1 = true)
+    //                          └-------->  7 the enemy is alive    (0 = false / 1 = true)
+};
 
+BadWeeds badWeed;
+
+void setBadWeed()
+{
+  badWeed =
+  {
+    BADWEED_START_X,
+    BADWEED_Y,
+    0,
+    0,
+    0,
+  };
+}
+
+void updateBadWeed()
+{
+  switch (badWeed.characteristics & 0B00000011)
+  {
+    case BADWEED_HIDING:
+      if (arduboy.everyXFrames(2))
+      {
+
+        if (badWeed.x > WEED_HIDING_LIMIT) badWeed.x--;
+        else badWeed.characteristics++;
+      }
+      break;
+    case BADWEED_PEEKING:
+      if (arduboy.everyXFrames(4)) badWeed.weedFrame = (++badWeed.weedFrame) % 4;
+      if (arduboy.everyXFrames(2))
+      {
+        badWeed.x--;
+        if (badWeed.peekingFrame < BADWEED_TOTAL_PEEKING_FRAMES)
+        {
+          badWeed.y = pgm_read_byte(&weedPeekSequence[badWeed.peekingFrame]);
+          badWeed.peekingFrame++;
+        }
+        else
+        {
+          badWeed.peekingFrame = 0;
+          badWeed.weedFrame = 0;
+          badWeed.characteristics++;
+        }
+      }
+      break;
+    case BADWEED_SHOWING:
+      if (arduboy.everyXFrames(2))
+      {
+        if (badWeed.x > ENEMY_LEFT_OFFSCREEN_LIMIT) badWeed.x--;
+        else
+        {
+          badWeed.x = BADWEED_START_X;
+          badWeed.y = BADWEED_Y;
+          badWeed.characteristics = 0;
+        }
+      }
+      break;
+  }
+}
+
+void badWeedSetInLine()
+{
+  badWeed.characteristics = 0;
+  bitSet(badWeed.characteristics, 4);
+  bitSet(badWeed.characteristics, 6);
+  bitSet(badWeed.characteristics, 7);
+  badWeed.x = BADWEED_START_X;
+}
+
+void drawBadWeed()
+{
+  if (bitRead(badWeed.characteristics, 4))
+  {
+    switch (badWeed.characteristics & 0B00000011)
+    {
+      case BADWEED_HIDING:
+        sprites.drawPlusMask(badWeed.x, badWeed.y, monsterWeed_plus_mask, badWeed.weedFrame);
+        sprites.drawErase (badWeed.x, FLOORWEED_Y + 8, weedMask, 0);
+        break;
+      case BADWEED_PEEKING:
+        sprites.drawPlusMask(badWeed.x, badWeed.y, monsterWeed_plus_mask, badWeed.weedFrame);
+        sprites.drawErase (badWeed.x, FLOORWEED_Y + 8, weedMask, 0);
+        break;
+      case BADWEED_SHOWING:
+        sprites.drawPlusMask(badWeed.x, badWeed.y, monsterWeed_plus_mask, badWeed.weedFrame);
+        sprites.drawErase (badWeed.x, FLOORWEED_Y + 8, weedMask, 0);
+        break;
+    }
+  }
+}
 #endif
