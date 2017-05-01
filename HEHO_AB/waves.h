@@ -34,24 +34,14 @@ boolean checkFlamePosition()
 boolean checkEndWave()
 {
   byte test = 0;
-  for (byte i = 0; i < MAX_ORCS_IN_WAVE; i++)
-  {
-    test += bitRead(orc[i].characteristics, 7);
-  }
-  for (byte i = 0; i < MAX_SPIKES_IN_WAVE; i++)
-  {
-    test += bitRead(spike[i].characteristics, 7);
-  }
+  for (byte i = 0; i < MAX_ORCS_IN_WAVE; i++) test += bitRead(orc[i].characteristics, 7);
+  for (byte i = 0; i < MAX_SPIKES_IN_WAVE; i++) test += bitRead(spike[i].characteristics, 7);
   test += bitRead(badWalkingFlame.characteristics, 7);
   test += bitRead(badFlame.characteristics, 7);
   test += bitRead(statue.characteristics, 7);
   test += bitRead(arrow.characteristics, 7);
   test += bitRead(badWeed.characteristics, 7);
-  for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++)
-  {
-    test += goldBar[i].active;
-  }
-
+  for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++) test += bitRead(goldBar[i].characteristics, 7);
   if (test < 1) currentWave++;
 }
 
@@ -195,16 +185,16 @@ void wave255()
 typedef void (*FunctionPointer) ();
 const FunctionPointer PROGMEM allWaves[] =
 {
-  wave000,
-  wave001,
-  wave002,
-  wave003,
-  wave004,
-  wave005,
-  wave006,
-  wave007,
-  wave008,
-  wave009,
+  //wave000,
+  //wave001,
+  //wave002,
+  //wave003,
+  //wave004,
+  //wave005,
+  //wave006,
+  //wave007,
+  //wave008,
+  //wave009,
   wave200,
   wave255,
 };

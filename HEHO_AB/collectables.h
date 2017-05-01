@@ -6,8 +6,8 @@
 
 #define MAX_ONSCREEN_GOLDBARS                             9
 
-#define GOLD_COLLISION_WIDTH                              8
-#define GOLD_COLLISION_HEIGHT                             12
+#define GOLDBAR_COLLISION_WIDTH                           10
+#define GOLDBAR_COLLISION_HEIGHT                          16
 
 
 byte goldBarFrames = 0;
@@ -18,8 +18,16 @@ struct DifferentItems
   public:
     int x;
     byte y;
-    boolean isVisible;
-    boolean active;
+    byte characteristics;   //0b00000000;   //this byte holds all the orc characteristics
+    //                          ||||||||
+    //                          |||||||└->  0
+    //                          ||||||└-->  1
+    //                          |||||└--->  2
+    //                          ||||└---->  3
+    //                          |||└----->  4 the enemy is visible  (0 = false / 1 = true)
+    //                          ||└------>  5
+    //                          |└------->  6
+    //                          └-------->  7 the enemy is active    (0 = false / 1 = true)
 };
 
 DifferentItems goldBar[MAX_ONSCREEN_GOLDBARS];
@@ -31,8 +39,7 @@ void setGoldBars()
   {
     goldBar[i].x = 128;
     goldBar[i].y = 28;
-    goldBar[i].isVisible = false;
-    goldBar[i].active = false;
+    goldBar[i].characteristics = 0;
   }
 }
 
@@ -45,8 +52,7 @@ void updateGoldBars()
     if (goldBar[i].x < -16)
     {
       goldBar[i].x = 128;
-      goldBar[i].active = false;
-      goldBar[i].isVisible = false;
+      goldBar[i].characteristics = 0;
     }
   }
 }
@@ -55,10 +61,9 @@ goldBarSetInLine()
 {
   for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++)
   {
-    goldBar[i].x = 128 + (16*i);
+    goldBar[i].x = 128 + (16 * i);
     goldBar[i].y = 28;
-    goldBar[i].isVisible = true;
-    goldBar[i].active = true;
+    goldBar[i].characteristics = 0b10010000;
   }
 }
 
@@ -67,7 +72,7 @@ void drawGoldBars()
 
   for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++)
   {
-    if (goldBar[i].isVisible == true)
+    if (bitRead(goldBar[i].characteristics, 4))
     {
       sprites.drawPlusMask(goldBar[i].x, goldBar[i].y, treasureBar_plus_mask,  pgm_read_byte(&goldBarSequence[(goldBarFrames) % 8]));
     }

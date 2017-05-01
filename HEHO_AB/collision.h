@@ -219,19 +219,12 @@ void checkCollisions()
   //////////////////////////////////////////////
   enemyRect =
   {
-    .x = badWeed.x+2,
-    .y = badWeed.y+8,
+    .x = badWeed.x + 2,
+    .y = badWeed.y + 8,
     .width = BADWEED_COLLISION_WIDTH,
     .height = BADWEED_COLLISION_HEIGHT
   };
 
-  arduboy.drawRect(
-    badWeed.x+2,
-    badWeed.y+8,
-    BADWEED_COLLISION_WIDTH,
-    BADWEED_COLLISION_HEIGHT
-  );
-  
   if (bitRead(badWeed.characteristics, 4) && !bitRead(badWeed.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
   {
     if (!helena.isImune)
@@ -243,6 +236,26 @@ void checkCollisions()
     if (!bitRead(badWeed.characteristics, 6))
     {
       bitSet(badWeed.characteristics, 5);
+    }
+  }
+  ////// Check collision Helena with goldbars //////
+  //////////////////////////////////////////////////
+  for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++)
+  {
+    enemyRect =
+    {
+      .x = goldBar[i].x - 2,
+      .y = goldBar[i].y - 2,
+      .width = GOLDBAR_COLLISION_WIDTH,
+      .height = GOLDBAR_COLLISION_HEIGHT
+    };
+    if (bitRead(goldBar[i].characteristics, 4) && !bitRead(goldBar[i].characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
+    {
+      if (!helena.isImune)
+      {
+        playerScore += 200;
+        goldBar[i].characteristics = 0;
+      }
     }
   }
 
