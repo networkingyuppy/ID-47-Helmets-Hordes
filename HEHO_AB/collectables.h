@@ -20,9 +20,9 @@ struct DifferentItems
     byte y;
     byte characteristics;   //0b00000000;   //this byte holds all the orc characteristics
     //                          ||||||||
-    //                          |||||||└->  0
-    //                          ||||||└-->  1
-    //                          |||||└--->  2
+    //                          |||||||└->  0 \
+    //                          ||||||└-->  1  | type of item ( 0 to 7 )
+    //                          |||||└--->  2 /
     //                          ||||└---->  3
     //                          |||└----->  4 the enemy is visible  (0 = false / 1 = true)
     //                          ||└------>  5
@@ -31,6 +31,7 @@ struct DifferentItems
 };
 
 DifferentItems goldBar[MAX_ONSCREEN_GOLDBARS];
+DifferentItems helmetPickUp;
 
 
 void setGoldBars()
@@ -78,5 +79,39 @@ void drawGoldBars()
     }
   }
 }
+
+
+void setHelmetPickUp()
+{
+  HelmetPickUp.x = 128;
+  HelmetPickUp.y = 28;
+  HelmetPickUp.characteristics = 0;
+}
+
+void updateHelmetPickUp()
+{
+  if (arduboy.everyXFrames(2))HelmetPickUp.x--;
+  if (HelmetPickUp.x < -16)
+  {
+    HelmetPickUp.x = 128;
+    HelmetPickUp.characteristics = 0;
+  }
+}
+
+helmetPickUpSetInLine(byte type)
+{
+  HelmetPickUp.x = 128;
+  HelmetPickUp.y = 28;
+  HelmetPickUp.characteristics = 0b10010000 + type;
+}
+
+void drawhelmetPickUp()
+{
+  if (bitRead(HelmetPickUp.characteristics, 4))
+  {
+    sprites.drawPlusMask(HelmetPickUp.x, HelmetPickUp.y, playerHelmets_plus_mask, HelmetPickUp.characteristics & 0b00000111);
+  }
+}
+
 
 #endif

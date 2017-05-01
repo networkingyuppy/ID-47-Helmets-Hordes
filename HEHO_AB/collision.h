@@ -9,39 +9,14 @@
 void checkCollisions()
 {
   Rect helenaRect;
-  if (helena.jumping)
-  {
-    helenaRect =
-    {
-      .x = helena.x + HELENA_COLLISION_X_OFFSET,
-      .y = helena.y + HELENA_COLLISION_Y_OFFSET - 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]),
-      .width = HELENA_COLLISION_WIDTH,
-      .height = HELENA_COLLISION_HEIGHT
-    };
-    arduboy.drawRect(
-      helena.x + HELENA_COLLISION_X_OFFSET,
-      helena.y + HELENA_COLLISION_Y_OFFSET - 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]),
-      HELENA_COLLISION_WIDTH,
-      HELENA_COLLISION_HEIGHT,
-      WHITE
-    );
-  }
-  else
-  {
-    helenaRect = {
-      .x = helena.x + HELENA_COLLISION_X_OFFSET,
-      .y = helena.y + HELENA_COLLISION_Y_OFFSET + (helena.frame % 2),
-      .width = HELENA_COLLISION_WIDTH,
-      .height = HELENA_COLLISION_HEIGHT
-    };
-    arduboy.drawRect(
-      helena.x + HELENA_COLLISION_X_OFFSET,
-      helena.y + HELENA_COLLISION_Y_OFFSET + (helena.frame % 2),
-      HELENA_COLLISION_WIDTH,
-      HELENA_COLLISION_HEIGHT,
-      WHITE
-    );
-  }
+  helenaRect = {
+    .x = helena.x + HELENA_COLLISION_X_OFFSET,
+    .y = 0,
+    .width = HELENA_COLLISION_WIDTH,
+    .height = HELENA_COLLISION_HEIGHT
+  };
+  if (helena.jumping) helenaRect.y = helena.y + HELENA_COLLISION_Y_OFFSET - 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]);
+  else helenaRect.y = helena.y + HELENA_COLLISION_Y_OFFSET + (helena.frame % 2);
 
   ////// Check collision weapon with enemies /////
   ////////////////////////////////////////////////
