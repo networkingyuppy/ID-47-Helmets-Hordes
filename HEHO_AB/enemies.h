@@ -28,21 +28,19 @@
 #define SPEAR_F_COLLISION_WIDTH                 28
 #define SPEAR_U_COLLISION_WIDTH                 3
 #define SPIKE_COLLISION_WIDTH                   8
-#define BADWALKINGFLAME_COLLISION_WIDTH         12
-#define BADFLAME_COLLISION_WIDTH                80
-#define STATUE_COLLISION_WIDTH                  80
-#define ARROW_COLLISION_WIDTH                   80
-#define BADWEED_COLLISION_WIDTH                 80
+#define BADFLAME_COLLISION_WIDTH                12
+#define STATUE_COLLISION_WIDTH                  1
+#define ARROW_COLLISION_WIDTH                   16
+#define BADWEED_COLLISION_WIDTH                 12
 
 #define ORC_COLLISION_HEIGHT                    18
 #define SPEAR_F_COLLISION_HEIGHT                3
 #define SPEAR_U_COLLISION_HEIGHT                24
 #define SPIKE_COLLISION_HEIGHT                  8
-#define BADWALKINGFLAME_COLLISION_HEIGHT        12
-#define BADFLAME_COLLISION_HEIGHT               80
-#define STATUE_COLLISION_HEIGHT                 80
-#define ARROW_COLLISION_HEIGHT                  80
-#define BADWEED_COLLISION_HEIGHT                80
+#define BADFLAME_COLLISION_HEIGHT               12
+#define STATUE_COLLISION_HEIGHT                 16
+#define ARROW_COLLISION_HEIGHT                  4
+#define BADWEED_COLLISION_HEIGHT                8
 
 #define ENEMY_ORC_NO_SPEAR                      0
 #define ENEMY_ORC_FLAT_SPEAR                    1

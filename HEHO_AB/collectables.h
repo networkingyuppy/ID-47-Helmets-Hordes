@@ -6,6 +6,10 @@
 
 #define MAX_ONSCREEN_GOLDBARS                             9
 
+#define GOLD_COLLISION_WIDTH                              8
+#define GOLD_COLLISION_HEIGHT                             12
+
+
 byte goldBarFrames = 0;
 const unsigned char PROGMEM goldBarSequence[] = {0, 1, 2, 3, 4, 3, 2, 1};
 

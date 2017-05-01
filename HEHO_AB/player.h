@@ -26,9 +26,9 @@
 
 #define HELENA_IMUNE_TIME                          30
 
-#define HELENA_COLLISION_X_OFFSET                   2
+#define HELENA_COLLISION_X_OFFSET                   3
 #define HELENA_COLLISION_Y_OFFSET                   -2
-#define HELENA_COLLISION_WIDTH                      10
+#define HELENA_COLLISION_WIDTH                      8
 #define HELENA_COLLISION_HEIGHT                     14
 
 
@@ -95,7 +95,10 @@ void updateHelena()
       helena.jumping = false;
     }
   }
+  else if (helena.x < HELENA_START_X && arduboy.everyXFrames(2)) helena.x++;
   if (arduboy.everyXFrames(WALKINGSPEED * 3)) helena.frame = (++helena.frame) % 4;
+  if (helena.x < 1) helena.life = HELENA_DEAD;
+  if (helena.life == HELENA_DEAD) gameState = STATE_MENU_MAIN;
 }
 
 void drawHelena()

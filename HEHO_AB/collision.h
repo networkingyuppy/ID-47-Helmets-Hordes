@@ -104,8 +104,6 @@ void checkCollisions()
       }
     }
   }
-
-
   ////// Check collision Helena with Spikes //////
   ////////////////////////////////////////////////
   for (byte i = 0; i < MAX_SPIKES_IN_WAVE; i++)
@@ -133,21 +131,13 @@ void checkCollisions()
   }
   ////// Check collision Helena with Flames //////
   ////////////////////////////////////////////////
-  
   enemyRect =
   {
-    .x = badWalkingFlame.x,
-    .y = badWalkingFlame.y,
-    .width = BADWALKINGFLAME_COLLISION_WIDTH,
-    .height = BADWALKINGFLAME_COLLISION_HEIGHT
+    .x = badWalkingFlame.x + 2,
+    .y = badWalkingFlame.y + 4,
+    .width = BADFLAME_COLLISION_WIDTH,
+    .height = BADFLAME_COLLISION_HEIGHT
   };
-  
-  arduboy.drawRect(
-    badWalkingFlame.x,
-    badWalkingFlame.y,
-    BADWALKINGFLAME_COLLISION_WIDTH,
-    BADWALKINGFLAME_COLLISION_HEIGHT
-  );
 
   if (bitRead(badWalkingFlame.characteristics, 4) && !bitRead(badWalkingFlame.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
   {
@@ -163,6 +153,103 @@ void checkCollisions()
     }
   }
 
+  enemyRect =
+  {
+    .x = badFlame.x + 2,
+    .y = badFlame.y + 4,
+    .width = BADFLAME_COLLISION_WIDTH,
+    .height = BADFLAME_COLLISION_HEIGHT
+  };
+  if (bitRead(badFlame.characteristics, 4) && !bitRead(badFlame.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
+  {
+    if (!helena.isImune)
+    {
+      helena.isImune = true;
+      playerScore = 0;
+      //helena.life--;
+    }
+    if (!bitRead(badFlame.characteristics, 6))
+    {
+      bitSet(badFlame.characteristics, 5);
+    }
+  }
+  ////// Check collision Helena with Statue //////
+  ////////////////////////////////////////////////
+  enemyRect =
+  {
+    .x = statue.x,
+    .y = STATUE_Y,
+    .width = STATUE_COLLISION_WIDTH,
+    .height = STATUE_COLLISION_HEIGHT
+  };
+  if (bitRead(statue.characteristics, 4) && !bitRead(statue.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
+  {
+    if (!helena.isImune)
+    {
+      //helena.isImune = true;
+      helena.x--;
+    }
+    if (!bitRead(statue.characteristics, 6))
+    {
+      bitSet(statue.characteristics, 5);
+    }
+  }
+
+  enemyRect =
+  {
+    .x = arrow.x,
+    .y = ARROW_Y,
+    .width = ARROW_COLLISION_WIDTH,
+    .height = ARROW_COLLISION_HEIGHT
+  };
+  if (bitRead(arrow.characteristics, 4) && !bitRead(arrow.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
+  {
+    if (!helena.isImune)
+    {
+      helena.isImune = true;
+      playerScore = 0;
+      //helena.life--;
+    }
+    if (!bitRead(arrow.characteristics, 6))
+    {
+      bitSet(arrow.characteristics, 5);
+    }
+  }
+  ////// Check collision Helena with Weed //////
+  //////////////////////////////////////////////
+  enemyRect =
+  {
+    .x = badWeed.x+2,
+    .y = badWeed.y+8,
+    .width = BADWEED_COLLISION_WIDTH,
+    .height = BADWEED_COLLISION_HEIGHT
+  };
+
+  arduboy.drawRect(
+    badWeed.x+2,
+    badWeed.y+8,
+    BADWEED_COLLISION_WIDTH,
+    BADWEED_COLLISION_HEIGHT
+  );
+  
+  if (bitRead(badWeed.characteristics, 4) && !bitRead(badWeed.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
+  {
+    if (!helena.isImune)
+    {
+      helena.isImune = true;
+      playerScore = 0;
+      //helena.life--;
+    }
+    if (!bitRead(badWeed.characteristics, 6))
+    {
+      bitSet(badWeed.characteristics, 5);
+    }
+  }
+
+
+
+
+  // end of collision detection
 }
 
 
