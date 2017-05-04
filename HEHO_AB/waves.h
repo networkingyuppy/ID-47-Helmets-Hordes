@@ -185,16 +185,16 @@ void wave255()
 typedef void (*FunctionPointer) ();
 const FunctionPointer PROGMEM allWaves[] =
 {
-  //wave000,
-  //wave001,
-  //wave002,
-  //wave003,
-  //wave004,
-  //wave005,
-  //wave006,
-  //wave007,
-  //wave008,
-  //wave009,
+  wave000,
+  wave001,
+  wave002,
+  wave003,
+  wave004,
+  wave005,
+  wave006,
+  wave007,
+  wave008,
+  wave009,
   wave200,
   wave255,
 };
