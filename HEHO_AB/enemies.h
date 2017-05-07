@@ -55,13 +55,13 @@
 #define BADWEED_RUNNING                         2
 
 #define BADFLAME_TOTAL_FALING_FRAMES            10
-#define BADWEED_TOTAL_PEEKING_FRAMES            8
+#define BADWEED_TOTAL_PEEKING_FRAMES            15
 
 byte orcFrames;
 
 const unsigned char PROGMEM flameJumpSequence[] = {3, 0, 0, 0, 3, 6, 10, 15, 21, 32};
-const unsigned char PROGMEM weedJumpSequence[] = {0, 7, 6, 4};
-const unsigned char PROGMEM weedFrameSequence[] = {0, 1, 2, 3, 0, 2, 2, 0};
+const unsigned char PROGMEM weedJumpSequence[] = {0, 0, 0, 0, 7, 7, 7, 7, 6, 6, 4};
+const unsigned char PROGMEM weedFrameSequence[] = {0, 1, 2, 3, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0};
 
 
 //////// Orc functions ///////////////////
@@ -524,8 +524,8 @@ void updateBadWeed()
       }
       break;
     case BADWEED_PEEKING:
-      if (arduboy.everyXFrames(WALKINGSPEED))
-      badWeed.weedFrame++;
+      if (arduboy.everyXFrames(2))
+        badWeed.weedFrame++;
       {
         badWeed.x--;
         if (badWeed.weedFrame < BADWEED_TOTAL_PEEKING_FRAMES)
@@ -540,8 +540,9 @@ void updateBadWeed()
       }
       break;
     case BADWEED_RUNNING:
-      if (arduboy.everyXFrames(4)) badWeed.weedFrame = (++badWeed.weedFrame) % 4;
+      if (arduboy.everyXFrames(4))badWeed.weedFrame = (++badWeed.weedFrame) % 4;
       if (arduboy.everyXFrames(WALKINGSPEED))
+
       {
         if (badWeed.x > ENEMY_LEFT_OFFSCREEN_LIMIT) badWeed.x -= 3;
         else
