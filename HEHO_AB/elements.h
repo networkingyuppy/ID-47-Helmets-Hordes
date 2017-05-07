@@ -8,6 +8,7 @@
 #define FLOORWEED_Y                                       39
 #define TORCHHANDLE_Y                                     20
 #define TORCHFLAME_Y                                      4
+#define WINDOW_Y                                          3
 
 byte flameFrame = 0;
 
@@ -24,6 +25,7 @@ BackGroundStuff floorPart[3];
 BackGroundStuff torchHandles[2];
 BackGroundStuff torchFlames[2];
 BackGroundStuff floorWeed;
+BackGroundStuff window[2];
 
 
 struct ForGroundStuff
@@ -100,6 +102,11 @@ void setBricks()
   }
 }
 
+void setWindows()
+{
+  for (byte i = 0; i < 2; i++) window[i].x = 56 + (80 * i);
+}
+
 
 
 // Draw all elementes
@@ -146,7 +153,7 @@ void drawFloorWeed()
   if (arduboy.everyXFrames(2)) floorWeed.x--;
   if (floorWeed.x < -512) floorWeed.x = 128;
   sprites.drawPlusMask (floorWeed.x, FLOORWEED_Y, monsterWeed_plus_mask, 0);
-  sprites.drawErase (floorWeed.x, FLOORWEED_Y+9, weedMask, 0);
+  sprites.drawErase (floorWeed.x, FLOORWEED_Y + 9, weedMask, 0);
 }
 
 
@@ -169,5 +176,16 @@ void drawBricks()
     if (bricks[i].type < 3) sprites.drawSelfMasked (bricks[i].x, bricks[i].y, dungeonBricks, bricks[i].type);
   }
 }
+
+void drawWindows()
+{
+  for (byte i = 0; i < 2; i++)
+  {
+    if (arduboy.everyXFrames(3)) window[i].x--;
+    if (window[i].x < -31) window[i].x = 128;
+    sprites.drawSelfMasked (window[i].x, WINDOW_Y, dungeonWindow, 0);
+  }
+}
+
 
 #endif

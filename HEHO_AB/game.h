@@ -15,6 +15,7 @@ void stateMenuPlay()
 {
   setHelena();
   setFloorPart();
+  setWindows();
   setFLoorWeed();
   setSpikes();
   setOrcs();
@@ -45,6 +46,7 @@ void stateGamePlaying()
   ((FunctionPointer) pgm_read_word (&allWaves[currentWave]))();
   
   drawBricks();
+  drawWindows();
   drawBadWeed();
   drawFloorWeed();
   drawFloorPart();

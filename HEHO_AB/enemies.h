@@ -7,7 +7,7 @@
 
 #define ENEMY_LEFT_OFFSCREEN_LIMIT              -32
 #define FLAME_FALL_OFF_LIMIT                    102
-#define WEED_HIDING_LIMIT                       102
+#define WEED_HIDING_LIMIT                       80
 #define ENEMY_START_X                           144
 #define BADWALKINGFLAME_START_X                 128
 #define BADFLAME_START_X                        128
@@ -55,13 +55,13 @@
 #define BADWEED_RUNNING                         2
 
 #define BADFLAME_TOTAL_FALING_FRAMES            10
-#define BADWEED_TOTAL_PEEKING_FRAMES            9
+#define BADWEED_TOTAL_PEEKING_FRAMES            8
 
 byte orcFrames;
 
 const unsigned char PROGMEM flameJumpSequence[] = {3, 0, 0, 0, 3, 6, 10, 15, 21, 32};
-const unsigned char PROGMEM weedPeekSequence[] = {0, 7, 6, 4};
-const unsigned char PROGMEM weedJumpSequence[] = {0, 2, 2, 0};
+const unsigned char PROGMEM weedJumpSequence[] = {0, 7, 6, 4};
+const unsigned char PROGMEM weedFrameSequence[] = {0, 1, 2, 3, 0, 2, 2, 0};
 
 
 //////// Orc functions ///////////////////
@@ -482,7 +482,6 @@ struct BadWeeds
   public:
     int x;
     byte y;
-    byte peekingFrame;
     byte weedFrame;
     byte characteristics;   //0b00000000;   //this byte holds all the bad weed characteristics
     //                          ||||||||
@@ -504,7 +503,6 @@ void setBadWeed()
   {
     BADWEED_START_X,
     BADWEED_Y,
-    0,
     1,
     0,
   };
@@ -517,33 +515,35 @@ void updateBadWeed()
     case BADWEED_HIDING:
       if (arduboy.everyXFrames(2))
       {
-
         if (badWeed.x > WEED_HIDING_LIMIT) badWeed.x--;
-        else badWeed.characteristics++;
+        else
+        {
+          badWeed.weedFrame = 4;
+          badWeed.characteristics++;
+        }
       }
       break;
     case BADWEED_PEEKING:
-      if (arduboy.everyXFrames(4)) badWeed.weedFrame = (++badWeed.weedFrame) % 4;
-      if (arduboy.everyXFrames(2))
+      if (arduboy.everyXFrames(WALKINGSPEED))
+      badWeed.weedFrame++;
       {
         badWeed.x--;
-        if (badWeed.peekingFrame < BADWEED_TOTAL_PEEKING_FRAMES)
+        if (badWeed.weedFrame < BADWEED_TOTAL_PEEKING_FRAMES)
         {
-          badWeed.y = pgm_read_byte(&weedPeekSequence[badWeed.peekingFrame]);
-          badWeed.peekingFrame++;
+          badWeed.y = BADWEED_Y - pgm_read_byte(&weedJumpSequence[badWeed.weedFrame - 4]);
         }
         else
         {
-          badWeed.peekingFrame = 0;
           badWeed.weedFrame = 0;
           badWeed.characteristics++;
         }
       }
       break;
     case BADWEED_RUNNING:
-      if (arduboy.everyXFrames(2))
+      if (arduboy.everyXFrames(4)) badWeed.weedFrame = (++badWeed.weedFrame) % 4;
+      if (arduboy.everyXFrames(WALKINGSPEED))
       {
-        if (badWeed.x > ENEMY_LEFT_OFFSCREEN_LIMIT) badWeed.x--;
+        if (badWeed.x > ENEMY_LEFT_OFFSCREEN_LIMIT) badWeed.x -= 3;
         else
         {
           badWeed.x = BADWEED_START_X;
@@ -559,7 +559,6 @@ void badWeedSetInLine()
 {
   badWeed.characteristics = 0;
   badWeed.weedFrame = 1;
-  badWeed.peekingFrame = 0;
   bitSet(badWeed.characteristics, 4);
   bitSet(badWeed.characteristics, 6);
   bitSet(badWeed.characteristics, 7);
@@ -573,15 +572,15 @@ void drawBadWeed()
     switch (badWeed.characteristics & 0B00000011)
     {
       case BADWEED_HIDING:
-        sprites.drawPlusMask(badWeed.x, badWeed.y, monsterWeed_plus_mask, badWeed.weedFrame);
+        sprites.drawPlusMask(badWeed.x, badWeed.y, monsterWeed_plus_mask, pgm_read_byte(&weedFrameSequence[badWeed.weedFrame]));
         sprites.drawErase (badWeed.x, BADWEED_Y + 12, weedMask, 0);
         break;
       case BADWEED_PEEKING:
-        sprites.drawPlusMask(badWeed.x, badWeed.y, monsterWeed_plus_mask, badWeed.weedFrame);
+        sprites.drawPlusMask(badWeed.x, badWeed.y, monsterWeed_plus_mask, pgm_read_byte(&weedFrameSequence[badWeed.weedFrame]));
         sprites.drawErase (badWeed.x, BADWEED_Y + 12, weedMask, 0);
         break;
       case BADWEED_RUNNING:
-        sprites.drawPlusMask(badWeed.x, badWeed.y, monsterWeed_plus_mask, badWeed.weedFrame);
+        sprites.drawPlusMask(badWeed.x, badWeed.y, monsterWeed_plus_mask, pgm_read_byte(&weedFrameSequence[badWeed.weedFrame]));
         sprites.drawErase (badWeed.x, BADWEED_Y + 12, weedMask, 0);
         break;
     }
