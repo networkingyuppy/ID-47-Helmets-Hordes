@@ -85,7 +85,7 @@ void checkCollisions()
   {
     enemyRect =
     {
-      .x = spike[i].x + 3,
+      .x = spike[i].x + 4,
       .y = SPIKE_Y + 2,
       .width = SPIKE_COLLISION_WIDTH,
       .height = SPIKE_COLLISION_HEIGHT

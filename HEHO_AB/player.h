@@ -53,6 +53,7 @@ void setHelena()
   {
     HELENA_START_X, HELENA_START_Y,                     // start position
     HELENA_ARMOR,                                       // start life with armor
+    //HELENA_NAKED,
     0,                                                  // start animation at frame 0
     HELMET_NO_HELMET,                                   // start without a helmet
     WEAPON_SWORD,                                       // start with the sword
