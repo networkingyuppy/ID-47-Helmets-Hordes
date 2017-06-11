@@ -448,7 +448,7 @@ void statueSetInLine()
   bitSet(arrow.characteristics, 4);
   bitSet(arrow.characteristics, 6);
   bitSet(arrow.characteristics, 7);
-  arrow.x = ENEMY_START_X + 3;
+  arrow.x = ENEMY_START_X;
 }
 
 void drawStatueFront()
@@ -540,7 +540,7 @@ void updateBadWeed()
       }
       break;
     case BADWEED_RUNNING:
-      if (arduboy.everyXFrames(4))badWeed.weedFrame = (++badWeed.weedFrame) % 4;
+      if (arduboy.everyXFrames(6))badWeed.weedFrame = (++badWeed.weedFrame) % 4;
       if (arduboy.everyXFrames(WALKINGSPEED))
 
       {
@@ -570,21 +570,8 @@ void drawBadWeed()
 {
   if (bitRead(badWeed.characteristics, 4))
   {
-    switch (badWeed.characteristics & 0B00000011)
-    {
-      case BADWEED_HIDING:
-        sprites.drawPlusMask(badWeed.x, badWeed.y, monsterWeed_plus_mask, pgm_read_byte(&weedFrameSequence[badWeed.weedFrame]));
-        sprites.drawErase (badWeed.x, BADWEED_Y + 12, weedMask, 0);
-        break;
-      case BADWEED_PEEKING:
-        sprites.drawPlusMask(badWeed.x, badWeed.y, monsterWeed_plus_mask, pgm_read_byte(&weedFrameSequence[badWeed.weedFrame]));
-        sprites.drawErase (badWeed.x, BADWEED_Y + 12, weedMask, 0);
-        break;
-      case BADWEED_RUNNING:
-        sprites.drawPlusMask(badWeed.x, badWeed.y, monsterWeed_plus_mask, pgm_read_byte(&weedFrameSequence[badWeed.weedFrame]));
-        sprites.drawErase (badWeed.x, BADWEED_Y + 12, weedMask, 0);
-        break;
-    }
+    sprites.drawPlusMask(badWeed.x, badWeed.y, monsterWeed_plus_mask, pgm_read_byte(&weedFrameSequence[badWeed.weedFrame]));
+    sprites.drawErase (badWeed.x, BADWEED_Y + 12, weedMask, 0);
   }
 }
 #endif
