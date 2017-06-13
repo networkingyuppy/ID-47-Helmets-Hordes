@@ -58,14 +58,14 @@ void setTorchHandles()
 {
   torchHandles[0].x = 18;
   torchHandles[1].x = 98;
+  for (byte i = 0; i < 2; i++) torchHandles[i].isVisible = true;
 }
 
 void setTorchFlames()
 {
   torchFlames[0].x = 15;
   torchFlames[1].x = 95;
-  torchFlames[0].isVisible = true;
-  torchFlames[1].isVisible = true;
+  for (byte i = 0; i < 2; i++) torchFlames[i].isVisible = true;
 }
 
 void setFLoorWeed()
@@ -104,7 +104,11 @@ void setBricks()
 
 void setWindows()
 {
-  for (byte i = 0; i < 2; i++) window[i].x = 56 + (80 * i);
+  for (byte i = 0; i < 2; i++) 
+  {
+    window[i].x = 56 + (80 * i);
+    window[i].isVisible = random(2);
+  }
 }
 
 
@@ -128,8 +132,12 @@ void drawTorchHandles()
   for (byte i = 0; i < 2; i++)
   {
     if (arduboy.everyXFrames(3)) torchHandles[i].x--;
-    if (torchHandles[i].x < -31) torchHandles[i].x = 128;
-    sprites.drawSelfMasked (torchHandles[i].x, TORCHHANDLE_Y, torchHandle, 0);
+    if (torchHandles[i].x < -28)
+    {
+      torchHandles[i].x = 131;
+      torchHandles[i].isVisible = random(2);
+    }
+    if (torchHandles[i].isVisible)sprites.drawSelfMasked (torchHandles[i].x, TORCHHANDLE_Y, torchHandle, 0);
   }
 }
 
@@ -142,7 +150,7 @@ void drawTorchFlames()
     if (torchFlames[i].x < -31)
     {
       torchFlames[i].x = 128;
-      torchFlames[i].isVisible = true;
+      torchFlames[i].isVisible = torchHandles[i].isVisible;
     }
     if (torchFlames[i].isVisible)sprites.drawSelfMasked (torchFlames[i].x, TORCHFLAME_Y, torchFlame, flameFrame);
   }
@@ -182,8 +190,12 @@ void drawWindows()
   for (byte i = 0; i < 2; i++)
   {
     if (arduboy.everyXFrames(3)) window[i].x--;
-    if (window[i].x < -31) window[i].x = 128;
-    sprites.drawSelfMasked (window[i].x, WINDOW_Y, dungeonWindow, 0);
+    if (window[i].x < -31)
+    {
+      window[i].x = 128;
+      window[i].isVisible = random(2);
+    }
+    if (window[i].isVisible)sprites.drawSelfMasked (window[i].x, WINDOW_Y, dungeonWindow, 0);
   }
 }
 

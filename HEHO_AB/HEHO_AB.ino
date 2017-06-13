@@ -5,7 +5,7 @@
 
   MADE by TEAM a.r.g. : http://www.team-arg.org/more-about.html
 
-  2016 - Grapple Bug - JO3RI
+  2017 - Grapple Bug - JO3RI
 
   License for the game CODE: MIT : https://opensource.org/licenses/MIT
   License for the game ART:
@@ -46,6 +46,7 @@ const FunctionPointer PROGMEM mainGameLoop[] = {
 void setup() {
   arduboy.begin();
   arduboy.setFrameRate(60);                                 // set the frame rate of the game at 60 fps
+  arduboy.initRandomSeed();
 }
 
 

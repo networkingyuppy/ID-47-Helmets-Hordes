@@ -60,7 +60,7 @@
 byte orcFrames;
 
 const unsigned char PROGMEM flameJumpSequence[] = {3, 0, 0, 0, 3, 6, 10, 15, 21, 32};
-const unsigned char PROGMEM weedJumpSequence[] = {0, 0, 0, 0, 7, 7, 7, 7, 6, 6, 4};
+const unsigned char PROGMEM weedJumpSequence[] = {0, 0, 0, 0, 11, 14, 15, 14, 11, 9, 4};
 const unsigned char PROGMEM weedFrameSequence[] = {0, 1, 2, 3, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 0};
 
 

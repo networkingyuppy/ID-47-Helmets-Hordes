@@ -22,9 +22,10 @@ boolean checkFlamePosition()
 {
   for (byte i = 0; i < 2; i++)
   {
-    if (torchFlames[i].x == 128)
+    if (torchHandles[i].x == 131)
     {
       torchFlames[i].isVisible = false;
+      torchHandles[i].isVisible = true;
       return true;
     }
   }
@@ -184,7 +185,7 @@ void wave255()
 
 typedef void (*FunctionPointer) ();
 const FunctionPointer PROGMEM allWaves[] =
-{/*
+{
   wave000,
   wave001,
   wave002,
@@ -193,10 +194,9 @@ const FunctionPointer PROGMEM allWaves[] =
   wave005,
   wave006,
   wave007,
-  */
   wave008,
-  //wave009,
-  //wave200,
+  wave009,
+  wave200,
   wave255,
 };
 
