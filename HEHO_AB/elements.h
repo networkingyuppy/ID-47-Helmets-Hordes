@@ -78,10 +78,17 @@ void setChains()
 {
   chain[0].x = 128;
   chain[0].y = 0;
-  chain[1].x = 144;
-  chain[1].y = 0;
-  chain[2].x = 144;
-  chain[2].y = 16;
+  chain[1].x = 128;
+  chain[1].y = 16;
+  chain[2].x = 128;
+  chain[2].y = 24;
+
+  chain[3].x = 144;
+  chain[3].y = 0;
+  chain[4].x = 144;
+  chain[4].y = 16;
+  chain[5].x = 144;
+  chain[5].y = 32;
 }
 
 void setBricks()
@@ -104,7 +111,7 @@ void setBricks()
 
 void setWindows()
 {
-  for (byte i = 0; i < 2; i++) 
+  for (byte i = 0; i < 2; i++)
   {
     window[i].x = 56 + (80 * i);
     window[i].isVisible = random(2);
@@ -167,7 +174,7 @@ void drawFloorWeed()
 
 void drawChains()
 {
-  for (byte i = 0; i < 3; i++)
+  for (byte i = 0; i < 6; i++)
   {
     if (arduboy.everyXFrames(1)) chain[i].x--;
     if (chain[i].x < -255) chain[i].x = 128;
