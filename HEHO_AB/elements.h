@@ -169,7 +169,7 @@ void drawChains()
 {
   for (byte i = 0; i < 3; i++)
   {
-    if (arduboy.everyXFrames(1)) chain[i].x -= 2;
+    if (arduboy.everyXFrames(1)) chain[i].x--;
     if (chain[i].x < -255) chain[i].x = 128;
     sprites.drawPlusMask (chain[i].x, chain[i].y, dungeonChain_plus_mask, 0);
   }
