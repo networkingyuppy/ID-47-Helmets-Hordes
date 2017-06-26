@@ -12,6 +12,18 @@
 
 byte flameFrame = 0;
 
+const unsigned char PROGMEM chainSetup[][6][3] =
+{
+  { {128, 0, false}, {128, 16, false}, {144, 0, true}, {144, 16, false}, {160, 0, true}, {160, 16, true} },
+  { {128, 0, true}, {128, 16, true}, {144, 0, true}, {144, 16, false}, {160, 0, false}, {160, 16, false} },
+  { {128, 0, true}, {128, 16, true}, {144, 0, false}, {144, 16, false}, {160, 0, true}, {160, 16, false} },
+  { {128, 0, true}, {128, 16, false}, {144, 0, true}, {144, 16, false}, {160, 0, true}, {160, 16, true} },
+  { {128, 0, false}, {128, 16, false}, {144, 0, true}, {144, 8, true}, {160, 0, true}, {160, 16, true} },
+  { {128, 0, true}, {128, 8, true}, {144, 0, true}, {144, 16, false}, {160, 0, true}, {160, 16, true} },
+  { {128, 0, true}, {128, 16, false}, {144, 0, true}, {144, 8, true}, {160, 0, false}, {160, 16, false} },
+  { {128, 0, true}, {128, 8, true}, {144, 0, true}, {144, 16, true}, {160, 0, false}, {160, 16, false} },
+};
+
 // create all elements
 //////////////////////
 
@@ -32,6 +44,7 @@ struct ForGroundStuff
 {
   int x;
   byte y;
+  boolean isVisible;
 };
 
 ForGroundStuff chain[6];
@@ -76,19 +89,14 @@ void setFLoorWeed()
 
 void setChains()
 {
-  chain[0].x = 128;
-  chain[0].y = 0;
-  chain[1].x = 128;
-  chain[1].y = 16;
-  chain[2].x = 128;
-  chain[2].y = 24;
+  byte chainSet = random(8);
+  for (byte i = 0; i < 6; i++)
+  {
+    chain[i].x = pgm_read_byte(&chainSetup[chainSet][i][0]);
+    chain[i].y = pgm_read_byte(&chainSetup[chainSet][i][1]);
+    chain[i].isVisible = pgm_read_byte(&chainSetup[chainSet][i][2]);
+  }
 
-  chain[3].x = 144;
-  chain[3].y = 0;
-  chain[4].x = 144;
-  chain[4].y = 16;
-  chain[5].x = 144;
-  chain[5].y = 32;
 }
 
 void setBricks()
@@ -177,9 +185,9 @@ void drawChains()
   for (byte i = 0; i < 6; i++)
   {
     if (arduboy.everyXFrames(1)) chain[i].x--;
-    if (chain[i].x < -255) chain[i].x = 128;
-    sprites.drawPlusMask (chain[i].x, chain[i].y, dungeonChain_plus_mask, 0);
+    if (chain[i].isVisible)sprites.drawPlusMask (chain[i].x, chain[i].y, dungeonChain_plus_mask, 0);
   }
+  if (chain[5].x < -255) setChains();
 }
 
 void drawBricks()
