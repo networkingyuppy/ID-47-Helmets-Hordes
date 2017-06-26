@@ -24,6 +24,12 @@ const unsigned char PROGMEM chainSetup[][6][3] =
   { {128, 0, true}, {128, 8, true}, {144, 0, true}, {144, 16, true}, {160, 0, false}, {160, 16, false} },
 };
 
+const unsigned char PROGMEM brickSetup[][4] =
+{
+  {3, 2, 0, 1}, {2, 1, 0, 3}, {0, 3, 2, 3}, {0, 3, 3, 0}, {2, 0, 0, 1}, {0, 3, 1, 2}, {0, 1, 0, 2}, {2, 3, 0, 1}, {0, 3, 0, 2}, {0, 2, 2, 1}, {0, 1, 0, 3}, {2, 1, 0, 2}, {0, 2, 1, 0}, {0, 1, 3, 2}, {0, 3, 2, 1}, {2, 0, 0, 3}
+};
+
+
 // create all elements
 //////////////////////
 
@@ -37,7 +43,7 @@ BackGroundStuff floorPart[3];
 BackGroundStuff torchHandles[2];
 BackGroundStuff torchFlames[2];
 BackGroundStuff floorWeed;
-BackGroundStuff window[2];
+BackGroundStuff window[3];
 
 
 struct ForGroundStuff
@@ -101,28 +107,67 @@ void setChains()
 
 void setBricks()
 {
-  byte counter = 0;
-  for (byte h = 0; h < 3; h++)
+  for (byte i = 0; i < 3; i++)
   {
-    for (byte k = 0; k < 2; k++)
+    bricks[(i * 4)].x = 0 + (i * 80);
+    bricks[(i * 4)].y = 0;
+    bricks[(i * 4) + 1].x = 0 + (i * 80);
+    bricks[(i * 4) + 1].y = 16;
+    bricks[(i * 4) + 2].x = 32 + (i * 80);
+    bricks[(i * 4) + 2].y = 0;
+    bricks[(i * 4) + 3].x = 32 + (i * 80);
+    bricks[(i * 4) + 3].y = 16;
+  }
+  for (byte i = 0; i < 12; i++)
+  {
+    byte brickSet = random(16);
+    bricks[i].type = pgm_read_byte(&brickSetup[brickSet][i % 4]);
+  }
+}
+
+void setWindow(byte wallPart)
+{
+  for (byte i = 0; i < 3; i++)
+  {
+    window[i].x = 56 + (80 * i);
+    window[i].isVisible = true;
+  }
+}
+
+void setWall()
+{
+  setBricks();
+  for (byte i = 0; i < 3; i++)
+  {
+    switch (random(3))
     {
-      for (byte i = 0; i < 2; i++)
-      {
-        bricks[counter].x = (h * 80) + (k * 32);
-        bricks[counter].y = 16 * i;
-        bricks[counter].type = random(0, 6);
-        counter++;
-      }
+      case 0:
+        setWindow(i);
+        break;
+      case 1:
+        setWindow(i);
+        break;
+      case 2:
+        setTorchHandles();
+        break;
     }
   }
 }
 
-void setWindows()
+void updateWall(byte wallPart)
 {
-  for (byte i = 0; i < 2; i++)
+  byte brickSet = random(16);
+  bricks[(wallPart * 4)].x = 128;
+  bricks[(wallPart * 4)].y = 0;
+  bricks[(wallPart * 4) + 1].x = 128;
+  bricks[(wallPart * 4) + 1].y = 16;
+  bricks[(wallPart * 4) + 2].x = 160;
+  bricks[(wallPart * 4) + 2].y = 0;
+  bricks[(wallPart * 4) + 3].x = 160;
+  bricks[(wallPart * 4) + 3].y = 16;
+  for (byte i = 0; i < 4; i++)
   {
-    window[i].x = 56 + (80 * i);
-    window[i].isVisible = random(2);
+    bricks[(wallPart * 4) + i].type = pgm_read_byte(&brickSetup[brickSet][i]);
   }
 }
 
@@ -195,22 +240,28 @@ void drawBricks()
   for (byte i = 0; i < 12; i++)
   {
     if (arduboy.everyXFrames(3)) bricks[i].x--;
-    if (bricks[i].x < -111) bricks[i].x = 128;
-    if (bricks[i].type < 3) sprites.drawSelfMasked (bricks[i].x, bricks[i].y, dungeonBricks, bricks[i].type);
+    sprites.drawSelfMasked (bricks[i].x, bricks[i].y, dungeonBricks, bricks[i].type);
+  }
+  for (byte i = 0; i < 3; i++)
+  {
+    if (bricks[3 + (i * 4)].x < -79) updateWall(i);
   }
 }
 
 void drawWindows()
 {
-  for (byte i = 0; i < 2; i++)
+  for (byte i = 0; i < 3; i++)
   {
     if (arduboy.everyXFrames(3)) window[i].x--;
-    if (window[i].x < -31)
-    {
-      window[i].x = 128;
-      window[i].isVisible = random(2);
-    }
     if (window[i].isVisible)sprites.drawSelfMasked (window[i].x, WINDOW_Y, dungeonWindow, 0);
+  }
+}
+
+void drawWallParts()
+{
+  for (byte i = 0; i < 3; i++)
+  {
+
   }
 }
 

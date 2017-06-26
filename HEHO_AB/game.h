@@ -15,13 +15,12 @@ void stateMenuPlay()
 {
   setHelena();
   setFloorPart();
-  setWindows();
   setFLoorWeed();
   setSpikes();
   setOrcs();
   setStatue();
   setChains();
-  setBricks();
+  setWall();
   setTorchHandles();
   setTorchFlames();
   setBadFlame();
