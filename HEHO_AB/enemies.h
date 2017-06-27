@@ -85,18 +85,6 @@ struct Orcs
 
 Orcs orc[MAX_ORCS_IN_WAVE];
 
-void setOrcs()
-{
-  for (byte i = 0; i < MAX_ORCS_IN_WAVE; i++)
-  {
-    orc[i] =
-    {
-      ENEMY_START_X,
-      0,
-    };
-  }
-}
-
 void updateOrcs()
 {
   if (arduboy.everyXFrames(WALKINGSPEED * 3)) orcFrames++;
@@ -106,11 +94,7 @@ void updateOrcs()
     for (byte i = 0; i < MAX_ORCS_IN_WAVE; i++)
     {
       if (orc[i].x > ENEMY_LEFT_OFFSCREEN_LIMIT) orc[i].x -= 3;
-      else
-      {
-        orc[i].x = ENEMY_START_X;
-        orc[i].characteristics = 0;
-      }
+      else orc[i].characteristics = 0;
     }
   }
 }
@@ -171,18 +155,6 @@ struct Spikes
 
 Spikes spike[MAX_SPIKES_IN_WAVE];
 
-void setSpikes()
-{
-  for (byte i = 0; i < MAX_SPIKES_IN_WAVE; i++)
-  {
-    spike[i] =
-    {
-      ENEMY_START_X,
-      0,
-    };
-  }
-}
-
 void updateSpikes()
 {
   if (arduboy.everyXFrames(2))
@@ -190,11 +162,7 @@ void updateSpikes()
     for (byte i = 0; i < MAX_SPIKES_IN_WAVE; i++)
     {
       if (spike[i].x > ENEMY_LEFT_OFFSCREEN_LIMIT) spike[i].x--;
-      else
-      {
-        spike[i].x = ENEMY_START_X;
-        spike[i].characteristics = 0;
-      }
+      else spike[i].characteristics = 0;
     }
   }
 }
@@ -243,17 +211,6 @@ struct BadWalkingFlames
 };
 
 BadWalkingFlames badWalkingFlame;
-
-void setBadWalkingFlame()
-{
-  badWalkingFlame =
-  {
-    BADWALKINGFLAME_START_X,
-    BADWALKINGFLAME_Y,
-    0,
-    0,
-  };
-}
 
 void updateBadWalkingFlame()
 {
@@ -380,39 +337,18 @@ struct Statues
 Statues statue;
 Statues arrow;
 
-void setStatue()
-{
-  statue =
-  {
-    ENEMY_START_X,
-    0,
-  };
-  arrow =
-  {
-    ENEMY_START_X,
-    0,
-  };
-}
 
 void updateStatue()
 {
   if (arduboy.everyXFrames(2))
   {
     if (statue.x > ENEMY_LEFT_OFFSCREEN_LIMIT) statue.x--;
-    else
-    {
-      statue.x = ENEMY_START_X;
-      statue.characteristics = 0;
-    }
+    else statue.characteristics = 0;
     if (statue.x > 102) arrow.x--;
     else
     {
       if (arrow.x > ENEMY_LEFT_OFFSCREEN_LIMIT) arrow.x -= 4;
-      else
-      {
-        arrow.x = ENEMY_START_X + 3;
-        arrow.characteristics = 0;
-      }
+      else arrow.characteristics = 0;
     }
   }
 }
@@ -478,17 +414,6 @@ struct BadWeeds
 
 BadWeeds badWeed;
 
-void setBadWeed()
-{
-  badWeed =
-  {
-    BADWEED_START_X,
-    BADWEED_Y,
-    1,
-    0,
-  };
-}
-
 void updateBadWeed()
 {
   switch (badWeed.characteristics & 0B00000011)
@@ -545,6 +470,7 @@ void badWeedSetInLine()
   bitSet(badWeed.characteristics, 6);
   bitSet(badWeed.characteristics, 7);
   badWeed.x = BADWEED_START_X;
+  badWeed.y = BADWEED_Y;
 }
 
 void drawBadWeed()
@@ -554,5 +480,17 @@ void drawBadWeed()
     sprites.drawPlusMask(badWeed.x, badWeed.y, monsterWeed_plus_mask, pgm_read_byte(&weedFrameSequence[badWeed.weedFrame]));
     sprites.drawErase (badWeed.x, BADWEED_Y + 12, weedMask, 0);
   }
+}
+
+
+void setEnemies()
+{
+  for (byte i = 0; i < MAX_ORCS_IN_WAVE; i++) orc[i].characteristics = 0;
+  for (byte i = 0; i < MAX_SPIKES_IN_WAVE; i++) spike[i].characteristics = 0;
+  badWalkingFlame.characteristics = 0;
+  badFlame.characteristics = 0;
+  statue.characteristics = 0;
+  arrow.characteristics = 0;
+  badWeed.characteristics = 0;
 }
 #endif

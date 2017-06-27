@@ -33,28 +33,13 @@ struct DifferentItems
 DifferentItems goldBar[MAX_ONSCREEN_GOLDBARS];
 DifferentItems helmetPickUp;
 
-
-void setGoldBars()
-{
-  for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++)
-  {
-    goldBar[i].x = 128;
-    goldBar[i].y = 28;
-    goldBar[i].characteristics = 0;
-  }
-}
-
 void updateGoldBars()
 {
   if (arduboy.everyXFrames(8))goldBarFrames++;
   for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++)
   {
     if (arduboy.everyXFrames(2))goldBar[i].x--;
-    if (goldBar[i].x < -16)
-    {
-      goldBar[i].x = 128;
-      goldBar[i].characteristics = 0;
-    }
+    if (goldBar[i].x < -16) goldBar[i].characteristics = 0;
   }
 }
 
@@ -81,21 +66,10 @@ void drawGoldBars()
 }
 
 
-void setHelmetPickUp()
-{
-  helmetPickUp.x = 128;
-  helmetPickUp.y = 28;
-  helmetPickUp.characteristics = 0;
-}
-
 void updateHelmetPickUp()
 {
   if (arduboy.everyXFrames(2))helmetPickUp.x--;
-  if (helmetPickUp.x < -16)
-  {
-    helmetPickUp.x = 128;
-    helmetPickUp.characteristics = 0;
-  }
+  if (helmetPickUp.x < -16) helmetPickUp.characteristics = 0;
 }
 
 helmetPickUpSetInLine(byte type)
@@ -111,6 +85,11 @@ void drawHelmetPickUp()
   {
     sprites.drawPlusMask(helmetPickUp.x, helmetPickUp.y, playerHelmets_plus_mask, helmetPickUp.characteristics & 0b00000111);
   }
+}
+
+void setCollectables()
+{
+  for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++) goldBar[i].characteristics = 0;
 }
 
 

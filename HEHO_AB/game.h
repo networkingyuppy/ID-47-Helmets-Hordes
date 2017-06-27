@@ -13,21 +13,12 @@
 
 void stateMenuPlay()
 {
-  
   setHelena();
   setFloorPart();
   setWallParts();
-  
-  setFLoorWeed();
-  setSpikes();
-  setOrcs();
-  setStatue();
   setChains();
-  
-  setBadWalkingFlame();
-  setBadWeed();
-
-  setGoldBars();
+  setEnemies();
+  setCollectables();
   currentWave = WAVE_TO_START_WITH;
   previousWave = 255;
   globalCounter = 0;
@@ -46,12 +37,11 @@ void stateGamePlaying()
   ((FunctionPointer) pgm_read_word (&allWaves[currentWave]))();
 
   drawWallParts();
-  
+
   drawBadWeed();
   drawFloorWeed();
   drawFloorPart();
   drawSpikes();
-
 
   drawGoldBars();
   drawBadFlame();

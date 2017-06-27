@@ -77,12 +77,6 @@ void setFloorPart()
 }
 
 
-void setFLoorWeed()
-{
-  floorWeed.x = 64;
-}
-
-
 void setChains()
 {
   byte chainSet = random(8);
