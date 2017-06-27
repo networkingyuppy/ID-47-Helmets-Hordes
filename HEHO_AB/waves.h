@@ -20,10 +20,11 @@ boolean checkStartWave()
 
 boolean checkFlamePosition()
 {
-  for (byte i = 0; i < 2; i++)
+  for (byte i = 0; i < 3; i++)
   {
-    //if (torchHandles[i].x == 131)
+    if (wallPart[i].x == 160)
     {
+      window[i].isVisible = false;
       torchFlames[i].isVisible = false;
       torchHandles[i].isVisible = true;
       return true;
