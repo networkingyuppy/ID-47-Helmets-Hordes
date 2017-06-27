@@ -8,7 +8,7 @@
 #define FLOORWEED_Y                                       39
 #define TORCHHANDLE_Y                                     20
 #define TORCHFLAME_Y                                      4
-#define WINDOW_Y                                          3
+#define WINDOW_Y                                          5
 
 byte flameFrame = 0;
 
@@ -33,18 +33,31 @@ const unsigned char PROGMEM brickSetup[][4] =
 // create all elements
 //////////////////////
 
-struct BackGroundStuff
+struct BackGroundWall
 {
-  int x;
   boolean isVisible;
 };
 
-BackGroundStuff floorPart[3];
-BackGroundStuff torchHandles[2];
-BackGroundStuff torchFlames[2];
-BackGroundStuff floorWeed;
-BackGroundStuff window[3];
+BackGroundWall torchHandles[3];
+BackGroundWall torchFlames[3];
+BackGroundWall window[3];
 
+struct BrickParts
+{
+  byte y;
+  byte type;
+};
+
+BrickParts bricks[12];
+
+struct BackgroundParts
+{
+  int x;
+};
+
+BackgroundParts floorPart[3];
+BackgroundParts floorWeed;
+BackgroundParts wallPart[3];
 
 struct ForGroundStuff
 {
@@ -56,36 +69,13 @@ struct ForGroundStuff
 ForGroundStuff chain[6];
 
 
-struct BrickParts
-{
-  int x;
-  byte y, type;
-};
-
-BrickParts bricks[12];
-
-
 // Set all elements
 ///////////////////
-
 void setFloorPart()
 {
   for (byte i = 0; i < 3; i++) floorPart[i].x = 64 * i;
 }
 
-void setTorchHandles()
-{
-  torchHandles[0].x = 18;
-  torchHandles[1].x = 98;
-  for (byte i = 0; i < 2; i++) torchHandles[i].isVisible = true;
-}
-
-void setTorchFlames()
-{
-  torchFlames[0].x = 15;
-  torchFlames[1].x = 95;
-  for (byte i = 0; i < 2; i++) torchFlames[i].isVisible = true;
-}
 
 void setFLoorWeed()
 {
@@ -102,117 +92,76 @@ void setChains()
     chain[i].y = pgm_read_byte(&chainSetup[chainSet][i][1]);
     chain[i].isVisible = pgm_read_byte(&chainSetup[chainSet][i][2]);
   }
-
 }
 
-void setBricks()
+
+boolean windowOrTorch()
+{
+  switch (random(3))
+  {
+    case 0: case 1:
+      return true;
+      break;
+    case 2:
+      return false;
+      break;
+  }
+}
+
+void setWallParts()
 {
   for (byte i = 0; i < 3; i++)
   {
-    bricks[(i * 4)].x = 0 + (i * 80);
+    wallPart[i].x = i * 80;
+
     bricks[(i * 4)].y = 0;
-    bricks[(i * 4) + 1].x = 0 + (i * 80);
     bricks[(i * 4) + 1].y = 16;
-    bricks[(i * 4) + 2].x = 32 + (i * 80);
     bricks[(i * 4) + 2].y = 0;
-    bricks[(i * 4) + 3].x = 32 + (i * 80);
     bricks[(i * 4) + 3].y = 16;
-  }
-  for (byte i = 0; i < 12; i++)
-  {
     byte brickSet = random(16);
-    bricks[i].type = pgm_read_byte(&brickSetup[brickSet][i % 4]);
-  }
-}
-
-void setWindow(byte wallPart)
-{
-  for (byte i = 0; i < 3; i++)
-  {
-    window[i].x = 56 + (80 * i);
-    window[i].isVisible = true;
-  }
-}
-
-void setWall()
-{
-  setBricks();
-  for (byte i = 0; i < 3; i++)
-  {
-    switch (random(3))
+    for (byte k = 0; k < 4; k++)
     {
-      case 0:
-        setWindow(i);
-        break;
-      case 1:
-        setWindow(i);
-        break;
-      case 2:
-        setTorchHandles();
-        break;
+      bricks[k + (4 * i)].type = pgm_read_byte(&brickSetup[brickSet][k]);
+    }
+    window[i].isVisible = windowOrTorch();
+    torchHandles[i].isVisible = !window[i].isVisible;
+    torchFlames[i].isVisible = torchHandles[i].isVisible;
+  }
+}
+
+
+
+// Update all elementes
+///////////////////////
+void updateWallParts()
+{
+  if (arduboy.everyXFrames(4)) flameFrame = (++flameFrame) % 4;
+  if (arduboy.everyXFrames(3))
+  {
+    for (byte i = 0; i < 3; i++)
+    {
+      wallPart[i].x--;
+      if (wallPart[i].x < -79)
+      {
+        wallPart[i].x = 160;
+        window[i].isVisible = windowOrTorch();
+        torchHandles[i].isVisible = !window[i].isVisible;
+        torchFlames[i].isVisible = torchHandles[i].isVisible;
+      }
     }
   }
 }
 
-void updateWall(byte wallPart)
-{
-  byte brickSet = random(16);
-  bricks[(wallPart * 4)].x = 128;
-  bricks[(wallPart * 4)].y = 0;
-  bricks[(wallPart * 4) + 1].x = 128;
-  bricks[(wallPart * 4) + 1].y = 16;
-  bricks[(wallPart * 4) + 2].x = 160;
-  bricks[(wallPart * 4) + 2].y = 0;
-  bricks[(wallPart * 4) + 3].x = 160;
-  bricks[(wallPart * 4) + 3].y = 16;
-  for (byte i = 0; i < 4; i++)
-  {
-    bricks[(wallPart * 4) + i].type = pgm_read_byte(&brickSetup[brickSet][i]);
-  }
-}
-
-
 
 // Draw all elementes
 /////////////////////
-
 void drawFloorPart()
 {
-
   for (byte i = 0; i < 3; i++)
   {
     if (arduboy.everyXFrames(2)) floorPart[i].x--;
     if (floorPart[i].x < -63) floorPart[i].x = 128;
     sprites.drawSelfMasked (floorPart[i].x, FLOORPART_Y, dungeonFloor, 0);
-  }
-}
-
-void drawTorchHandles()
-{
-  for (byte i = 0; i < 2; i++)
-  {
-    if (arduboy.everyXFrames(3)) torchHandles[i].x--;
-    if (torchHandles[i].x < -28)
-    {
-      torchHandles[i].x = 131;
-      torchHandles[i].isVisible = random(2);
-    }
-    if (torchHandles[i].isVisible)sprites.drawSelfMasked (torchHandles[i].x, TORCHHANDLE_Y, torchHandle, 0);
-  }
-}
-
-void drawTorchFlames()
-{
-  if (arduboy.everyXFrames(4)) flameFrame = (++flameFrame) % 4;
-  for (byte i = 0; i < 2; i++)
-  {
-    if (arduboy.everyXFrames(3)) torchFlames[i].x--;
-    if (torchFlames[i].x < -31)
-    {
-      torchFlames[i].x = 128;
-      torchFlames[i].isVisible = torchHandles[i].isVisible;
-    }
-    if (torchFlames[i].isVisible)sprites.drawSelfMasked (torchFlames[i].x, TORCHFLAME_Y, torchFlame, flameFrame);
   }
 }
 
@@ -235,32 +184,19 @@ void drawChains()
   if (chain[5].x < -255) setChains();
 }
 
-void drawBricks()
-{
-  for (byte i = 0; i < 12; i++)
-  {
-    if (arduboy.everyXFrames(3)) bricks[i].x--;
-    sprites.drawSelfMasked (bricks[i].x, bricks[i].y, dungeonBricks, bricks[i].type);
-  }
-  for (byte i = 0; i < 3; i++)
-  {
-    if (bricks[3 + (i * 4)].x < -79) updateWall(i);
-  }
-}
 
-void drawWindows()
-{
-  for (byte i = 0; i < 3; i++)
-  {
-    if (arduboy.everyXFrames(3)) window[i].x--;
-    if (window[i].isVisible)sprites.drawSelfMasked (window[i].x, WINDOW_Y, dungeonWindow, 0);
-  }
-}
 
 void drawWallParts()
 {
   for (byte i = 0; i < 3; i++)
   {
+    if (window[i].isVisible)sprites.drawSelfMasked (wallPart[i].x + 16, WINDOW_Y, dungeonWindow, 0);
+    if (torchHandles[i].isVisible)sprites.drawSelfMasked (wallPart[i].x + 19, TORCHHANDLE_Y, torchHandle, 0);
+    if (torchFlames[i].isVisible)sprites.drawSelfMasked (wallPart[i].x + 16, TORCHFLAME_Y, torchFlame, flameFrame);
+    for (byte k = 0; k < 4; k++)
+    {
+      sprites.drawSelfMasked (wallPart[i].x + ((k / 2) * 32), bricks[k + (4 * i)].y, dungeonBricks, bricks[k + (4 * i)].type);
+    }
 
   }
 }

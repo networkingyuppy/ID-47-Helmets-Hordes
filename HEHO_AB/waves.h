@@ -22,7 +22,7 @@ boolean checkFlamePosition()
 {
   for (byte i = 0; i < 2; i++)
   {
-    if (torchHandles[i].x == 131)
+    //if (torchHandles[i].x == 131)
     {
       torchFlames[i].isVisible = false;
       torchHandles[i].isVisible = true;

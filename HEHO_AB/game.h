@@ -13,16 +13,17 @@
 
 void stateMenuPlay()
 {
+  
   setHelena();
   setFloorPart();
+  setWallParts();
+  
   setFLoorWeed();
   setSpikes();
   setOrcs();
   setStatue();
   setChains();
-  setWall();
-  setTorchHandles();
-  setTorchFlames();
+  
   setBadFlame();
   setBadWalkingFlame();
   setBadWeed();
@@ -41,18 +42,18 @@ void stateGamePlaying()
   checkInputs();
 
   updateHelena();
+  updateWallParts();
 
   ((FunctionPointer) pgm_read_word (&allWaves[currentWave]))();
+
+  drawWallParts();
   
-  drawBricks();
-  drawWindows();
   drawBadWeed();
   drawFloorWeed();
   drawFloorPart();
   drawSpikes();
 
-  drawTorchHandles();
-  drawTorchFlames();
+
   drawGoldBars();
   drawBadFlame();
   drawBadWalkingFlame();
