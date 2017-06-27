@@ -9,8 +9,8 @@
 #define FLAME_FALL_OFF_LIMIT                    102
 #define WEED_HIDING_LIMIT                       80
 #define ENEMY_START_X                           144
-#define BADWALKINGFLAME_START_X                 128
-#define BADFLAME_START_X                        128
+#define BADWALKINGFLAME_START_X                 160
+#define BADFLAME_START_X                        176
 #define BADWEED_START_X                         128
 
 #define MAX_ORCS_IN_WAVE                        9
@@ -287,12 +287,7 @@ void updateBadWalkingFlame()
       if (arduboy.everyXFrames(WALKINGSPEED))
       {
         if (badWalkingFlame.x > ENEMY_LEFT_OFFSCREEN_LIMIT) badWalkingFlame.x -= 3;
-        else
-        {
-          badWalkingFlame.x = BADWALKINGFLAME_START_X;
-          badWalkingFlame.y = BADWALKINGFLAME_Y;
-          badWalkingFlame.characteristics = 0;
-        }
+        else badWalkingFlame.characteristics = 0;
       }
       break;
   }
@@ -305,6 +300,7 @@ void badWalkingFlameSetInLine()
   bitSet(badWalkingFlame.characteristics, 6);
   bitSet(badWalkingFlame.characteristics, 7);
   badWalkingFlame.x = BADFLAME_START_X;
+  badWalkingFlame.y = BADWALKINGFLAME_Y;
 }
 
 void drawBadWalkingFlame()
@@ -336,28 +332,12 @@ struct BadFlames
 
 BadFlames badFlame;
 
-void setBadFlame()
-{
-  badFlame =
-  {
-    BADFLAME_START_X,
-    BADFLAME_Y,
-    0,
-  };
-}
-
 void updateBadFlame()
 {
   if (arduboy.everyXFrames(3))
   {
-
     if (badFlame.x > ENEMY_LEFT_OFFSCREEN_LIMIT) badFlame.x--;
-    else
-    {
-      badFlame.x = BADFLAME_START_X;
-      badFlame.y = BADFLAME_Y;
-      badFlame.characteristics = 0;
-    }
+    else badFlame.characteristics = 0;
   }
 }
 
@@ -368,6 +348,7 @@ void badFlameSetInLine()
   bitSet(badFlame.characteristics, 6);
   bitSet(badFlame.characteristics, 7);
   badFlame.x = BADFLAME_START_X;
+  badFlame.y = BADFLAME_Y;
 }
 
 void drawBadFlame()

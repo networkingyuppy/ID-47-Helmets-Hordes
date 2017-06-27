@@ -144,6 +144,11 @@ void updateWallParts()
       if (wallPart[i].x < -79)
       {
         wallPart[i].x = 160;
+        byte brickSet = random(16);
+        for (byte k = 0; k < 4; k++)
+        {
+          bricks[k + (4 * i)].type = pgm_read_byte(&brickSetup[brickSet][k]);
+        }
         window[i].isVisible = windowOrTorch();
         torchHandles[i].isVisible = !window[i].isVisible;
         torchFlames[i].isVisible = torchHandles[i].isVisible;

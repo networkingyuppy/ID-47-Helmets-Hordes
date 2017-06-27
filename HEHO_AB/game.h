@@ -24,7 +24,6 @@ void stateMenuPlay()
   setStatue();
   setChains();
   
-  setBadFlame();
   setBadWalkingFlame();
   setBadWeed();
 

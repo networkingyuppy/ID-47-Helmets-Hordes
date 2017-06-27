@@ -22,7 +22,7 @@ boolean checkFlamePosition()
 {
   for (byte i = 0; i < 3; i++)
   {
-    if (wallPart[i].x == 160)
+    if (wallPart[i].x == 159)
     {
       window[i].isVisible = false;
       torchFlames[i].isVisible = false;
@@ -119,9 +119,12 @@ void wave005()
 
 void wave006()
 {
-  if (checkFlamePosition())
+  if (currentWave != previousWave)
   {
-    if (checkStartWave()) badWalkingFlameSetInLine();
+    if (checkFlamePosition())
+    {
+      if (checkStartWave()) badWalkingFlameSetInLine();
+    }
   }
   if (badWalkingFlame.characteristics)
   {
@@ -189,17 +192,18 @@ const FunctionPointer PROGMEM allWaves[] =
 {
   wave000,
   /*
-  wave001,
-  wave002,
-  wave003,
-  wave004,
-  wave005,
-  wave006,
-  wave007,
-  wave008,
-  wave009,
-  wave200,
+    wave001,
+    wave002,
+    wave003,
+    wave004,
+    wave005,
+    wave006,
+    wave007,
+    wave008,
+    wave009,
+    wave200,
   */
+  wave006,
   wave255,
 };
 

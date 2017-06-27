@@ -7,10 +7,10 @@
 
   2017 - Grapple Bug - JO3RI
 
-  License for the game CODE: MIT : https://opensource.org/licenses/MIT
-  License for the game ART:
-  License for the game Banner:
-  License for the game idea en concept: 
+  License for the game CODE: TEAM a.r.g. MIT : https://opensource.org/licenses/MIT
+  License for the game SPRITES: Grapple Bug
+  License for the game Banner: American Ginseng
+  License for the game idea en concept: Grapple Bug 
 
 */
 
