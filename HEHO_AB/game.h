@@ -37,6 +37,7 @@ void stateGamePlaying()
   ((FunctionPointer) pgm_read_word (&allWaves[currentWave]))();
 
   drawWallParts();
+  drawSecretChest();
 
   drawBadWeed();
   drawFloorWeed();

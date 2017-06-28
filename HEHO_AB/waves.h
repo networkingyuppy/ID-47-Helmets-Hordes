@@ -44,6 +44,7 @@ boolean checkEndWave()
   test += bitRead(arrow.characteristics, 7);
   test += bitRead(badWeed.characteristics, 7);
   for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++) test += bitRead(goldBar[i].characteristics, 7);
+  test += bitRead(secretChest.characteristics, 7);
   if (test < 1) currentWave++;
 }
 
@@ -169,6 +170,16 @@ void wave009()
   checkEndWave();
 }
 
+void wave010()
+{
+  if (checkStartWave())
+  {
+    secretChestSetInLine(random(1,8));
+  }
+  updateSecretChest();
+  checkEndWave();
+}
+
 void wave200()
 {
   if (checkStartWave())
@@ -192,17 +203,18 @@ const FunctionPointer PROGMEM allWaves[] =
 {
   wave000,
   /*
-  wave001,
-  wave002,
-  wave003,
-  wave004,
-  wave005,
-  wave006,
-  wave007,
-  wave008,
-  wave009,
-  wave200,
+    wave001,
+    wave002,
+    wave003,
+    wave004,
+    wave005,
+    wave006,
+    wave007,
+    wave008,
+    wave009,
+    wave200,
   */
+  wave010,
   wave255,
 };
 
