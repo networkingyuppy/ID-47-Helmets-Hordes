@@ -30,9 +30,9 @@ struct DifferentItems
     //                          ||||||└-->  1  | type of item ( 0 to 7 )
     //                          |||||└--->  2 /
     //                          ||||└---->  3
-    //                          |||└----->  4 the collectable is visible  (0 = false / 1 = true)
+    //                          |||└----->  4 the collectable is visible   (0 = false / 1 = true)
     //                          ||└------>  5
-    //                          |└------->  6
+    //                          |└------->  6 the twinkles are visible     (0 = false / 1 = true)
     //                          └-------->  7 the collectable is active    (0 = false / 1 = true)
 };
 
@@ -83,6 +83,7 @@ void secretChestSetInLine(byte type)
   secretChest.x = SECRET_CHEST_START_X;
   secretChest.y = SECRET_CHEST_Y;
   secretChest.characteristics = 0b10010000 + type;
+  sparkleFrame = 7;
 }
 
 void drawSecretChest()
@@ -97,6 +98,17 @@ void setCollectables()
 {
   for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++) goldBar[i].characteristics = 0;
   secretChest.characteristics = 0;
+}
+
+void drawSecretSparkles()
+{
+  if (bitRead(secretChest.characteristics, 6))
+  {
+    if (arduboy.everyXFrames(6))sparkleFrame++;
+    sprites.drawPlusMask(secretChest.x, 32, effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 3) % 15]));
+    sprites.drawPlusMask(secretChest.x - 4, 43, effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 1)  % 15]));
+    sprites.drawPlusMask(secretChest.x - 11, 37, effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 2) % 15]));
+  }
 }
 
 

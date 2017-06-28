@@ -243,11 +243,11 @@ void checkCollisions()
     .width = SECRET_CHEST_COLLISION_WIDTH,
     .height = SECRET_CHEST_COLLISION_HEIGHT,
   };
-  if (bitRead(secretChest.characteristics, 4) && !bitRead(secretChest.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
+  if (bitRead(secretChest.characteristics, 4) && bitRead(secretChest.characteristics, 7) && arduboy.collide(helenaRect, enemyRect))
   {
     playerScore +=500;
     helena.nextHelmet = (secretChest.characteristics & 0b00000111);
-    secretChest.characteristics = 0;
+    secretChest.characteristics = 0B11000000;
     helena.changingHelmet = true;
   }
 
