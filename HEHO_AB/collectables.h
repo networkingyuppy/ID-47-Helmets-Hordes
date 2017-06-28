@@ -12,6 +12,9 @@
 #define SECRET_CHEST_Y                                    35
 #define SECRET_CHEST_START_X                              128
 
+#define SECRET_CHEST_COLLISION_WIDTH                      16
+#define SECRET_CHEST_COLLISION_HEIGHT                     14
+
 
 byte goldBarFrames = 0;
 const unsigned char PROGMEM goldBarSequence[] = {0, 1, 2, 3, 4, 3, 2, 1};
