@@ -35,17 +35,17 @@ void checkCollisions()
       .width = ORC_COLLISION_WIDTH,
       .height = ORC_COLLISION_HEIGHT
     };
-    if (bitRead(orc[i].characteristics, 4) && !bitRead(orc[i].characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
+    if (((orc[i].characteristics & 0B0011000) == 0B0001000) && arduboy.collide(helenaRect, enemyRect))
     {
       if (!(helena.characteristics & 0B00100000))
       {
-        bitSet(helena.characteristics, 5);
+        helena.characteristics |= 0B00100000;
         playerScore = 0;
         //helena.life--;
       }
-      if (!bitRead(orc[i].characteristics, 6))
+      if (!(orc[i].characteristics & 0B01000000))
       {
-        bitSet(orc[i].characteristics, 5);
+        orc[i].characteristics |= 0B00100000;
       }
     }
 
@@ -69,11 +69,11 @@ void checkCollisions()
         .height = SPEAR_U_COLLISION_HEIGHT
       };
     }
-    if (bitRead(orc[i].characteristics, 4) && !bitRead(orc[i].characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
+    if (((orc[i].characteristics & 0B0011000) == 0B0001000) && arduboy.collide(helenaRect, enemyRect))
     {
       if (!(helena.characteristics & 0B00100000))
       {
-        bitSet(helena.characteristics, 5);
+        helena.characteristics |= 0B00100000;
         playerScore = 0;
         //helena.life--;
       }
@@ -90,17 +90,17 @@ void checkCollisions()
       .width = SPIKE_COLLISION_WIDTH,
       .height = SPIKE_COLLISION_HEIGHT
     };
-    if (bitRead(spike[i].characteristics, 4) && !bitRead(spike[i].characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
+    if (((spike[i].characteristics & 0B0011000) == 0B0001000) && arduboy.collide(helenaRect, enemyRect))
     {
       if (!(helena.characteristics & 0B00100000))
       {
-        bitSet(helena.characteristics, 5);
+        helena.characteristics |= 0B00100000;
         playerScore = 0;
         //helena.life--;
       }
-      if (!bitRead(spike[i].characteristics, 6))
+      if (!(spike[i].characteristics & 0B01000000))
       {
-        bitSet(spike[i].characteristics, 5);
+        spike[i].characteristics |= 0B00100000;
       }
     }
   }
@@ -114,17 +114,18 @@ void checkCollisions()
     .height = BADFLAME_COLLISION_HEIGHT
   };
 
-  if (bitRead(badWalkingFlame.characteristics, 4) && !bitRead(badWalkingFlame.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
+  if (((badWalkingFlame.characteristics & 0B0011000) == 0B0001000) && arduboy.collide(helenaRect, enemyRect))
   {
     if (!(helena.characteristics & 0B00100000))
     {
-      bitSet(helena.characteristics, 5);
+
+      helena.characteristics |= 0B00100000;
       playerScore = 0;
       //helena.life--;
     }
-    if (!bitRead(badWalkingFlame.characteristics, 6))
+    if (!(badWalkingFlame.characteristics & 0B01000000))
     {
-      bitSet(badWalkingFlame.characteristics, 5);
+      badWalkingFlame.characteristics |= 0B00100000;
     }
   }
 
@@ -135,17 +136,17 @@ void checkCollisions()
     .width = BADFLAME_COLLISION_WIDTH,
     .height = BADFLAME_COLLISION_HEIGHT
   };
-  if (bitRead(badFlame.characteristics, 4) && !bitRead(badFlame.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
+  if (((badFlame.characteristics & 0B0011000) == 0B0001000) && arduboy.collide(helenaRect, enemyRect))
   {
     if (!(helena.characteristics & 0B00100000))
     {
-      bitSet(helena.characteristics, 5);
+      helena.characteristics |= 0B00100000;
       playerScore = 0;
       //helena.life--;
     }
-    if (!bitRead(badFlame.characteristics, 6))
+    if (!(badFlame.characteristics & 0B01000000))
     {
-      bitSet(badFlame.characteristics, 5);
+      badFlame.characteristics |= 0B00100000;
     }
   }
   ////// Check collision Helena with Statue //////
@@ -157,16 +158,16 @@ void checkCollisions()
     .width = STATUE_COLLISION_WIDTH,
     .height = STATUE_COLLISION_HEIGHT
   };
-  if (bitRead(statue.characteristics, 4) && !bitRead(statue.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
+  if (((statue.characteristics & 0B0011000) == 0B0001000) && arduboy.collide(helenaRect, enemyRect))
   {
     if (!(helena.characteristics & 0B00100000))
     {
       //helena.isImune = true;
       helena.x--;
     }
-    if (!bitRead(statue.characteristics, 6))
+    if (!(statue.characteristics & 0B01000000))
     {
-      bitSet(statue.characteristics, 5);
+      statue.characteristics |= 0B00100000;
     }
   }
 
@@ -177,17 +178,17 @@ void checkCollisions()
     .width = ARROW_COLLISION_WIDTH,
     .height = ARROW_COLLISION_HEIGHT
   };
-  if (bitRead(arrow.characteristics, 4) && !bitRead(arrow.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
+  if (((arrow.characteristics & 0B0011000) == 0B0001000) && arduboy.collide(helenaRect, enemyRect))
   {
     if (!(helena.characteristics & 0B00100000))
     {
-      bitSet(helena.characteristics, 5);
+      helena.characteristics |= 0B00100000;
       playerScore = 0;
       //helena.life--;
     }
-    if (!bitRead(arrow.characteristics, 6))
+    if (!(arrow.characteristics & 0B01000000))
     {
-      bitSet(arrow.characteristics, 5);
+      arrow.characteristics |= 0B00100000;
     }
   }
   ////// Check collision Helena with Weed //////
@@ -199,18 +200,17 @@ void checkCollisions()
     .width = BADWEED_COLLISION_WIDTH,
     .height = BADWEED_COLLISION_HEIGHT
   };
-
-  if (bitRead(badWeed.characteristics, 4) && !bitRead(badWeed.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
+  if (((badWeed.characteristics & 0B0011000) == 0B0001000) && arduboy.collide(helenaRect, enemyRect))
   {
     if (!(helena.characteristics & 0B00100000))
     {
-      bitSet(helena.characteristics, 5);
+      helena.characteristics |= 0B00100000;
       playerScore = 0;
       //helena.life--;
     }
-    if (!bitRead(badWeed.characteristics, 6))
+    if (!(badWeed.characteristics & 0B01000000))
     {
-      bitSet(badWeed.characteristics, 5);
+      badWeed.characteristics |= 0B00100000;
     }
   }
   ////// Check collision Helena with goldbars //////
@@ -224,7 +224,7 @@ void checkCollisions()
       .width = GOLDBAR_COLLISION_WIDTH,
       .height = GOLDBAR_COLLISION_HEIGHT
     };
-    if (bitRead(goldBar[i].characteristics, 4) && !bitRead(goldBar[i].characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
+    if (((goldBar[i].characteristics & 0B0011000) == 0B0001000) && arduboy.collide(helenaRect, enemyRect))
     {
       if (!(helena.characteristics & 0B00100000))
       {
@@ -243,12 +243,12 @@ void checkCollisions()
     .width = SECRET_CHEST_COLLISION_WIDTH,
     .height = SECRET_CHEST_COLLISION_HEIGHT,
   };
-  if (bitRead(secretChest.characteristics, 4) && bitRead(secretChest.characteristics, 7) && arduboy.collide(helenaRect, enemyRect))
+  if (((secretChest.characteristics & 0B1001000)) && arduboy.collide(helenaRect, enemyRect))
   {
     playerScore += 500;
     helena.nextHelmet = (secretChest.characteristics & 0b00000111);
     secretChest.characteristics = 0B11000000;
-    bitSet(helena.characteristics, 2);
+    helena.characteristics |= 0B00000100;
   }
 
 

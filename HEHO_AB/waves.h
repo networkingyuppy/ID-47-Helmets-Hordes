@@ -36,15 +36,15 @@ boolean checkFlamePosition()
 boolean checkEndWave()
 {
   byte test = 0;
-  for (byte i = 0; i < MAX_ORCS_IN_WAVE; i++) test += bitRead(orc[i].characteristics, 7);
-  for (byte i = 0; i < MAX_SPIKES_IN_WAVE; i++) test += bitRead(spike[i].characteristics, 7);
-  test += bitRead(badWalkingFlame.characteristics, 7);
-  test += bitRead(badFlame.characteristics, 7);
-  test += bitRead(statue.characteristics, 7);
-  test += bitRead(arrow.characteristics, 7);
-  test += bitRead(badWeed.characteristics, 7);
-  for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++) test += bitRead(goldBar[i].characteristics, 7);
-  test += bitRead(secretChest.characteristics, 7);
+  for (byte i = 0; i < MAX_ORCS_IN_WAVE; i++) test += (orc[i].characteristics & 0B10000000) >> 7;
+  for (byte i = 0; i < MAX_SPIKES_IN_WAVE; i++) test += (spike[i].characteristics & 0B10000000) >> 7;
+  test += (badWalkingFlame.characteristics & 0B10000000) >> 7;
+  test += (badFlame.characteristics & 0B10000000) >> 7;
+  test += (statue.characteristics & 0B10000000) >> 7;
+  test += (arrow.characteristics & 0B10000000) >> 7;
+  test += (badWeed.characteristics & 0B10000000) >> 7;
+  for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++) test += (goldBar[i].characteristics & 0B10000000) >> 7;
+  test += (secretChest.characteristics & 0B10000000) >> 7;
   if (test < 1) currentWave++;
 }
 
@@ -174,7 +174,7 @@ void wave010()
 {
   if (checkStartWave())
   {
-    secretChestSetInLine(random(1,8));
+    secretChestSetInLine(random(1, 8));
   }
   updateSecretChest();
   checkEndWave();

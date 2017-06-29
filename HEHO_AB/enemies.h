@@ -104,9 +104,7 @@ void orcsSetInLine(byte orcType, byte firstOrc, byte lastOrc, int x, int spacing
 {
   for (byte i = firstOrc; i < lastOrc + 1; i++)
   {
-    orc[i].characteristics = orcType;
-    bitSet(orc[i].characteristics, 4);
-    bitSet(orc[i].characteristics, 7);
+    orc[i].characteristics = 0B10010000 + orcType;
     orc[i].x = x + (spacingX * (i - firstOrc));
   }
 }
@@ -115,7 +113,7 @@ void drawOrcs()
 {
   for (byte i = 0; i < MAX_ORCS_IN_WAVE; i++)
   {
-    if (bitRead(orc[i].characteristics, 4))
+    if (orc[i].characteristics & 0B00010000)
     {
       sprites.drawPlusMask(orc[i].x - 2, ORC_Y - 12 + ((orcFrames + i) % 2), orcHead_plus_mask, 0);
       switch (orc[i].characteristics & 0b00000011)
@@ -171,10 +169,7 @@ void spikesSetInLine(byte firstspike, byte lastspike, int x, int spacingX)
 {
   for (byte i = firstspike; i < lastspike + 1; i++)
   {
-    spike[i].characteristics = 0;
-    bitSet(spike[i].characteristics, 4);
-    bitSet(spike[i].characteristics, 6);
-    bitSet(spike[i].characteristics, 7);
+    spike[i].characteristics = 0B11010000;
     spike[i].x = x + (spacingX * (i - firstspike));
   }
 }
@@ -183,7 +178,7 @@ void drawSpikes()
 {
   for (byte i = 0; i < MAX_SPIKES_IN_WAVE; i++)
   {
-    if (bitRead(spike[i].characteristics, 4))
+    if (spike[i].characteristics & 0B00010000)
     {
       sprites.drawPlusMask(spike[i].x, SPIKE_Y, hazardSpike_plus_mask, 0);
     }
@@ -252,17 +247,14 @@ void updateBadWalkingFlame()
 
 void badWalkingFlameSetInLine()
 {
-  badWalkingFlame.characteristics = 0;
-  bitSet(badWalkingFlame.characteristics, 4);
-  bitSet(badWalkingFlame.characteristics, 6);
-  bitSet(badWalkingFlame.characteristics, 7);
+  badWalkingFlame.characteristics = 0B11010000;
   badWalkingFlame.x = BADFLAME_START_X;
   badWalkingFlame.y = BADWALKINGFLAME_Y;
 }
 
 void drawBadWalkingFlame()
 {
-  if (bitRead(badWalkingFlame.characteristics, 4))
+  if (badWalkingFlame.characteristics & 0B00010000)
   {
     sprites.drawPlusMask(badWalkingFlame.x, badWalkingFlame.y, monsterFlame_plus_mask, flameFrame);
   }
@@ -300,17 +292,14 @@ void updateBadFlame()
 
 void badFlameSetInLine()
 {
-  badFlame.characteristics = 0;
-  bitSet(badFlame.characteristics, 4);
-  bitSet(badFlame.characteristics, 6);
-  bitSet(badFlame.characteristics, 7);
+  badFlame.characteristics = 0B11010000;
   badFlame.x = BADFLAME_START_X;
   badFlame.y = BADFLAME_Y;
 }
 
 void drawBadFlame()
 {
-  if (bitRead(badFlame.characteristics, 4))
+  if (badFlame.characteristics & 0B00010000)
   {
     sprites.drawPlusMask(badFlame.x, badFlame.y, monsterFlame_plus_mask, flameFrame);
   }
@@ -355,22 +344,16 @@ void updateStatue()
 
 void statueSetInLine()
 {
-  statue.characteristics = 0;
-  bitSet(statue.characteristics, 4);
-  bitSet(statue.characteristics, 6);
-  bitSet(statue.characteristics, 7);
+  statue.characteristics = 0B11010000;
   statue.x = ENEMY_START_X;
 
-  arrow.characteristics = 0;
-  bitSet(arrow.characteristics, 4);
-  bitSet(arrow.characteristics, 6);
-  bitSet(arrow.characteristics, 7);
+  arrow.characteristics = 0B11010000;
   arrow.x = ENEMY_START_X;
 }
 
 void drawStatueFront()
 {
-  if (bitRead(statue.characteristics, 4))
+  if (statue.characteristics & 0B00010000)
   {
     sprites.drawPlusMask(statue.x, STATUE_Y, statueFront_plus_mask, 0);
   }
@@ -378,7 +361,7 @@ void drawStatueFront()
 
 void drawStatueBack()
 {
-  if (bitRead(statue.characteristics, 4))
+  if (statue.characteristics & 0B00010000)
   {
     sprites.drawPlusMask(statue.x + 7, STATUE_Y, statueBack_plus_mask, 0);
   }
@@ -386,7 +369,7 @@ void drawStatueBack()
 
 void drawArrows()
 {
-  if (bitRead(arrow.characteristics, 4))
+  if (arrow.characteristics & 0B00010000)
   {
     sprites.drawPlusMask(arrow.x, ARROW_Y, statueArrow_plus_mask, 0);
   }
@@ -464,18 +447,15 @@ void updateBadWeed()
 
 void badWeedSetInLine()
 {
-  badWeed.characteristics = 0;
+  badWeed.characteristics = 0B11010000;
   badWeed.weedFrame = 1;
-  bitSet(badWeed.characteristics, 4);
-  bitSet(badWeed.characteristics, 6);
-  bitSet(badWeed.characteristics, 7);
   badWeed.x = BADWEED_START_X;
   badWeed.y = BADWEED_Y;
 }
 
 void drawBadWeed()
 {
-  if (bitRead(badWeed.characteristics, 4))
+  if (badWeed.characteristics & 0B00010000)
   {
     sprites.drawPlusMask(badWeed.x, badWeed.y, monsterWeed_plus_mask, pgm_read_byte(&weedFrameSequence[badWeed.weedFrame]));
     sprites.drawErase (badWeed.x, BADWEED_Y + 12, weedMask, 0);

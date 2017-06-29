@@ -64,7 +64,7 @@ void drawGoldBars()
 
   for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++)
   {
-    if (bitRead(goldBar[i].characteristics, 4))
+    if (goldBar[i].characteristics & 0B00010000)
     {
       sprites.drawPlusMask(goldBar[i].x, goldBar[i].y, treasureBar_plus_mask,  pgm_read_byte(&goldBarSequence[(goldBarFrames) % 8]));
     }
@@ -88,7 +88,7 @@ void secretChestSetInLine(byte type)
 
 void drawSecretChest()
 {
-  if (bitRead(secretChest.characteristics, 4))
+  if (secretChest.characteristics & 0B00010000)
   {
     sprites.drawSelfMasked(secretChest.x, secretChest.y, dungeonChest, 0);
   }
@@ -102,7 +102,7 @@ void setCollectables()
 
 void drawSecretSparkles()
 {
-  if (bitRead(secretChest.characteristics, 6))
+  if (secretChest.characteristics & 0B01000000)
   {
     if (arduboy.everyXFrames(6))sparkleFrame++;
     sprites.drawPlusMask(secretChest.x, 32, effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 3) % 15]));
