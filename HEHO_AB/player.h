@@ -12,13 +12,13 @@
 #define HELENA_HELMET                               3
 
 #define HELMET_NO_HELMET                            0
-#define HELMET_ONE                                  1
-#define HELMET_TWO                                  2
-#define HELMET_THREE                                3
-#define HELMET_FOUR                                 4
-#define HELMET_FIVE                                 5
-#define HELMET_SIX                                  6
-#define HELMET_SEVEN                                7
+#define HELMET_WARRIOR                              1
+#define HELMET_FOOTBALL                             2
+#define HELMET_THIEF                                3
+#define HELMET_CUTTER                               4
+#define HELMET_MAGNET                               5
+#define HELMET_ATLAS                                6
+#define HELMET_BATTERY                              7
 
 #define WEAPON_NONE                                 0
 #define WEAPON_DAGGER                               1
@@ -120,7 +120,36 @@ void updateHelena()
       helena.helmet = helena.nextHelmet;
     }
   }
+
   if (helena.life < HELENA_HELMET) helena.helmet = 0;
+  switch (helena.helmet)
+  {
+    case HELMET_NO_HELMET:
+      if (helena.life == HELENA_NAKED) helena.characteristics = (helena.characteristics & 0B11111100) + 1;
+      else helena.characteristics = (helena.characteristics & 0B11111100) + 2;
+      break;
+    case HELMET_WARRIOR:
+      helena.characteristics = (helena.characteristics & 0B11111100) + 2;
+      break;
+    case HELMET_FOOTBALL:
+      helena.characteristics = (helena.characteristics & 0B11111100) + 0;
+      break;
+    case HELMET_THIEF:
+      helena.characteristics = (helena.characteristics & 0B11111100) + 1;
+      break;
+    case HELMET_CUTTER:
+      helena.characteristics = (helena.characteristics & 0B11111100) + 0;
+      break;
+    case HELMET_MAGNET:
+      helena.characteristics = (helena.characteristics & 0B11111100) + 2;
+      break;
+    case HELMET_ATLAS:
+      helena.characteristics = (helena.characteristics & 0B11111100) + 0;
+      break;
+    case HELMET_BATTERY:
+      helena.characteristics = (helena.characteristics & 0B11111100) + 0;
+      break;
+  }
   if (helena.x < 1) helena.life = HELENA_DEAD;
   if (helena.life == HELENA_DEAD) gameState = STATE_MENU_MAIN;
 }
@@ -139,16 +168,13 @@ void drawHelena()
         if (helena.characteristics & 0B00000011) sprites.drawPlusMask(helena.x + 13 + pgm_read_byte(&frameSequence[helena.frame]), helena.y  + (helena.frame % 2) + 6, playerWeapon_plus_mask, (helena.characteristics & 0B00000011) - 1);
         sprites.drawPlusMask(helena.x - 2 , helena.y + 4 + (helena.frame % 2), playerArmor_plus_mask, pgm_read_byte(&frameSequence[helena.frame]));
       }
-      else
-      {
-        if (helena.characteristics & 0B00000011) sprites.drawPlusMask(helena.x + 12 + pgm_read_byte(&frameSequence[helena.frame]), helena.y  + (helena.frame % 2) + 6, playerWeapon_plus_mask, (helena.characteristics & 0B00000011) - 1);
-      }
+      else if (helena.characteristics & 0B00000011) sprites.drawPlusMask(helena.x + 12 + pgm_read_byte(&frameSequence[helena.frame]), helena.y  + (helena.frame % 2) + 6, playerWeapon_plus_mask, (helena.characteristics & 0B00000011) - 1);
       break;
     case 0B01010000:        // visible & jumping
-      if (helena.characteristics & 0B00000011) sprites.drawPlusMask(helena.x + 16, helena.y  + 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerWeapon_plus_mask, (helena.characteristics & 0B00000011) - 1);
       sprites.drawPlusMask(helena.x - 3 , helena.y - 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerNakedJump_plus_mask, 0);
       if (!(helena.characteristics & 0B00001000)) sprites.drawPlusMask(helena.x - 4 , helena.y - 11 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerHelmets_plus_mask, helena.helmet);
       if ((helena.characteristics & 0B00001100) == 0B00001100) sprites.drawPlusMask(helena.x - 4 , helena.y - 11 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerHelmets_plus_mask, helena.nextHelmet);
+      if (helena.characteristics & 0B00000011) sprites.drawPlusMask(helena.x + 16, helena.y  + 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerWeapon_plus_mask, (helena.characteristics & 0B00000011) - 1);
       if (helena.life > HELENA_NAKED) sprites.drawPlusMask(helena.x - 5 , helena.y + 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerArmorJump_plus_mask, 0);
       break;
   }

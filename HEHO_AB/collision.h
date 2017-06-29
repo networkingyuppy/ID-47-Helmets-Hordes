@@ -251,8 +251,6 @@ void checkCollisions()
     helena.life = HELENA_HELMET;
   }
 
-  Serial.println(helena.life);
-
   // end of collision detection
 }
 
