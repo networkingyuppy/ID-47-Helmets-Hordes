@@ -15,7 +15,7 @@ void checkCollisions()
     .width = HELENA_COLLISION_WIDTH,
     .height = HELENA_COLLISION_HEIGHT
   };
-  if (helena.jumping) helenaRect.y = helena.y + HELENA_COLLISION_Y_OFFSET - 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]);
+  if (helena.characteristics & 0B01000000) helenaRect.y = helena.y + HELENA_COLLISION_Y_OFFSET - 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]);
   else helenaRect.y = helena.y + HELENA_COLLISION_Y_OFFSET + (helena.frame % 2);
 
   ////// Check collision weapon with enemies /////
@@ -37,9 +37,9 @@ void checkCollisions()
     };
     if (bitRead(orc[i].characteristics, 4) && !bitRead(orc[i].characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
     {
-      if (!helena.isImune)
+      if (!(helena.characteristics & 0B00100000))
       {
-        helena.isImune = true;
+        bitSet(helena.characteristics, 5);
         playerScore = 0;
         //helena.life--;
       }
@@ -71,9 +71,9 @@ void checkCollisions()
     }
     if (bitRead(orc[i].characteristics, 4) && !bitRead(orc[i].characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
     {
-      if (!helena.isImune)
+      if (!(helena.characteristics & 0B00100000))
       {
-        helena.isImune = true;
+        bitSet(helena.characteristics, 5);
         playerScore = 0;
         //helena.life--;
       }
@@ -92,9 +92,9 @@ void checkCollisions()
     };
     if (bitRead(spike[i].characteristics, 4) && !bitRead(spike[i].characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
     {
-      if (!helena.isImune)
+      if (!(helena.characteristics & 0B00100000))
       {
-        helena.isImune = true;
+        bitSet(helena.characteristics, 5);
         playerScore = 0;
         //helena.life--;
       }
@@ -116,9 +116,9 @@ void checkCollisions()
 
   if (bitRead(badWalkingFlame.characteristics, 4) && !bitRead(badWalkingFlame.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
   {
-    if (!helena.isImune)
+    if (!(helena.characteristics & 0B00100000))
     {
-      helena.isImune = true;
+      bitSet(helena.characteristics, 5);
       playerScore = 0;
       //helena.life--;
     }
@@ -137,9 +137,9 @@ void checkCollisions()
   };
   if (bitRead(badFlame.characteristics, 4) && !bitRead(badFlame.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
   {
-    if (!helena.isImune)
+    if (!(helena.characteristics & 0B00100000))
     {
-      helena.isImune = true;
+      bitSet(helena.characteristics, 5);
       playerScore = 0;
       //helena.life--;
     }
@@ -159,7 +159,7 @@ void checkCollisions()
   };
   if (bitRead(statue.characteristics, 4) && !bitRead(statue.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
   {
-    if (!helena.isImune)
+    if (!(helena.characteristics & 0B00100000))
     {
       //helena.isImune = true;
       helena.x--;
@@ -179,9 +179,9 @@ void checkCollisions()
   };
   if (bitRead(arrow.characteristics, 4) && !bitRead(arrow.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
   {
-    if (!helena.isImune)
+    if (!(helena.characteristics & 0B00100000))
     {
-      helena.isImune = true;
+      bitSet(helena.characteristics, 5);
       playerScore = 0;
       //helena.life--;
     }
@@ -202,9 +202,9 @@ void checkCollisions()
 
   if (bitRead(badWeed.characteristics, 4) && !bitRead(badWeed.characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
   {
-    if (!helena.isImune)
+    if (!(helena.characteristics & 0B00100000))
     {
-      helena.isImune = true;
+      bitSet(helena.characteristics, 5);
       playerScore = 0;
       //helena.life--;
     }
@@ -226,7 +226,7 @@ void checkCollisions()
     };
     if (bitRead(goldBar[i].characteristics, 4) && !bitRead(goldBar[i].characteristics, 5) && arduboy.collide(helenaRect, enemyRect))
     {
-      if (!helena.isImune)
+      if (!(helena.characteristics & 0B00100000))
       {
         playerScore += 200;
         goldBar[i].characteristics = 0;
@@ -245,10 +245,10 @@ void checkCollisions()
   };
   if (bitRead(secretChest.characteristics, 4) && bitRead(secretChest.characteristics, 7) && arduboy.collide(helenaRect, enemyRect))
   {
-    playerScore +=500;
+    playerScore += 500;
     helena.nextHelmet = (secretChest.characteristics & 0b00000111);
     secretChest.characteristics = 0B11000000;
-    helena.changingHelmet = true;
+    bitSet(helena.characteristics, 2);
   }
 
 
