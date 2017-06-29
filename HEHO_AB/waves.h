@@ -214,6 +214,7 @@ const FunctionPointer PROGMEM allWaves[] =
     wave009,
     wave200,
   */
+  wave009,
   wave010,
   wave255,
 };

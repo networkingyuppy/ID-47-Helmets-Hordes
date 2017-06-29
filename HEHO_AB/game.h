@@ -55,7 +55,6 @@ void stateGamePlaying()
 
   drawHelena();
   drawSecretSparkles();
-  Serial.println(secretChest.characteristics, BIN);
   checkCollisions();
   drawChains();
   drawScore(2, 48);

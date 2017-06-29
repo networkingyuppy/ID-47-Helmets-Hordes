@@ -106,12 +106,12 @@ void updateHelena()
   }
   else if (helena.x < HELENA_START_X && arduboy.everyXFrames(2)) helena.x++;
 
-  if (helena.characteristics & 0B00000010)
+  if (helena.characteristics & 0B00000100)
   {
     if (arduboy.everyXFrames(5))
     {
       helena.flickerTimer++;
-      helena.characteristics ^= 0B00000100;
+      helena.characteristics ^= 0B00001000;
     }
     if (helena.flickerTimer > HELENA_FLICKER_TIME)
     {
@@ -120,29 +120,20 @@ void updateHelena()
       helena.helmet = helena.nextHelmet;
     }
   }
-
+  if (helena.life < HELENA_HELMET) helena.helmet = 0;
   if (helena.x < 1) helena.life = HELENA_DEAD;
   if (helena.life == HELENA_DEAD) gameState = STATE_MENU_MAIN;
 }
 
+
 void drawHelena()
 {
-  if (helena.characteristics & 0B00010000)    // if visible
+  switch (helena.characteristics & 0B11010000)
   {
-    if (helena.characteristics & 0B01000000)  // if jumping
-    {
-      if (helena.characteristics & 0B00000011) sprites.drawPlusMask(helena.x + 16, helena.y  + 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerWeapon_plus_mask, (helena.characteristics & 0B00000011) - 1);
-      sprites.drawPlusMask(helena.x - 3 , helena.y - 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerNakedJump_plus_mask, 0);
-      if (!(helena.characteristics & 0B00001000)) sprites.drawPlusMask(helena.x - 4 , helena.y - 11 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerHelmets_plus_mask, helena.helmet);
-      if (helena.characteristics & 0B00001100) sprites.drawPlusMask(helena.x - 4 , helena.y - 11 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerHelmets_plus_mask, helena.nextHelmet);
-
-      if (helena.life > HELENA_NAKED) sprites.drawPlusMask(helena.x - 5 , helena.y + 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerArmorJump_plus_mask, 0);
-    }
-    else
-    {
+    case 0B00010000:        // visible
       sprites.drawPlusMask(helena.x, helena.y + (helena.frame % 2), playerNaked_plus_mask, pgm_read_byte(&frameSequence[helena.frame]));
       if (!(helena.characteristics & 0B00001000))sprites.drawPlusMask(helena.x - 4 , helena.y - 9 + (helena.frame % 2), playerHelmets_plus_mask, helena.helmet);
-      if (helena.characteristics & 0B00001100) sprites.drawPlusMask(helena.x - 4 , helena.y - 9 + (helena.frame % 2), playerHelmets_plus_mask, helena.nextHelmet);
+      if ((helena.characteristics & 0B00001100) == 0B00001100) sprites.drawPlusMask(helena.x - 4 , helena.y - 9 + (helena.frame % 2), playerHelmets_plus_mask, helena.nextHelmet);
       if (helena.life > HELENA_NAKED)
       {
         if (helena.characteristics & 0B00000011) sprites.drawPlusMask(helena.x + 13 + pgm_read_byte(&frameSequence[helena.frame]), helena.y  + (helena.frame % 2) + 6, playerWeapon_plus_mask, (helena.characteristics & 0B00000011) - 1);
@@ -152,8 +143,16 @@ void drawHelena()
       {
         if (helena.characteristics & 0B00000011) sprites.drawPlusMask(helena.x + 12 + pgm_read_byte(&frameSequence[helena.frame]), helena.y  + (helena.frame % 2) + 6, playerWeapon_plus_mask, (helena.characteristics & 0B00000011) - 1);
       }
-    }
+      break;
+    case 0B01010000:        // visible & jumping
+      if (helena.characteristics & 0B00000011) sprites.drawPlusMask(helena.x + 16, helena.y  + 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerWeapon_plus_mask, (helena.characteristics & 0B00000011) - 1);
+      sprites.drawPlusMask(helena.x - 3 , helena.y - 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerNakedJump_plus_mask, 0);
+      if (!(helena.characteristics & 0B00001000)) sprites.drawPlusMask(helena.x - 4 , helena.y - 11 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerHelmets_plus_mask, helena.helmet);
+      if ((helena.characteristics & 0B00001100) == 0B00001100) sprites.drawPlusMask(helena.x - 4 , helena.y - 11 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerHelmets_plus_mask, helena.nextHelmet);
+      if (helena.life > HELENA_NAKED) sprites.drawPlusMask(helena.x - 5 , helena.y + 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerArmorJump_plus_mask, 0);
+      break;
   }
 }
+
 
 #endif
