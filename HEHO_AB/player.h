@@ -35,6 +35,7 @@
 
 
 const unsigned char PROGMEM helenaJumpSequence[] = {6, 14, 20, 23, 23, 25, 25, 25, 26, 26, 26, 26, 25, 25, 25, 23, 23, 20, 14, 6};
+const unsigned char PROGMEM weaponWithHelmet[] = {WEAPON_SWORD, WEAPON_SWORD, WEAPON_NONE, WEAPON_DAGGER, WEAPON_NONE, WEAPON_SWORD, WEAPON_NONE, WEAPON_NONE};
 
 struct Players
 {
@@ -52,6 +53,8 @@ struct Players
     //                          |└------->  6 - the player is jumping             (0 = false / 1 = true)
     //                          └-------->  7 - the player is stabbing            (0 = false / 1 = true)
 };
+
+struct Stabbing
 
 
 Players helena;
@@ -125,43 +128,19 @@ void updateHelena()
 
   if (helena.characteristics & 0B10000000)  // if stabbing
   {
-    if (arduboy.everyXFrames(5))
+    if (arduboy.everyXFrames(5)) helena.stabbingTimer++;
+    if (helena.stabbingTimer > HELENA_STABING_TIME)
     {
       helena.stabbingTimer = 0;
+      helena.characteristics &= 0B01111111;
     }
-
   }
 
-  if (helena.life < HELENA_HELMET) helena.helmet = 0;
-  switch (helena.helmet)
-  {
-    case HELMET_NO_HELMET:
-      if (helena.life == HELENA_NAKED) helena.characteristics = (helena.characteristics & 0B11111100) + 1;
-      else helena.characteristics = (helena.characteristics & 0B11111100) + 2;
-      break;
-    case HELMET_WARRIOR:
-      helena.characteristics = (helena.characteristics & 0B11111100) + 2;
-      break;
-    case HELMET_FOOTBALL:
-      helena.characteristics = (helena.characteristics & 0B11111100) + 0;
-      break;
-    case HELMET_THIEF:
-      helena.characteristics = (helena.characteristics & 0B11111100) + 1;
-      break;
-    case HELMET_CUTTER:
-      helena.characteristics = (helena.characteristics & 0B11111100) + 0;
-      break;
-    case HELMET_MAGNET:
-      helena.characteristics = (helena.characteristics & 0B11111100) + 2;
-      break;
-    case HELMET_ATLAS:
-      helena.characteristics = (helena.characteristics & 0B11111100) + 0;
-      break;
-    case HELMET_BATTERY:
-      helena.characteristics = (helena.characteristics & 0B11111100) + 0;
-      break;
-  }
   if (helena.x < 1) helena.life = HELENA_DEAD;
+  if (helena.life < HELENA_HELMET) helena.helmet = 0;
+  if (helena.life == HELENA_NAKED) helena.characteristics = (helena.characteristics & 0B11111100) + WEAPON_DAGGER;
+  else helena.characteristics = (helena.characteristics & 0B11111100) + pgm_read_byte(&weaponWithHelmet[helena.helmet]);
+  
   if (helena.life == HELENA_DEAD) gameState = STATE_MENU_MAIN;
 }
 
@@ -205,6 +184,14 @@ void drawHelena()
         if (helena.characteristics & 0B00000011) sprites.drawPlusMask(helena.x + 17, helena.y + 3 + (helena.frame % 2), playerWeapon_plus_mask, (helena.characteristics & 0B00000011) - 1);
       }
       break;
+  }
+}
+
+void drawStab()
+{
+  if (helena.characteristics & 0B10000000)
+  {
+    
   }
 }
 

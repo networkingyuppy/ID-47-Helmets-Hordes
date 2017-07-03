@@ -6,16 +6,14 @@
 
 void checkInputs()
 {
-  if (arduboy.pressed(DOWN_BUTTON));
-  if (arduboy.pressed(LEFT_BUTTON));
-  if (arduboy.pressed(UP_BUTTON)) gameState = STATE_MENU_MAIN;
-  if (arduboy.pressed(RIGHT_BUTTON));
+  if (arduboy.justPressed(UP_BUTTON | RIGHT_BUTTON | DOWN_BUTTON))gameState = STATE_GAME_PAUSE;
+  if (arduboy.justPressed(LEFT_BUTTON)) gameState = STATE_MENU_MAIN;
 
-  if (arduboy.justPressed(A_BUTTON)) if ((helena.characteristics & 0B10000000) != 0B10000000) helena.characteristics |= 0B10000000;
+  if (arduboy.justPressed(A_BUTTON)) if ((helena.characteristics & 0B10000000) != 0B10000000) helena.characteristics |= 0B10000000; // if not stabbing, stab
   if (arduboy.justPressed(B_BUTTON)) 
   {
-    helena.characteristics |= 0B01000000;
-    helena.characteristics &= 0B01111111;
+    helena.characteristics |= 0B01000000; // jump
+    helena.characteristics &= 0B01111111; // no longer stab
   }
 }
 

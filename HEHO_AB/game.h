@@ -63,7 +63,7 @@ void stateGamePlaying()
 
 void stateGamePause()
 {
-  if (arduboy.justPressed(A_BUTTON)) gameState = STATE_GAME_PLAYING;
+  if (arduboy.justPressed(UP_BUTTON | RIGHT_BUTTON | DOWN_BUTTON)) gameState = STATE_GAME_PLAYING;
 };
 
 void stateGameOver()

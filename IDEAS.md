@@ -54,12 +54,3 @@ I think we should use a jump button, an action button (for helmet abilities) and
     * Pillars: These should be placed more evenly, to indicate a bit of a regular structure to the Ork dungeon.
     * Wooden crates: I suppose we can just arrange these randomly? Maybe they should be object in the playing field that you need to jump over?
   * Layer 1 (front): This layer contains the floor brick tiles, pebbles and other debris, weeds, etc. This is the level that the player is running on. Maybe the weeds/pebbles/debris can be drawn on top of the player sprite?
-
-## ENEMY LIST (this is just a PLACEHOLDER right now)
-| **SPRITE** | **SIZE** | **FRAMES** | **NAME** | **HP** | **SWIMMING** |
-| ---        | ---      | ---        | ---      | ---    | ---          |
-| **Trolly Fish** | 16x16 | 4 | trollyFish_16x16 | 1 or 2| 
-| **Bad Fishy** | 12x12 | 4 | badFishy_16x16 | 1 |
-| **Fast Bad Fishy** | 12x12 | 4 | badFishy_16x16 | 1 |
-| **Jellyfish** | 16x24 | 4 | jellyFish_16x24 | 3 |
-| **Eel** | 80x16 | 4 | eel_16x80 | 5 |
