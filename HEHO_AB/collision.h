@@ -233,20 +233,20 @@ void checkCollisions()
     }
   }
 
-  //// Check collision Helena with secret chest ////
+  //// Check collision Helena with dungeon chest ////
   //////////////////////////////////////////////////
   enemyRect =
   {
-    .x = secretChest.x,
-    .y = secretChest.y,
-    .width = SECRET_CHEST_COLLISION_WIDTH,
-    .height = SECRET_CHEST_COLLISION_HEIGHT,
+    .x = dungeonChests.x,
+    .y = dungeonChests.y,
+    .width = DUNGEON_CHEST_COLLISION_WIDTH,
+    .height = DUNGEON_CHEST_COLLISION_HEIGHT,
   };
-  if (((secretChest.characteristics & 0B10010000) == 0B10010000) && arduboy.collide(helenaRect, enemyRect))
+  if (((dungeonChests.characteristics & 0B10010000) == 0B10010000) && arduboy.collide(helenaRect, enemyRect))
   {
     playerScore += 500;
-    helena.nextHelmet = (secretChest.characteristics & 0b00000111);
-    secretChest.characteristics = 0B11000000;
+    helena.nextHelmet = (dungeonChests.characteristics & 0b00000111);
+    dungeonChests.characteristics = 0B11000000;
     helena.characteristics |= 0B00000100;
     helena.life = HELENA_HELMET;
   }

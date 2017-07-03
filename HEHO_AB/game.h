@@ -54,8 +54,9 @@ void stateGamePlaying()
   drawStatueBack();
 
   drawHelena();
+  drawStab();
   drawSecretSparkles();
-  checkCollisions();
+  //checkCollisions();
   drawChains();
   drawScore(2, 48);
   playerScore++;

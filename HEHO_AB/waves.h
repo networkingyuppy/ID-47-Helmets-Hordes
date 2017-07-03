@@ -44,7 +44,7 @@ boolean checkEndWave()
   test += (arrow.characteristics & 0B10000000) >> 7;
   test += (badWeed.characteristics & 0B10000000) >> 7;
   for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++) test += (goldBar[i].characteristics & 0B10000000) >> 7;
-  test += (secretChest.characteristics & 0B10000000) >> 7;
+  test += (dungeonChests.characteristics & 0B10000000) >> 7;
   if (test < 1) currentWave++;
 }
 
@@ -174,7 +174,7 @@ void wave010()
 {
   if (checkStartWave())
   {
-    secretChestSetInLine(random(1, 8));
+    dungeonChestsSetInLine(random(1, 8));
   }
   updateSecretChest();
   checkEndWave();
@@ -202,19 +202,17 @@ typedef void (*FunctionPointer) ();
 const FunctionPointer PROGMEM allWaves[] =
 {
   wave000,
-  /*
-    wave001,
-    wave002,
-    wave003,
-    wave004,
-    wave005,
-    wave006,
-    wave007,
-    wave008,
-    wave009,
-    wave200,
-  */
+  wave001,
+  wave002,
+  wave003,
+  wave004,
+  wave005,
+  wave006,
+  wave007,
+  wave008,
   wave009,
+  wave010,
+  wave200,
   wave010,
   wave255,
 };

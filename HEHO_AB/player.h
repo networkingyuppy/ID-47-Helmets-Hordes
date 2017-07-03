@@ -55,9 +55,16 @@ struct Players
 };
 
 struct Stabbing
+{
+  public:
+    byte x, y, type;
+    boolean isVisible;
+    boolean isActive;
+};
 
 
 Players helena;
+Stabbing stab;
 
 void setHelena()
 {
@@ -75,12 +82,10 @@ void setHelena()
     0,                                                  // start the stabbingTimer at 0
     0b00110010,                                         // start visible / imune and with sword
   };
+  stab.isActive = false;
+  stab.isVisible = false;
 }
 
-void checkWeapon()
-{
-
-}
 
 void updateHelena()
 {
@@ -128,7 +133,7 @@ void updateHelena()
 
   if (helena.characteristics & 0B10000000)  // if stabbing
   {
-    if (arduboy.everyXFrames(5)) helena.stabbingTimer++;
+    if (arduboy.everyXFrames(4)) helena.stabbingTimer++;
     if (helena.stabbingTimer > HELENA_STABING_TIME)
     {
       helena.stabbingTimer = 0;
@@ -136,12 +141,16 @@ void updateHelena()
     }
   }
 
+
   if (helena.x < 1) helena.life = HELENA_DEAD;
+  if (helena.life < 1) helena.life = 1;
   if (helena.life < HELENA_HELMET) helena.helmet = 0;
   if (helena.life == HELENA_NAKED) helena.characteristics = (helena.characteristics & 0B11111100) + WEAPON_DAGGER;
   else helena.characteristics = (helena.characteristics & 0B11111100) + pgm_read_byte(&weaponWithHelmet[helena.helmet]);
-  
+
   if (helena.life == HELENA_DEAD) gameState = STATE_MENU_MAIN;
+
+
 }
 
 
@@ -189,9 +198,13 @@ void drawHelena()
 
 void drawStab()
 {
-  if (helena.characteristics & 0B10000000)
+  if (stab.isActive)
   {
-    
+    if (!(helena.characteristics & 0B01000000))
+    {
+      if (stab.isVisible) sprites.drawSelfMasked(stab.x, stab.y, stabWalking, stab.type);
+    }
+    else if (stab.isVisible) sprites.drawSelfMasked(stab.x, stab.y, stabJumping,stab.type);
   }
 }
 

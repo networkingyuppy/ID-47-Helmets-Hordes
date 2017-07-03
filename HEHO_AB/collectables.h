@@ -9,11 +9,11 @@
 #define GOLDBAR_COLLISION_WIDTH                           10
 #define GOLDBAR_COLLISION_HEIGHT                          16
 
-#define SECRET_CHEST_Y                                    35
-#define SECRET_CHEST_START_X                              128
+#define DUNGEON_CHEST_Y                                    35
+#define DUNGEON_CHEST_START_X                              128
 
-#define SECRET_CHEST_COLLISION_WIDTH                      16
-#define SECRET_CHEST_COLLISION_HEIGHT                     14
+#define DUNGEON_CHEST_COLLISION_WIDTH                      16
+#define DUNGEON_CHEST_COLLISION_HEIGHT                     14
 
 
 byte goldBarFrames = 0;
@@ -37,7 +37,7 @@ struct DifferentItems
 };
 
 DifferentItems goldBar[MAX_ONSCREEN_GOLDBARS];
-DifferentItems secretChest;
+DifferentItems dungeonChests;
 
 void updateGoldBars()
 {
@@ -74,40 +74,40 @@ void drawGoldBars()
 
 void updateSecretChest()
 {
-  if (arduboy.everyXFrames(2))secretChest.x--;
-  if (secretChest.x < -16) secretChest.characteristics = 0;
+  if (arduboy.everyXFrames(2))dungeonChests.x--;
+  if (dungeonChests.x < -16) dungeonChests.characteristics = 0;
 }
 
-void secretChestSetInLine(byte type)
+void dungeonChestsSetInLine(byte type)
 {
-  secretChest.x = SECRET_CHEST_START_X;
-  secretChest.y = SECRET_CHEST_Y;
-  secretChest.characteristics = 0b10010000 + type;
+  dungeonChests.x = DUNGEON_CHEST_START_X;
+  dungeonChests.y = DUNGEON_CHEST_Y;
+  dungeonChests.characteristics = 0b10010000 + type;
   sparkleFrame = 7;
 }
 
 void drawSecretChest()
 {
-  if (secretChest.characteristics & 0B00010000)
+  if (dungeonChests.characteristics & 0B00010000)
   {
-    sprites.drawSelfMasked(secretChest.x, secretChest.y, dungeonChest, 0);
+    sprites.drawSelfMasked(dungeonChests.x, dungeonChests.y, dungeonChest, 0);
   }
 }
 
 void setCollectables()
 {
   for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++) goldBar[i].characteristics = 0;
-  secretChest.characteristics = 0;
+  dungeonChests.characteristics = 0;
 }
 
 void drawSecretSparkles()
 {
-  if (secretChest.characteristics & 0B01000000)
+  if (dungeonChests.characteristics & 0B01000000)
   {
     if (arduboy.everyXFrames(6))sparkleFrame++;
-    sprites.drawPlusMask(secretChest.x, 32, effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 3) % 15]));
-    sprites.drawPlusMask(secretChest.x - 4, 43, effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 1)  % 15]));
-    sprites.drawPlusMask(secretChest.x - 11, 37, effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 2) % 15]));
+    sprites.drawPlusMask(dungeonChests.x, 32, effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 3) % 15]));
+    sprites.drawPlusMask(dungeonChests.x - 4, 43, effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 1)  % 15]));
+    sprites.drawPlusMask(dungeonChests.x - 11, 37, effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 2) % 15]));
   }
 }
 
