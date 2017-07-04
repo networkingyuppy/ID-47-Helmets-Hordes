@@ -26,7 +26,8 @@
 
 #define HELENA_IMUNE_TIME                          30
 #define HELENA_FLICKER_TIME                        15
-#define HELENA_STABING_TIME                        10
+#define HELENA_STABBING_TIME                       10
+#define STAB_TIME                                  10
 
 #define HELENA_COLLISION_X_OFFSET                   3
 #define HELENA_COLLISION_Y_OFFSET                   -2
@@ -36,6 +37,7 @@
 
 const unsigned char PROGMEM helenaJumpSequence[] = {6, 14, 20, 23, 23, 25, 25, 25, 26, 26, 26, 26, 25, 25, 25, 23, 23, 20, 14, 6};
 const unsigned char PROGMEM weaponWithHelmet[] = {WEAPON_SWORD, WEAPON_SWORD, WEAPON_NONE, WEAPON_DAGGER, WEAPON_NONE, WEAPON_SWORD, WEAPON_NONE, WEAPON_NONE};
+byte currentStab;
 
 struct Players
 {
@@ -57,14 +59,15 @@ struct Players
 struct Stabbing
 {
   public:
-    byte x, y, type;
+    byte x, y, type, stabTimer;
     boolean isVisible;
     boolean isActive;
+    boolean horizontal;
 };
 
 
 Players helena;
-Stabbing stab;
+Stabbing stab[2];
 
 void setHelena()
 {
@@ -82,8 +85,12 @@ void setHelena()
     0,                                                  // start the stabbingTimer at 0
     0b00110010,                                         // start visible / imune and with sword
   };
-  stab.isActive = false;
-  stab.isVisible = false;
+  for (byte i = 0; i < 2; i++ )
+  {
+    stab[i].isActive = false;
+    stab[i].isVisible = false;
+  }
+  currentStab = 0;
 }
 
 
@@ -133,11 +140,26 @@ void updateHelena()
 
   if (helena.characteristics & 0B10000000)  // if stabbing
   {
-    if (arduboy.everyXFrames(4)) helena.stabbingTimer++;
-    if (helena.stabbingTimer > HELENA_STABING_TIME)
+    if (arduboy.everyXFrames(2)) helena.stabbingTimer++;
+    if (helena.stabbingTimer > HELENA_STABBING_TIME)
     {
       helena.stabbingTimer = 0;
       helena.characteristics &= 0B01111111;
+    }
+  }
+  for (byte i = 0; i < 2; i++ )
+  {
+    if (stab[i].isActive)
+    {
+      stab[i].stabTimer++;
+      if (stab[i].horizontal) stab[i].x++;
+      else stab[i].y++;
+      if (stab[i].stabTimer > STAB_TIME)
+      {
+        stab[i].stabTimer = 0;
+        stab[i].isActive = false;
+        stab[i].isVisible = false;
+      }
     }
   }
 
@@ -193,18 +215,29 @@ void drawHelena()
         if (helena.characteristics & 0B00000011) sprites.drawPlusMask(helena.x + 17, helena.y + 3 + (helena.frame % 2), playerWeapon_plus_mask, (helena.characteristics & 0B00000011) - 1);
       }
       break;
+
+    case 0B11010000:        // visible + jumping + stabbing
+      sprites.drawPlusMask(helena.x - 3 , helena.y - 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerNakedJumpSlash_plus_mask, 0);
+      if (!(helena.characteristics & 0B00001000)) sprites.drawPlusMask(helena.x - 4 , helena.y - 11 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerHelmets_plus_mask, helena.helmet);
+      if ((helena.characteristics & 0B00001100) == 0B00001100) sprites.drawPlusMask(helena.x - 4 , helena.y - 11 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerHelmets_plus_mask, helena.nextHelmet);
+      if (helena.characteristics & 0B00000011) sprites.drawPlusMask(helena.x + 7, helena.y  + 12 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerWeaponJump_plus_mask, (helena.characteristics & 0B00000011) - 1);
+      if (helena.life > HELENA_NAKED) sprites.drawPlusMask(helena.x - 5 , helena.y + 1 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]), playerArmorJumpSlash_plus_mask, 0);
+      break;
   }
 }
 
 void drawStab()
 {
-  if (stab.isActive)
+  for (byte i = 0; i < 2; i++ )
   {
-    if (!(helena.characteristics & 0B01000000))
+    if (stab[i].isActive)
     {
-      if (stab.isVisible) sprites.drawSelfMasked(stab.x, stab.y, stabWalking, stab.type);
+      if (stab[i].horizontal)
+      {
+        if (stab[i].isVisible) sprites.drawSelfMasked(stab[i].x, stab[i].y, stabWalking, stab[i].type);
+      }
+      else if (stab[i].isVisible) sprites.drawSelfMasked(stab[i].x, stab[i].y, stabJumping, stab[i].type);
     }
-    else if (stab.isVisible) sprites.drawSelfMasked(stab.x, stab.y, stabJumping,stab.type);
   }
 }
 
