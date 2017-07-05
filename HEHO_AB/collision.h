@@ -15,14 +15,20 @@ void checkCollisions()
     .width = HELENA_COLLISION_WIDTH,
     .height = HELENA_COLLISION_HEIGHT
   };
-  helenaRect.y = helena.y + HELENA_COLLISION_Y_OFFSET;
   if (helena.characteristics & 0B01000000) helenaRect.y = helena.y + HELENA_COLLISION_Y_OFFSET - 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]);
   else helenaRect.y = helena.y + HELENA_COLLISION_Y_OFFSET + (helena.frame % 2);
 
   ////// Check collision weapon with enemies /////
   ////////////////////////////////////////////////
+  Rect stabRect;
+  stabRect = {
+    .x = stab[nextStab].x,
+    .y = stab[nextStab].y,
+    .width = STAB_COLLISION_WIDTH,
+    .height = STAB_COLLISION_HEIGHT,
+  };
+  byte currentTab = 1 - nextStab;
 
-  //arduboy.collide(helenaRect,
 
   ////// Check collision Helena with Orcs ////////
   ////////////////////////////////////////////////
@@ -36,6 +42,17 @@ void checkCollisions()
       .width = ORC_COLLISION_WIDTH,
       .height = ORC_COLLISION_HEIGHT
     };
+    if (stab[currentTab].isActive)
+    {
+      if (((orc[i].characteristics & 0B00110000) == 0B00010000) && arduboy.collide(stabRect, enemyRect))
+      {
+        orc[i].characteristics = 0B00100000;
+        stab[currentTab].isActive = false;
+        stab[currentTab].isVisible = false;
+        playerScore += 500;
+      }
+    }
+
     if (((orc[i].characteristics & 0B00110000) == 0B00010000) && arduboy.collide(helenaRect, enemyRect))
     {
       if (!(helena.characteristics & 0B00100000))
@@ -53,7 +70,7 @@ void checkCollisions()
     {
       enemyRect =
       {
-        .x = orc[i].x - 14,
+        .x = orc[i].x - 18,
         .y = ORC_Y + 3 + ((orcFrames + i) % 2),
         .width = SPEAR_F_COLLISION_WIDTH,
         .height = SPEAR_F_COLLISION_HEIGHT
@@ -69,6 +86,7 @@ void checkCollisions()
         .height = SPEAR_U_COLLISION_HEIGHT
       };
     }
+
     if (((orc[i].characteristics & 0B00110000) == 0B00010000) && arduboy.collide(helenaRect, enemyRect))
     {
       if (!(helena.characteristics & 0B00100000))
@@ -194,6 +212,18 @@ void checkCollisions()
     .width = BADWEED_COLLISION_WIDTH,
     .height = BADWEED_COLLISION_HEIGHT
   };
+
+  if (stab[currentTab].isActive)
+  {
+    if (((badWeed.characteristics & 0B00110000) == 0B00010000) && arduboy.collide(stabRect, enemyRect))
+    {
+      badWeed.characteristics = 0B00100000;
+      stab[currentTab].isActive = false;
+      stab[currentTab].isVisible = false;
+      playerScore += 500;
+    }
+  }
+  
   if (((badWeed.characteristics & 0B00110000) == 0B00010000) && arduboy.collide(helenaRect, enemyRect))
   {
     if (!(helena.characteristics & 0B00100000))

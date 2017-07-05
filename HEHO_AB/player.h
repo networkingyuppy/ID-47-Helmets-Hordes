@@ -27,17 +27,21 @@
 #define HELENA_IMUNE_TIME                          30
 #define HELENA_FLICKER_TIME                        15
 #define HELENA_STABBING_TIME                       10
-#define STAB_TIME                                  10
+#define STAB_TIME                                  6
 
 #define HELENA_COLLISION_X_OFFSET                   3
 #define HELENA_COLLISION_Y_OFFSET                   -2
 #define HELENA_COLLISION_WIDTH                      8
 #define HELENA_COLLISION_HEIGHT                     14
 
+#define STAB_COLLISION_WIDTH                        8
+#define STAB_COLLISION_HEIGHT                       8
+
+
 
 const unsigned char PROGMEM helenaJumpSequence[] = {6, 14, 20, 23, 23, 25, 25, 25, 26, 26, 26, 26, 25, 25, 25, 23, 23, 20, 14, 6};
 const unsigned char PROGMEM weaponWithHelmet[] = {WEAPON_SWORD, WEAPON_SWORD, WEAPON_NONE, WEAPON_DAGGER, WEAPON_NONE, WEAPON_SWORD, WEAPON_NONE, WEAPON_NONE};
-byte currentStab;
+byte nextStab;
 
 struct Players
 {
@@ -90,7 +94,7 @@ void setHelena()
     stab[i].isActive = false;
     stab[i].isVisible = false;
   }
-  currentStab = 0;
+  nextStab = 0;
 }
 
 

@@ -14,23 +14,23 @@ void checkInputs()
     if (!(helena.characteristics & 0B10000000))
     {
       helena.characteristics |= 0B10000000; // if not stabbing, stab
-      stab[currentStab].isActive = true;
-      stab[currentStab].isVisible = true;
-      stab[currentStab].type = (helena.characteristics & 0B00000011) - 1;
-      stab[currentStab].stabTimer = 0;
+      stab[nextStab].isActive = true;
+      stab[nextStab].isVisible = true;
+      stab[nextStab].type = (helena.characteristics & 0B00000011) - 1;
+      stab[nextStab].stabTimer = 0;
       if (!(helena.characteristics & 0B01000000))
       {
-        stab[currentStab].x = helena.x + 25;
-        stab[currentStab].y = helena.y - 6;
-        stab[currentStab].horizontal = true;
+        stab[nextStab].x = helena.x + 25;
+        stab[nextStab].y = helena.y - 6;
+        stab[nextStab].horizontal = true;
       }
       else
       {
-        stab[currentStab].x = helena.x + 1;
-        stab[currentStab].y = helena.y - 14;
-        stab[currentStab].horizontal = false;
+        stab[nextStab].x = helena.x + 1;
+        stab[nextStab].y = helena.y - 14;
+        stab[nextStab].horizontal = false;
       }
-      currentStab = !currentStab;
+      nextStab = (++nextStab) %2;
     }
   }
   if (arduboy.justPressed(B_BUTTON))
