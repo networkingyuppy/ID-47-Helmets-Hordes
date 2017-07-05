@@ -18,13 +18,19 @@
 
 byte goldBarFrames = 0;
 const unsigned char PROGMEM goldBarSequence[] = {0, 1, 2, 3, 4, 3, 2, 1};
+const unsigned char PROGMEM chestSparkleXY[][3] =
+{
+  { 4, 11, 1},
+  { 11, 5, 2},
+  { 0,  0, 3},
+};
 
 struct DifferentItems
 {
   public:
     int x;
     byte y;
-    byte characteristics;   //0b00000000;   //this byte holds all the collectable characteristics
+    byte characteristics;   //0B00000000;   //this byte holds all the collectable characteristics
     //                          ||||||||
     //                          |||||||└->  0 \
     //                          ||||||└-->  1  | type of item ( 0 to 7 )
@@ -55,7 +61,7 @@ goldBarSetInLine()
   {
     goldBar[i].x = 128 + (16 * i);
     goldBar[i].y = 28;
-    goldBar[i].characteristics = 0b10010000;
+    goldBar[i].characteristics = 0B10010000;
   }
 }
 
@@ -82,7 +88,7 @@ void dungeonChestsSetInLine(byte type)
 {
   dungeonChests.x = DUNGEON_CHEST_START_X;
   dungeonChests.y = DUNGEON_CHEST_Y;
-  dungeonChests.characteristics = 0b10010000 + type;
+  dungeonChests.characteristics = 0B10010000 + type;
   sparkleFrame = 7;
 }
 
@@ -105,9 +111,14 @@ void drawSecretSparkles()
   if (dungeonChests.characteristics & 0B01000000)
   {
     if (arduboy.everyXFrames(6))sparkleFrame++;
-    sprites.drawPlusMask(dungeonChests.x, 32, effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 3) % 15]));
-    sprites.drawPlusMask(dungeonChests.x - 4, 43, effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 1)  % 15]));
-    sprites.drawPlusMask(dungeonChests.x - 11, 37, effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 2) % 15]));
+    for (byte i = 0; i < 3; i++)
+    {
+      sprites.drawPlusMask(
+        dungeonChests.x - pgm_read_byte(&chestSparkleXY[i][0]),
+        32 + pgm_read_byte(&chestSparkleXY[i][1]),
+        effectShine_plus_mask,
+        pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + pgm_read_byte(&chestSparkleXY[i][2]))  % 15]));
+    }
   }
 }
 

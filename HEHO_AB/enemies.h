@@ -70,7 +70,7 @@ struct Orcs
 {
   public:
     int x;
-    byte characteristics;   //0b00000000;   //this byte holds all the orc characteristics
+    byte characteristics;   //0B00000000;   //this byte holds all the orc characteristics
     //                          ||||||||
     //                          |||||||└->  0 \
     //                          ||||||└-->  1 / Orc type: 0 = no spear | 1 = flat spear | 2 = up spear
@@ -116,7 +116,7 @@ void drawOrcs()
     if (orc[i].characteristics & 0B00010000)
     {
       sprites.drawPlusMask(orc[i].x - 2, ORC_Y - 12 + ((orcFrames + i) % 2), orcHead_plus_mask, 0);
-      switch (orc[i].characteristics & 0b00000011)
+      switch (orc[i].characteristics & 0B00000011)
       {
         case ENEMY_ORC_NO_SPEAR:
           sprites.drawPlusMask(orc[i].x, ORC_Y + ((orcFrames + i) % 2), orcBody_plus_mask, pgm_read_byte(&frameSequence[(orcFrames + i) % 4]));
@@ -139,7 +139,7 @@ struct Spikes
 {
   public:
     int x;
-    byte characteristics;   //0b00000000;   //this byte holds all the spike characteristics
+    byte characteristics;   //0B00000000;   //this byte holds all the spike characteristics
     //                          ||||||||
     //                          |||||||└->  0
     //                          ||||||└-->  1
@@ -193,7 +193,7 @@ struct BadWalkingFlames
     int x;
     byte y;
     byte fallingFrame;
-    byte characteristics;   //0b00000000;   //this byte holds all the bad flame characteristics
+    byte characteristics;   //0B00000000;   //this byte holds all the bad flame characteristics
     //                          ||||||||
     //                          |||||||└->  0 \
     //                          ||||||└-->  1 / flame type: 0 = on torch | 1 = falling | 2 = running
@@ -267,7 +267,7 @@ struct BadFlames
   public:
     int x;
     byte y;
-    byte characteristics;   //0b00000000;   //this byte holds all the bad flame characteristics
+    byte characteristics;   //0B00000000;   //this byte holds all the bad flame characteristics
     //                          ||||||||
     //                          |||||||└->  0
     //                          ||||||└-->  1
@@ -311,7 +311,7 @@ struct Statues
 {
   public:
     int x;
-    byte characteristics;   //0b00000000;   //this byte holds all the statue characteristics
+    byte characteristics;   //0B00000000;   //this byte holds all the statue characteristics
     //                          ||||||||
     //                          |||||||└->  0
     //                          ||||||└-->  1
@@ -383,7 +383,7 @@ struct BadWeeds
     int x;
     byte y;
     byte weedFrame;
-    byte characteristics;   //0b00000000;   //this byte holds all the bad weed characteristics
+    byte characteristics;   //0B00000000;   //this byte holds all the bad weed characteristics
     //                          ||||||||
     //                          |||||||└->  0 \
     //                          ||||||└-->  1 / Weed type: 0 = hidding | 1 = peeking | 2 = showing

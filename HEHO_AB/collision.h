@@ -15,6 +15,7 @@ void checkCollisions()
     .width = HELENA_COLLISION_WIDTH,
     .height = HELENA_COLLISION_HEIGHT
   };
+  helenaRect.y = helena.y + HELENA_COLLISION_Y_OFFSET;
   if (helena.characteristics & 0B01000000) helenaRect.y = helena.y + HELENA_COLLISION_Y_OFFSET - 2 - pgm_read_byte(&helenaJumpSequence[helena.jumpSequenceCounter]);
   else helenaRect.y = helena.y + HELENA_COLLISION_Y_OFFSET + (helena.frame % 2);
 
@@ -40,7 +41,6 @@ void checkCollisions()
       if (!(helena.characteristics & 0B00100000))
       {
         helena.characteristics |= 0B00100000;
-        playerScore = 0;
         helena.life--;
       }
       if (!(orc[i].characteristics & 0B01000000))
@@ -49,7 +49,7 @@ void checkCollisions()
       }
     }
 
-    if ((orc[i].characteristics & 0b00000011) == ENEMY_ORC_FLAT_SPEAR)
+    if ((orc[i].characteristics & 0B00000011) == ENEMY_ORC_FLAT_SPEAR)
     {
       enemyRect =
       {
@@ -59,7 +59,7 @@ void checkCollisions()
         .height = SPEAR_F_COLLISION_HEIGHT
       };
     }
-    if ((orc[i].characteristics & 0b00000011) == ENEMY_ORC_UP_SPEAR)
+    if ((orc[i].characteristics & 0B00000011) == ENEMY_ORC_UP_SPEAR)
     {
       enemyRect =
       {
@@ -74,7 +74,6 @@ void checkCollisions()
       if (!(helena.characteristics & 0B00100000))
       {
         helena.characteristics |= 0B00100000;
-        playerScore = 0;
         helena.life--;
       }
     }
@@ -95,8 +94,7 @@ void checkCollisions()
       if (!(helena.characteristics & 0B00100000))
       {
         helena.characteristics |= 0B00100000;
-        playerScore = 0;
-        //helena.life--;
+        helena.life--;
       }
       if (!(spike[i].characteristics & 0B01000000))
       {
@@ -120,7 +118,6 @@ void checkCollisions()
     {
 
       helena.characteristics |= 0B00100000;
-      playerScore = 0;
       helena.life--;
     }
     if (!(badWalkingFlame.characteristics & 0B01000000))
@@ -141,7 +138,6 @@ void checkCollisions()
     if (!(helena.characteristics & 0B00100000))
     {
       helena.characteristics |= 0B00100000;
-      playerScore = 0;
       helena.life--;
     }
     if (!(badFlame.characteristics & 0B01000000))
@@ -182,7 +178,6 @@ void checkCollisions()
     if (!(helena.characteristics & 0B00100000))
     {
       helena.characteristics |= 0B00100000;
-      playerScore = 0;
       helena.life--;
     }
     if (!(arrow.characteristics & 0B01000000))
@@ -204,7 +199,6 @@ void checkCollisions()
     if (!(helena.characteristics & 0B00100000))
     {
       helena.characteristics |= 0B00100000;
-      playerScore = 0;
       helena.life--;
     }
     if (!(badWeed.characteristics & 0B01000000))
@@ -245,7 +239,7 @@ void checkCollisions()
   if (((dungeonChests.characteristics & 0B10010000) == 0B10010000) && arduboy.collide(helenaRect, enemyRect))
   {
     playerScore += 500;
-    helena.nextHelmet = (dungeonChests.characteristics & 0b00000111);
+    helena.nextHelmet = (dungeonChests.characteristics & 0B00000111);
     dungeonChests.characteristics = 0B11000000;
     helena.characteristics |= 0B00000100;
     helena.life = HELENA_HELMET;

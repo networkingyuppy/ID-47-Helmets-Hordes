@@ -44,7 +44,7 @@ struct Players
   public:
     int x, y;
     byte life, frame, helmet, nextHelmet, jumpSequenceCounter, imuneTimer, flickerTimer, stabbingTimer;
-    byte characteristics;   //0b00000000;   //this byte holds all the players characteristics
+    byte characteristics;   //0B00000000;   //this byte holds all the players characteristics
     //                          ||||||||
     //                          |||||||└->  0 \ weapon type ( 0 = none / 1 = dagger / 2 = sword)
     //                          ||||||└-->  1 /
@@ -83,7 +83,7 @@ void setHelena()
     0,                                                  // start the imuneTimer at 0
     0,                                                  // start the flickerTimer at 0
     0,                                                  // start the stabbingTimer at 0
-    0b00110010,                                         // start visible / imune and with sword
+    0B00110010,                                         // start visible / imune and with sword
   };
   for (byte i = 0; i < 2; i++ )
   {
