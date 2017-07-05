@@ -13,25 +13,26 @@ I think we should use a jump button, an action button (for helmet abilities) and
 * Armour: Helena wears protective armour that is discarded when she is hit while not wearing a helmet. She can find more armour in the dungeon by touching an armour icon. If Helena is already armoured, the armour she touches will turn to treasure (score) instead.
 * The Helmets: There will be 8 helmet abilities (to fit 1 byte). You can retrieve them by opening (touching) treasure chests. They are given to the player randomly, and some have a higher rate of probability than others. This should add a kind of risk/reward aspect to the gameplay - do I touch this treasure chest, gaining a new helmet and losing the one I have now? It should not be possible to find the helmet you are currently wearing in a new treasure chest - the helmet should always be different.
   * Warrior's Helm: Helena performs an automatic downwards attack in midair - she can kill enemies by landing on them.
-  * Mercury's Helm: Helena can glide downwards while jumping/falling by holding the jump button.
-  * Helm of Atlas: Helena causes a shockwave each time she lands from a jump/fall. This shockwave knocks all enemies over.
-  * Thief's Hood: Helena can become intangible for a short time when the action button is pressed, allowing her to pass through traps without taking damage.
-  * Magnet Helm: Treasure (coins) is automatically pulled towards Helena, elimainating some potentially risky scenarios.
-  * Battery Hat: Pressing the action button will cause an electrical discharge around Helena that has a long reach and defeats any enemy it touches.
-  * Cutter Mask: Helena can throw a boomerang cutter in a wide arc. Inspired by this helmet in Dragon Ball! https://www.youtube.com/watch?v=WPOMIQyLTbM
+  * ~~Helm of Atlas: Helena causes a shockwave each time she lands from a jump/fall. This shockwave knocks all enemies over.~~
   * Football Helmet: Helena can perform a running tackle that can smash anything, including traps.
+  * Thief's Hood: Helena can become intangible for a short time when the action button is pressed, allowing her to pass through traps without taking damage.
+  * Cutter Mask: Helena can throw a boomerang cutter in a wide arc. Inspired by this helmet in Dragon Ball! https://www.youtube.com/watch?v=WPOMIQyLTbM
+  * Magnet Helm: Treasure (coins) is automatically pulled towards Helena, elimainating some potentially risky scenarios.
+  * Mercury's Helm: Helena can glide downwards while jumping/falling by holding the jump button.
+  * Battery Hat: Pressing the action button will cause an electrical discharge around Helena that has a long reach and defeats any enemy it touches.
+
 * Mana Stones: Some of the helmet abilities use Mana Stones. These are collectible items that are spent each time an ability is used. You can find more in the dungeon, but you can only carry 3 at a time! Use them wisely.
 * Sword, dagger or unarmed: Helena will be equipped with either a sword, a dagger or nothing (unarmed) depending on the helmet she is wearing or her current health state.
   * Naked (no helmet, no armour) - Helena carries a dagger.
   * Armoured (no helmet) - Helena carries a sword.
   * Warrior's Helm: Sword.
-  * Mercury's Helm: Sword.
-  * Helm of Atlas: Unarmed.
-  * Thief's Hood: Dagger.
-  * Magnet Helm: Sword.
-  * Battery Hat: Unarmed.
-  * Cutter Mask: Unarmed.
+  *~~Helm of Atlas: Unarmed.~~
   * Football Helmet: Unarmed.
+  * Thief's Hood: Dagger.
+  * Cutter Mask: Unarmed.
+  * Magnet Helm: Sword.
+  * Mercury's Helm: Sword.
+  * Battery Hat: Unarmed.
 * Combat: Helena can defeat most enemies by running into them with her sword or dagger. Additionally, some helmet abilities can be used to defeat enemies.
 * Enemies:
   * Unarmed Ork: Charges at the player and carries no weapon. Can be defeated if you simply run into him with your sword or dagger.
