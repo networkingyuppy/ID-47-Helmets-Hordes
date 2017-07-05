@@ -6,7 +6,7 @@
 
 void checkInputs()
 {
-  if (arduboy.justPressed(UP_BUTTON | RIGHT_BUTTON | DOWN_BUTTON))gameState = STATE_GAME_PAUSE;
+  if (arduboy.justPressed(UP_BUTTON | RIGHT_BUTTON | DOWN_BUTTON)) gameState = STATE_GAME_PAUSE;
   if (arduboy.justPressed(LEFT_BUTTON)) gameState = STATE_MENU_MAIN;
 
   if (arduboy.justPressed(A_BUTTON) && (helena.characteristics & 0B00000011))

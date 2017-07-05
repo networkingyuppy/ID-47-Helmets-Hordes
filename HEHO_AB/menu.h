@@ -4,7 +4,11 @@
 #include "globals.h"
 
 const unsigned char PROGMEM sparkleFrameSequence[15] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 4, 5};
+const unsigned char PROGMEM sparklesY[] = {28, 36, 28, 36, 28};
+const unsigned char PROGMEM sparklesStartFrame[] = {9, 15, 3, 6, 12};
 const unsigned char PROGMEM eyesFrameSequence[] = {1, 2, 2, 3, 3, 4, 4, 4, 3, 3, 2};
+
+
 byte sparkleFrame = 0;
 byte eyesFrame = 0;
 
@@ -21,11 +25,15 @@ void showSparkles(byte x, byte y)
 {
   if (arduboy.everyXFrames(6))sparkleFrame++;
   if (arduboy.everyXFrames(2))++eyesFrame = (++eyesFrame) % 128;
-  sprites.drawPlusMask((22 - (9 * y)) + (x * (61 + (y * 18))), 28 + (y * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 9) % 15]));
-  sprites.drawPlusMask((26 - (9 * y)) + (x * (61 + (y * 18))), 36 + (y * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 15) % 15]));
-  sprites.drawPlusMask((30 - (9 * y)) + (x * (61 + (y * 18))), 28 + (y * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 3) % 15]));
-  sprites.drawPlusMask((34 - (9 * y)) + (x * (61 + (y * 18))), 36 + (y * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 6) % 15]));
-  sprites.drawPlusMask((38 - (9 * y)) + (x * (61 + (y * 18))), 28 + (y * 11), effectShine_plus_mask, pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + 12) % 15]));
+  for (byte i = 0; i < 5; i++)
+  {
+    sprites.drawPlusMask(
+      (22 + (i * 4) - (9 * y)) + (x * (61 + (y * 18))),
+      pgm_read_byte(&sparklesY[i]) + (y * 11),
+      effectShine_plus_mask,
+      pgm_read_byte(&sparkleFrameSequence[(sparkleFrame + pgm_read_byte(&sparklesStartFrame[i])) % 15])
+    );
+  }
 }
 
 void stateMenuIntro()
@@ -49,10 +57,10 @@ void stateMenuMain()
   showSparkles(menuX, menuY);
 
   if (arduboy.justPressed(RIGHT_BUTTON) && (!menuX)) menuX = !menuX;
-  if (arduboy.justPressed(LEFT_BUTTON) && (menuX)) menuX = !menuX;
-  if (arduboy.justPressed(DOWN_BUTTON) && (!menuY)) menuY = !menuY;
-  if (arduboy.justPressed(UP_BUTTON) && (menuY)) menuY = !menuY;
-  if (arduboy.justPressed(A_BUTTON | B_BUTTON)) gameState = 2 + menuX + (2 * menuY);
+  else if (arduboy.justPressed(LEFT_BUTTON) && (menuX)) menuX = !menuX;
+  else if (arduboy.justPressed(DOWN_BUTTON) && (!menuY)) menuY = !menuY;
+  else if (arduboy.justPressed(UP_BUTTON) && (menuY)) menuY = !menuY;
+  else if (arduboy.justPressed(A_BUTTON | B_BUTTON)) gameState = 2 + menuX + (2 * menuY);
 }
 
 void stateMenuHelp()
@@ -81,8 +89,8 @@ void stateMenuSoundfx()
   showSparkles(true, arduboy.audio.enabled());
 
   if (arduboy.justPressed(RIGHT_BUTTON | DOWN_BUTTON)) arduboy.audio.on();
-  if (arduboy.justPressed(LEFT_BUTTON | UP_BUTTON)) arduboy.audio.off();
-  if (arduboy.justPressed(A_BUTTON | B_BUTTON))
+  else if (arduboy.justPressed(LEFT_BUTTON | UP_BUTTON)) arduboy.audio.off();
+  else if (arduboy.justPressed(A_BUTTON | B_BUTTON))
   {
     arduboy.audio.saveOnOff();
     gameState = STATE_MENU_MAIN;

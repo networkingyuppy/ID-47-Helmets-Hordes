@@ -12,22 +12,17 @@
 
 byte flameFrame = 0;
 
-const unsigned char PROGMEM chainSetup[][6][3] =
+const unsigned char PROGMEM chainSetupX[] = {128, 128, 144, 144, 160, 160};
+const unsigned char PROGMEM chainAndBricksSetupY[] = {0, 16, 0, 16, 0, 16};
+const unsigned char PROGMEM chainSetupVisible[] = { 0B00110100, 0B00000111, 0B00010011, 0B00110101, 0B00111100, 0B00110111, 0B00001101, 0B00001111 };
+const unsigned char PROGMEM brickSetupTwo[] =
 {
-  { {128, 0, false}, {128, 16, false}, {144, 0, true}, {144, 16, false}, {160, 0, true}, {160, 16, true} },
-  { {128, 0, true}, {128, 16, true}, {144, 0, true}, {144, 16, false}, {160, 0, false}, {160, 16, false} },
-  { {128, 0, true}, {128, 16, true}, {144, 0, false}, {144, 16, false}, {160, 0, true}, {160, 16, false} },
-  { {128, 0, true}, {128, 16, false}, {144, 0, true}, {144, 16, false}, {160, 0, true}, {160, 16, true} },
-  { {128, 0, false}, {128, 16, false}, {144, 0, true}, {144, 8, true}, {160, 0, true}, {160, 16, true} },
-  { {128, 0, true}, {128, 8, true}, {144, 0, true}, {144, 16, false}, {160, 0, true}, {160, 16, true} },
-  { {128, 0, true}, {128, 16, false}, {144, 0, true}, {144, 8, true}, {160, 0, false}, {160, 16, false} },
-  { {128, 0, true}, {128, 8, true}, {144, 0, true}, {144, 16, true}, {160, 0, false}, {160, 16, false} },
+  0B11100001, 0B10010011, 0B00111011, 0B00111100,
+  0B10000001, 0B00110110, 0B00010010, 0B10110001,
+  0B00110010, 0B00101001, 0B00010011, 0B10010010,
+  0B00100100, 0B00011110, 0B00111001, 0B10000011
 };
 
-const unsigned char PROGMEM brickSetup[][4] =
-{
-  {3, 2, 0, 1}, {2, 1, 0, 3}, {0, 3, 2, 3}, {0, 3, 3, 0}, {2, 0, 0, 1}, {0, 3, 1, 2}, {0, 1, 0, 2}, {2, 3, 0, 1}, {0, 3, 0, 2}, {0, 2, 2, 1}, {0, 1, 0, 3}, {2, 1, 0, 2}, {0, 2, 1, 0}, {0, 1, 3, 2}, {0, 3, 2, 1}, {2, 0, 0, 3}
-};
 
 
 // create all elements
@@ -82,15 +77,22 @@ void setChains()
   byte chainSet = random(8);
   for (byte i = 0; i < 6; i++)
   {
-    chain[i].x = pgm_read_byte(&chainSetup[chainSet][i][0]);
-    chain[i].y = pgm_read_byte(&chainSetup[chainSet][i][1]);
-    chain[i].isVisible = pgm_read_byte(&chainSetup[chainSet][i][2]);
+    chain[i].x = pgm_read_byte(&chainSetupX[i]);
+    chain[i].y = pgm_read_byte(&chainAndBricksSetupY[i]);
+    chain[i].isVisible = pgm_read_byte(&chainSetupVisible[chainSet]) & (1 << i);
+    switch ((chainSet * 6) + i)
+    {
+      case 27: case 31: case 39: case 43:
+        chain[i].y = 8;
+        break;
+    }
   }
+
 }
 
 
 boolean windowOrTorch()
-{
+{ 
   switch (random(3))
   {
     case 0: case 1:
@@ -102,26 +104,29 @@ boolean windowOrTorch()
   }
 }
 
+byte gifBrick(byte type, byte row)
+{
+  return ((pgm_read_byte(&brickSetupTwo[type]) >> (row * 2)) & 0B00000011);
+}
+
 void setWallParts()
 {
   for (byte i = 0; i < 3; i++)
   {
     wallPart[i].x = i * 80;
-
-    bricks[(i * 4)].y = 0;
-    bricks[(i * 4) + 1].y = 16;
-    bricks[(i * 4) + 2].y = 0;
-    bricks[(i * 4) + 3].y = 16;
     byte brickSet = random(16);
     for (byte k = 0; k < 4; k++)
     {
-      bricks[k + (4 * i)].type = pgm_read_byte(&brickSetup[brickSet][k]);
+      bricks[k + (4 * i)].type = gifBrick(brickSet, k);
+      bricks[k + (4 * i)].y = pgm_read_byte(&chainAndBricksSetupY[k]);
     }
     window[i].isVisible = windowOrTorch();
     torchHandles[i].isVisible = !window[i].isVisible;
     torchFlames[i].isVisible = torchHandles[i].isVisible;
   }
 }
+
+
 
 
 
@@ -141,7 +146,7 @@ void updateWallParts()
         byte brickSet = random(16);
         for (byte k = 0; k < 4; k++)
         {
-          bricks[k + (4 * i)].type = pgm_read_byte(&brickSetup[brickSet][k]);
+          bricks[k + (4 * i)].type = gifBrick(brickSet, k);
         }
         window[i].isVisible = windowOrTorch();
         torchHandles[i].isVisible = !window[i].isVisible;

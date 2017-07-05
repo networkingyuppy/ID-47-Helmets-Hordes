@@ -20,11 +20,6 @@
 #define STATE_GAME_PAUSE             7
 #define STATE_GAME_OVER              8
 
-#define GAME_TOP                     0
-#define GAME_BOTTOM                  48
-#define GAME_LEFT                    0
-#define GAME_RIGHT                   112
-
 #define WALKINGSPEED                 3 // lower number = higher speed
 
 #define WAVE_TO_START_WITH           0
@@ -53,8 +48,6 @@ void drawScore(byte x, byte y)
   char charLen = strlen(buf);
   char pad = 8 - charLen;
   sprites.drawPlusMask(x + 5  + (8 * charLen), y, uiScroll_plus_mask, 2);
-  // draw 0 padding
-  //for (byte i = 0; i < pad; i++) sprites.drawPlusMask(x + 16 + (8 * i), y, numbersInGame_plus_mask, 0);
   // draw numbers
   for (byte i = 0; i < charLen; i++)
   {
@@ -66,7 +59,6 @@ void drawScore(byte x, byte y)
       digit -= 48;
       if (digit > 9) digit = 0;
     }
-
     for (byte z = 0; z < 10; z++) if (digit == z) j = z;
     sprites.drawPlusMask(x + 8  + (8 * i), y, numbersInGame_plus_mask, digit);
   }
