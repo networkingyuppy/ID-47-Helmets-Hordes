@@ -1,7 +1,7 @@
 /*
   Helmets & Hordes: http://www.team-arg.org/HEHO-manual.html
 
-  Arduboy version 0.1:  http://www.team-arg.org/HEHO-downloads.html
+  Arduboy version 0.2:  http://www.team-arg.org/HEHO-downloads.html
 
   MADE by TEAM a.r.g. : http://www.team-arg.org/more-about.html
 
@@ -10,14 +10,16 @@
   License for the game CODE: TEAM a.r.g. MIT : https://opensource.org/licenses/MIT
   License for the game SPRITES: Grapple Bug
   License for the game Banner: American Ginseng
-  License for the game idea en concept: Grapple Bug 
+  License for the game idea en concept: Grapple Bug
 
 */
 
 //determine the game
 #define GAME_ID 47
 
+#include <Arduino.h>
 #include "globals.h"
+#include "songs.h"
 #include "menu.h"
 #include "game.h"
 #include "inputs.h"

@@ -5,7 +5,6 @@
 #include <Arduboy2.h>
 #include <ATMlib.h>
 #include "bitmaps.h"
-#include "songs.h"
 
 //define menu states (on main menu)
 #define STATE_MENU_INTRO             0
@@ -24,9 +23,7 @@
 
 #define WAVE_TO_START_WITH           0
 
-
-//Arduboy2Base arduboy;
-Arduboy2 arduboy;
+Arduboy2Base arduboy;
 Sprites sprites;
 ATMsynth ATM;
 
