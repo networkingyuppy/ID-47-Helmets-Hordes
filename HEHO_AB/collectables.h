@@ -55,12 +55,12 @@ void updateGoldBars()
   }
 }
 
-goldBarSetInLine()
+goldBarSetInLine(byte firstGold, byte lastGold, int x, int y, int spacingX)
 {
-  for (byte i = 0; i < MAX_ONSCREEN_GOLDBARS; i++)
+  for (byte i = firstGold; i < lastGold + 1; i++)
   {
-    goldBar[i].x = 128 + (16 * i);
-    goldBar[i].y = 28;
+    goldBar[i].x = 128 + x + (spacingX * (i - firstGold));
+    goldBar[i].y = y;
     goldBar[i].characteristics = 0B10010000;
   }
 }

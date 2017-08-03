@@ -105,7 +105,7 @@ void orcsSetInLine(byte orcType, byte firstOrc, byte lastOrc, int x, int spacing
   for (byte i = firstOrc; i < lastOrc + 1; i++)
   {
     orc[i].characteristics = 0B10010000 + orcType;
-    orc[i].x = x + (spacingX * (i - firstOrc));
+    orc[i].x = 128 + x + (spacingX * (i - firstOrc));
   }
 }
 
