@@ -17,7 +17,7 @@
 #define HELMET_THIEF                                3
 #define HELMET_CUTTER                               4
 #define HELMET_MAGNET                               5
-#define HELMET_ATLAS                                6
+#define HELMET_MERCURY                              6
 #define HELMET_BATTERY                              7
 
 #define WEAPON_NONE                                 0
@@ -97,6 +97,28 @@ void setHelena()
   nextStab = 0;
 }
 
+void setStab()
+{
+  helena.characteristics |= 0B10000000; // if not stabbing, stab
+  stab[nextStab].isActive = true;
+  stab[nextStab].isVisible = true;
+  stab[nextStab].type = (helena.characteristics & 0B00000011) - 1;
+  stab[nextStab].stabTimer = 0;
+  if (!(helena.characteristics & 0B01000000))
+  {
+    stab[nextStab].x = helena.x + 25;
+    stab[nextStab].y = helena.y - 6;
+    stab[nextStab].horizontal = true;
+  }
+  else
+  {
+    stab[nextStab].x = helena.x + 1;
+    stab[nextStab].y = helena.y - 14;
+    stab[nextStab].horizontal = false;
+  }
+  nextStab = (++nextStab) % 2;
+}
+
 
 void updateHelena()
 {
@@ -119,13 +141,14 @@ void updateHelena()
   if (helena.characteristics & 0B01000000)  // if jumping
   {
     if (arduboy.everyXFrames(2)) helena.jumpSequenceCounter++;
-    if (helena.jumpSequenceCounter > 19)
+    if ((helena.helmet == HELMET_WARRIOR) && (helena.jumpSequenceCounter == 11)) setStab();
+        if (helena.jumpSequenceCounter > 19)
     {
       helena.jumpSequenceCounter = 0;
       helena.characteristics &= 0B10111111;
     }
-  }
-  else if (helena.x < HELENA_START_X && arduboy.everyXFrames(2)) helena.x++;
+}
+else if (helena.x < HELENA_START_X && arduboy.everyXFrames(2)) helena.x++;
 
   if (helena.characteristics & 0B00000100)  // if helmet is flickering
   {

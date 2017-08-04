@@ -12,6 +12,7 @@ I think we should use a jump button, an action button (for helmet abilities) and
   * Armoured (with helmet) - Helena will lose her helmet if she is hit and will become armoured.
 * Armour: Helena wears protective armour that is discarded when she is hit while not wearing a helmet. She can find more armour in the dungeon by touching an armour icon. If Helena is already armoured, the armour she touches will turn to treasure (score) instead.
 * The Helmets: There will be 8 helmet abilities (to fit 1 byte). You can retrieve them by opening (touching) treasure chests. They are given to the player randomly, and some have a higher rate of probability than others. This should add a kind of risk/reward aspect to the gameplay - do I touch this treasure chest, gaining a new helmet and losing the one I have now? It should not be possible to find the helmet you are currently wearing in a new treasure chest - the helmet should always be different.
+
   * Warrior's Helm: Helena performs an automatic downwards attack in midair - she can kill enemies by landing on them.
   * ~~Helm of Atlas: Helena causes a shockwave each time she lands from a jump/fall. This shockwave knocks all enemies over.~~
   * Football Helmet: Helena can perform a running tackle that can smash anything, including traps.
@@ -23,6 +24,7 @@ I think we should use a jump button, an action button (for helmet abilities) and
 
 * Mana Stones: Some of the helmet abilities use Mana Stones. These are collectible items that are spent each time an ability is used. You can find more in the dungeon, but you can only carry 3 at a time! Use them wisely.
 * Sword, dagger or unarmed: Helena will be equipped with either a sword, a dagger or nothing (unarmed) depending on the helmet she is wearing or her current health state.
+
   * Naked (no helmet, no armour) - Helena carries a dagger.
   * Armoured (no helmet) - Helena carries a sword.
   * Warrior's Helm: Sword.
@@ -33,6 +35,7 @@ I think we should use a jump button, an action button (for helmet abilities) and
   * Magnet Helm: Sword.
   * Mercury's Helm: Sword.
   * Battery Hat: Unarmed.
+  
 * Combat: Helena can defeat most enemies by running into them with her sword or dagger. Additionally, some helmet abilities can be used to defeat enemies.
 * Enemies:
   * Unarmed Ork: Charges at the player and carries no weapon. Can be defeated if you simply run into him with your sword or dagger.
