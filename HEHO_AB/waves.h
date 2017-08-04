@@ -103,9 +103,12 @@ void wave003()
 {
   if (checkStartWave())
   {
-    orcsSetInLine(ENEMY_ORC_UP_SPEAR, 0, 2, 128, 64);
+    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 2, 144, 48);
+    goldBarSetInLine(0, 2, 0, 28, 32);
+    goldBarSetInLine(3, 4, 16, 4, 32);
   }
   updateOrcs();
+  updateGoldBars();
   checkEndWave();
 }
 
@@ -113,13 +116,18 @@ void wave004()
 {
   if (checkStartWave())
   {
-    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 0, 128, 0);
-    orcsSetInLine(ENEMY_ORC_FLAT_SPEAR, 1, 1, 192, 0);
-    orcsSetInLine(ENEMY_ORC_UP_SPEAR, 2, 2, 256, 0);
+    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 4, 144, 48);
+    goldBarSetInLine(0, 4, 0, 28, 32);
+    goldBarSetInLine(5, 8, 16, 4, 32);
   }
   updateOrcs();
+  updateGoldBars();
   checkEndWave();
 }
+
+
+
+
 
 void wave005()
 {
@@ -206,9 +214,11 @@ typedef void (*FunctionPointer) ();
 const FunctionPointer PROGMEM allWaves[] =
 {
   wave000,
-  wave001,
+  wave003,
+  wave003,
   wave000,
-  wave002,
+  wave004,
+  wave000,
   wave255,
 };
 
