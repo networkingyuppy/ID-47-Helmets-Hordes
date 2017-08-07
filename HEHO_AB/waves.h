@@ -71,7 +71,7 @@ void wave001()
   if (checkStartWave())
   {
     dungeonChestsSetInLine(0, 1);
-    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 2, 272, 48);
+    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 2, 320, 48);
     goldBarSetInLine(0, 2, 128, 28, 32);
     goldBarSetInLine(3, 4, 144, 4, 32);
   }

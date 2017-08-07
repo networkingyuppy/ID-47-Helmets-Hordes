@@ -223,7 +223,7 @@ void checkCollisions()
       playerScore += 500;
     }
   }
-  
+
   if (((badWeed.characteristics & 0B00110000) == 0B00010000) && arduboy.collide(helenaRect, enemyRect))
   {
     if (!(helena.characteristics & 0B00100000))
@@ -249,11 +249,8 @@ void checkCollisions()
     };
     if (((goldBar[i].characteristics & 0B00110000) == 0B00010000) && arduboy.collide(helenaRect, enemyRect))
     {
-      if (!(helena.characteristics & 0B00100000))
-      {
-        playerScore += 200;
-        goldBar[i].characteristics = 0;
-      }
+      playerScore += 200;
+      goldBar[i].characteristics = 0;
     }
   }
 

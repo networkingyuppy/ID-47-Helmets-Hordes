@@ -52,12 +52,12 @@ struct Players
     //                          ||||||||
     //                          |||||||└->  0 \ weapon type ( 0 = none / 1 = dagger / 2 = sword)
     //                          ||||||└-->  1 /
-    //                          |||||└--->  2 - the player is changing helmets    (0 = false / 1 = true)
-    //                          ||||└---->  3 - the players helmet is flickering  (0 = false / 1 = true)
-    //                          |||└----->  4 - the player is visible             (0 = false / 1 = true)
-    //                          ||└------>  5 - the player is Imune               (0 = false / 1 = true)
-    //                          |└------->  6 - the player is jumping             (0 = false / 1 = true)
-    //                          └-------->  7 - the player is stabbing            (0 = false / 1 = true)
+    //                          |||||└--->  2 - the player is changing helmets                (0 = false / 1 = true)
+    //                          ||||└---->  3 - the players helmet is visible                 (0 = false / 1 = true)
+    //                          |||└----->  4 - the player is visible                         (0 = false / 1 = true)
+    //                          ||└------>  5 - the player is Imune                           (0 = false / 1 = true)
+    //                          |└------->  6 - the player is jumping                         (0 = false / 1 = true)
+    //                          └-------->  7 - the player is stabbing                        (0 = false / 1 = true)
 };
 
 struct Stabbing
@@ -141,13 +141,13 @@ void updateHelena()
   {
     if (arduboy.everyXFrames(2)) helena.jumpSequenceCounter++;
     if ((helena.helmet == HELMET_WARRIOR) && (helena.jumpSequenceCounter == 11)) setStab();
-        if (helena.jumpSequenceCounter > 19)
+    if (helena.jumpSequenceCounter > 19)
     {
       helena.jumpSequenceCounter = 0;
       helena.characteristics &= 0B10111111;
     }
-}
-else if (helena.x < HELENA_START_X && arduboy.everyXFrames(2)) helena.x++;
+  }
+  else if (helena.x < HELENA_START_X && arduboy.everyXFrames(2)) helena.x++;
 
   if (helena.characteristics & 0B00000100)  // if helmet is flickering
   {
@@ -180,7 +180,7 @@ else if (helena.x < HELENA_START_X && arduboy.everyXFrames(2)) helena.x++;
       stab[i].stabTimer++;
       if (stab[i].horizontal) stab[i].x++;
       else stab[i].y++;
-      if (stab[i].stabTimer > STAB_TIME)
+      if (stab[i].stabTimer > STAB_TIME * (helena.characteristics & 0B00000011))
       {
         stab[i].stabTimer = 0;
         stab[i].isActive = false;
@@ -191,9 +191,9 @@ else if (helena.x < HELENA_START_X && arduboy.everyXFrames(2)) helena.x++;
 
 
   if (helena.x < 1) helena.life = HELENA_DEAD;
-  //if (helena.life < 1) helena.life = 1;
+  if (helena.life < 1) helena.life = 1;
   if (helena.life < HELENA_HELMET) helena.helmet = 0;
-  if (helena.life == HELENA_NAKED) helena.characteristics = (helena.characteristics & 0B11111100);
+  if (helena.life == HELENA_NAKED) helena.characteristics = (helena.characteristics & 0B11111100) + WEAPON_DAGGER;
   else helena.characteristics = (helena.characteristics & 0B11111100) + pgm_read_byte(&weaponWithHelmet[helena.helmet]);
 
   if (helena.life == HELENA_DEAD) gameState = STATE_MENU_MAIN;
