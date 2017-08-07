@@ -71,12 +71,7 @@ void wave001()
   if (checkStartWave())
   {
     dungeonChestsSetInLine(0, 1);
-    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 8, 320, 48);
-    goldBarSetInLine(0, 4, 128, 28, 48);
-    goldBarSetInLine(5, 8, 152, 4, 48);
   }
-  updateOrcs();
-  updateGoldBars();
   updateSecretChest();
   checkEndWave();
 }
@@ -85,9 +80,12 @@ void wave002()
 {
   if (checkStartWave())
   {
-
+    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 8, 192, 48);
+    goldBarSetInLine(0, 4, 0, 28, 48);
+    goldBarSetInLine(5, 8, 24, 4, 48);
   }
-
+  updateOrcs();
+  updateGoldBars();
   checkEndWave();
 }
 
@@ -95,8 +93,11 @@ void wave003()
 {
   if (checkStartWave())
   {
-    
+    spikesSetInLine(0, 2, 0, 64);
+    goldBarSetInLine(0, 2, 0, 4, 64);
   }
+  updateSpikes();
+  updateGoldBars();
   checkEndWave();
 }
 
@@ -104,7 +105,7 @@ void wave004()
 {
   if (checkStartWave())
   {
-    
+
   }
 
   checkEndWave();
@@ -199,6 +200,9 @@ const FunctionPointer PROGMEM allWaves[] =
 {
   wave000,
   wave001,
+  wave002,
+  wave000,
+  wave003,
   wave255,
 };
 
