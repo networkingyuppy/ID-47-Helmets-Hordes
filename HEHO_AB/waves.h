@@ -70,15 +70,14 @@ void wave001()
 {
   if (checkStartWave())
   {
-    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 1, 13, 200);
-    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 2, 3, 77, 32);
-    orcsSetInLine(ENEMY_ORC_UP_SPEAR, 4, 5, 261, 24);
-    orcsSetInLine(ENEMY_ORC_FLAT_SPEAR, 6, 6, 422, 0);
-    goldBarSetInLine(0, 0, 245, 28, 0);
-    goldBarSetInLine(1, 2, 488, 28, 16);
+    dungeonChestsSetInLine(0, 1);
+    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 2, 272, 48);
+    goldBarSetInLine(0, 2, 128, 28, 32);
+    goldBarSetInLine(3, 4, 144, 4, 32);
   }
   updateOrcs();
   updateGoldBars();
+  updateSecretChest();
   checkEndWave();
 }
 
@@ -86,16 +85,9 @@ void wave002()
 {
   if (checkStartWave())
   {
-    orcsSetInLine(ENEMY_ORC_FLAT_SPEAR, 0, 1, 6, 64);
-    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 2, 3, 165, 248);
-    orcsSetInLine(ENEMY_ORC_UP_SPEAR, 4, 5, 213, 24);
-    orcsSetInLine(ENEMY_ORC_UP_SPEAR, 6, 6, 309, 0);
-    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 7, 8, 453, 19);
-    goldBarSetInLine(0, 0, 197, 28, 0);
-    goldBarSetInLine(1, 1, 341, 28, 16);
+
   }
-  updateOrcs();
-  updateGoldBars();
+
   checkEndWave();
 }
 
@@ -103,12 +95,8 @@ void wave003()
 {
   if (checkStartWave())
   {
-    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 2, 144, 48);
-    goldBarSetInLine(0, 2, 0, 28, 32);
-    goldBarSetInLine(3, 4, 16, 4, 32);
+    
   }
-  updateOrcs();
-  updateGoldBars();
   checkEndWave();
 }
 
@@ -116,12 +104,9 @@ void wave004()
 {
   if (checkStartWave())
   {
-    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 4, 144, 48);
-    goldBarSetInLine(0, 4, 0, 28, 32);
-    goldBarSetInLine(5, 8, 16, 4, 32);
+    
   }
-  updateOrcs();
-  updateGoldBars();
+
   checkEndWave();
 }
 
@@ -133,9 +118,8 @@ void wave005()
 {
   if (checkStartWave())
   {
-    spikesSetInLine(0, 2, 128, 56);
+
   }
-  updateSpikes();
   checkEndWave();
 }
 
@@ -195,7 +179,7 @@ void wave010()
 {
   if (checkStartWave())
   {
-    dungeonChestsSetInLine(random(1, 8));
+    dungeonChestsSetInLine(128, random(1, 8));
   }
   updateSecretChest();
   checkEndWave();
@@ -214,11 +198,7 @@ typedef void (*FunctionPointer) ();
 const FunctionPointer PROGMEM allWaves[] =
 {
   wave000,
-  wave003,
-  wave003,
-  wave000,
-  wave004,
-  wave000,
+  wave001,
   wave255,
 };
 

@@ -78,8 +78,7 @@ void setHelena()
   helena =
   {
     HELENA_START_X, HELENA_START_Y,                     // start position
-    HELENA_ARMOR,                                       // start life with armor
-    //HELENA_NAKED,
+    HELENA_NAKED,
     0,                                                  // start animation at frame 0
     HELMET_NO_HELMET,                                   // start without a helmet
     HELMET_NO_HELMET,                                   // start without a next helmet
@@ -87,7 +86,7 @@ void setHelena()
     0,                                                  // start the imuneTimer at 0
     0,                                                  // start the flickerTimer at 0
     0,                                                  // start the stabbingTimer at 0
-    0B00110010,                                         // start visible / imune and with sword
+    0B00110000,                                         // start visible / imune and without sword
   };
   for (byte i = 0; i < 2; i++ )
   {
@@ -192,9 +191,9 @@ else if (helena.x < HELENA_START_X && arduboy.everyXFrames(2)) helena.x++;
 
 
   if (helena.x < 1) helena.life = HELENA_DEAD;
-  if (helena.life < 1) helena.life = 1;
+  //if (helena.life < 1) helena.life = 1;
   if (helena.life < HELENA_HELMET) helena.helmet = 0;
-  if (helena.life == HELENA_NAKED) helena.characteristics = (helena.characteristics & 0B11111100) + WEAPON_DAGGER;
+  if (helena.life == HELENA_NAKED) helena.characteristics = (helena.characteristics & 0B11111100);
   else helena.characteristics = (helena.characteristics & 0B11111100) + pgm_read_byte(&weaponWithHelmet[helena.helmet]);
 
   if (helena.life == HELENA_DEAD) gameState = STATE_MENU_MAIN;
