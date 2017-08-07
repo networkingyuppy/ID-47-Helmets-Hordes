@@ -191,7 +191,7 @@ void updateHelena()
 
 
   if (helena.x < 1) helena.life = HELENA_DEAD;
-  if (helena.life < 1) helena.life = 1;
+  //if (helena.life < 1) helena.life = 1;
   if (helena.life < HELENA_HELMET) helena.helmet = 0;
   if (helena.life == HELENA_NAKED) helena.characteristics = (helena.characteristics & 0B11111100) + WEAPON_DAGGER;
   else helena.characteristics = (helena.characteristics & 0B11111100) + pgm_read_byte(&weaponWithHelmet[helena.helmet]);
