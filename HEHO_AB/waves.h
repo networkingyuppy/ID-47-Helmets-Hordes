@@ -70,15 +70,9 @@ void wave001()
 {
   if (checkStartWave())
   {
-    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 1, 13, 200);
-    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 2, 3, 77, 32);
-    orcsSetInLine(ENEMY_ORC_UP_SPEAR, 4, 5, 261, 24);
-    orcsSetInLine(ENEMY_ORC_FLAT_SPEAR, 6, 6, 422, 0);
-    goldBarSetInLine(0, 0, 245, 28, 0);
-    goldBarSetInLine(1, 2, 488, 28, 16);
+    dungeonChestsSetInLine(0, 1);
   }
-  updateOrcs();
-  updateGoldBars();
+  updateSecretChest();
   checkEndWave();
 }
 
@@ -86,13 +80,9 @@ void wave002()
 {
   if (checkStartWave())
   {
-    orcsSetInLine(ENEMY_ORC_FLAT_SPEAR, 0, 1, 6, 64);
-    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 2, 3, 165, 248);
-    orcsSetInLine(ENEMY_ORC_UP_SPEAR, 4, 5, 213, 24);
-    orcsSetInLine(ENEMY_ORC_UP_SPEAR, 6, 6, 309, 0);
-    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 7, 8, 453, 19);
-    goldBarSetInLine(0, 0, 197, 28, 0);
-    goldBarSetInLine(1, 1, 341, 28, 16);
+    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 8, 192, 48);
+    goldBarSetInLine(0, 4, 0, 28, 48);
+    goldBarSetInLine(5, 8, 24, 4, 48);
   }
   updateOrcs();
   updateGoldBars();
@@ -103,9 +93,11 @@ void wave003()
 {
   if (checkStartWave())
   {
-    orcsSetInLine(ENEMY_ORC_UP_SPEAR, 0, 2, 128, 64);
+    spikesSetInLine(0, 2, 0, 64);
+    goldBarSetInLine(0, 2, 0, 4, 64);
   }
-  updateOrcs();
+  updateSpikes();
+  updateGoldBars();
   checkEndWave();
 }
 
@@ -113,21 +105,22 @@ void wave004()
 {
   if (checkStartWave())
   {
-    orcsSetInLine(ENEMY_ORC_NO_SPEAR, 0, 0, 128, 0);
-    orcsSetInLine(ENEMY_ORC_FLAT_SPEAR, 1, 1, 192, 0);
-    orcsSetInLine(ENEMY_ORC_UP_SPEAR, 2, 2, 256, 0);
+
   }
-  updateOrcs();
+
   checkEndWave();
 }
+
+
+
+
 
 void wave005()
 {
   if (checkStartWave())
   {
-    spikesSetInLine(0, 2, 128, 56);
+
   }
-  updateSpikes();
   checkEndWave();
 }
 
@@ -187,7 +180,7 @@ void wave010()
 {
   if (checkStartWave())
   {
-    dungeonChestsSetInLine(random(1, 8));
+    dungeonChestsSetInLine(128, random(1, 8));
   }
   updateSecretChest();
   checkEndWave();
@@ -207,8 +200,9 @@ const FunctionPointer PROGMEM allWaves[] =
 {
   wave000,
   wave001,
-  wave000,
   wave002,
+  wave000,
+  wave003,
   wave255,
 };
 

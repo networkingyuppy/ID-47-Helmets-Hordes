@@ -64,6 +64,14 @@ void stateGamePlaying()
 
 void stateGamePause()
 {
+  titleScreen();
+  for (byte k = 0; k < 2; k++)
+  {
+    for (byte j = 0; j < 2; j++)
+    {
+      sprites.drawSelfMasked((24 - (9 * k)) + (j * (61 + (k * 18))), 33 + (k * 11), titlePause, 0);
+    }
+  }
   if (arduboy.justPressed(UP_BUTTON | RIGHT_BUTTON | DOWN_BUTTON)) gameState = STATE_GAME_PLAYING;
 };
 

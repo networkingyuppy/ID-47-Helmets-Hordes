@@ -7,21 +7,22 @@
 #include "bitmaps.h"
 
 //define menu states (on main menu)
-#define STATE_MENU_INTRO             0
-#define STATE_MENU_MAIN              1
-#define STATE_MENU_HELP              2
-#define STATE_MENU_PLAY              3
-#define STATE_MENU_INFO              4
-#define STATE_MENU_SOUNDFX           5
+#define STATE_MENU_INTRO              0
+#define STATE_MENU_MAIN               1
+#define STATE_MENU_HELP               2
+#define STATE_MENU_PLAY               3
+#define STATE_MENU_INFO               4
+#define STATE_MENU_SOUNDFX            5
 
 //define game states (on main menu)
-#define STATE_GAME_PLAYING           6
-#define STATE_GAME_PAUSE             7
-#define STATE_GAME_OVER              8
+#define STATE_GAME_PLAYING            6
+#define STATE_GAME_PAUSE              7
+#define STATE_GAME_OVER               8
 
-#define WALKINGSPEED                 3 // lower number = higher speed
+#define WALKINGSPEED                  3 // lower number = higher speed
 
-#define WAVE_TO_START_WITH           0
+#define WAVE_TO_START_WITH            0
+#define WAVE_TO_START_REPEAT          2
 
 Arduboy2Base arduboy;
 Sprites sprites;

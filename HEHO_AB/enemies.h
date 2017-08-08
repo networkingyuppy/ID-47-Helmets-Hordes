@@ -170,7 +170,7 @@ void spikesSetInLine(byte firstspike, byte lastspike, int x, int spacingX)
   for (byte i = firstspike; i < lastspike + 1; i++)
   {
     spike[i].characteristics = 0B11010000;
-    spike[i].x = x + (spacingX * (i - firstspike));
+    spike[i].x = 128 + x + (spacingX * (i - firstspike));
   }
 }
 

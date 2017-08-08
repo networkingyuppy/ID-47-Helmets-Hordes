@@ -10,7 +10,6 @@
 #define GOLDBAR_COLLISION_HEIGHT                          16
 
 #define DUNGEON_CHEST_Y                                    35
-#define DUNGEON_CHEST_START_X                              128
 
 #define DUNGEON_CHEST_COLLISION_WIDTH                      16
 #define DUNGEON_CHEST_COLLISION_HEIGHT                     14
@@ -84,9 +83,9 @@ void updateSecretChest()
   if (dungeonChests.x < -16) dungeonChests.characteristics = 0;
 }
 
-void dungeonChestsSetInLine(byte type)
+void dungeonChestsSetInLine(byte x, byte type)
 {
-  dungeonChests.x = DUNGEON_CHEST_START_X;
+  dungeonChests.x = 128 + x;
   dungeonChests.y = DUNGEON_CHEST_Y;
   dungeonChests.characteristics = 0B10010000 + type;
   sparkleFrame = 7;

@@ -17,7 +17,7 @@
 #define HELMET_THIEF                                3
 #define HELMET_CUTTER                               4
 #define HELMET_MAGNET                               5
-#define HELMET_ATLAS                                6
+#define HELMET_MERCURY                              6
 #define HELMET_BATTERY                              7
 
 #define WEAPON_NONE                                 0
@@ -52,12 +52,12 @@ struct Players
     //                          ||||||||
     //                          |||||||└->  0 \ weapon type ( 0 = none / 1 = dagger / 2 = sword)
     //                          ||||||└-->  1 /
-    //                          |||||└--->  2 - the player is changing helmets    (0 = false / 1 = true)
-    //                          ||||└---->  3 - the players helmet is flickering  (0 = false / 1 = true)
-    //                          |||└----->  4 - the player is visible             (0 = false / 1 = true)
-    //                          ||└------>  5 - the player is Imune               (0 = false / 1 = true)
-    //                          |└------->  6 - the player is jumping             (0 = false / 1 = true)
-    //                          └-------->  7 - the player is stabbing            (0 = false / 1 = true)
+    //                          |||||└--->  2 - the player is changing helmets                (0 = false / 1 = true)
+    //                          ||||└---->  3 - the players helmet is visible                 (0 = false / 1 = true)
+    //                          |||└----->  4 - the player is visible                         (0 = false / 1 = true)
+    //                          ||└------>  5 - the player is Imune                           (0 = false / 1 = true)
+    //                          |└------->  6 - the player is jumping                         (0 = false / 1 = true)
+    //                          └-------->  7 - the player is stabbing                        (0 = false / 1 = true)
 };
 
 struct Stabbing
@@ -78,8 +78,7 @@ void setHelena()
   helena =
   {
     HELENA_START_X, HELENA_START_Y,                     // start position
-    HELENA_ARMOR,                                       // start life with armor
-    //HELENA_NAKED,
+    HELENA_NAKED,
     0,                                                  // start animation at frame 0
     HELMET_NO_HELMET,                                   // start without a helmet
     HELMET_NO_HELMET,                                   // start without a next helmet
@@ -87,7 +86,7 @@ void setHelena()
     0,                                                  // start the imuneTimer at 0
     0,                                                  // start the flickerTimer at 0
     0,                                                  // start the stabbingTimer at 0
-    0B00110010,                                         // start visible / imune and with sword
+    0B00110000,                                         // start visible / imune and without sword
   };
   for (byte i = 0; i < 2; i++ )
   {
@@ -95,6 +94,28 @@ void setHelena()
     stab[i].isVisible = false;
   }
   nextStab = 0;
+}
+
+void setStab()
+{
+  helena.characteristics |= 0B10000000; // if not stabbing, stab
+  stab[nextStab].isActive = true;
+  stab[nextStab].isVisible = true;
+  stab[nextStab].type = (helena.characteristics & 0B00000011) - 1;
+  stab[nextStab].stabTimer = 0;
+  if (!(helena.characteristics & 0B01000000))
+  {
+    stab[nextStab].x = helena.x + 25;
+    stab[nextStab].y = helena.y - 6;
+    stab[nextStab].horizontal = true;
+  }
+  else
+  {
+    stab[nextStab].x = helena.x + 1;
+    stab[nextStab].y = helena.y - 14;
+    stab[nextStab].horizontal = false;
+  }
+  nextStab = (++nextStab) % 2;
 }
 
 
@@ -119,6 +140,7 @@ void updateHelena()
   if (helena.characteristics & 0B01000000)  // if jumping
   {
     if (arduboy.everyXFrames(2)) helena.jumpSequenceCounter++;
+    if ((helena.helmet == HELMET_WARRIOR) && (helena.jumpSequenceCounter == 11)) setStab();
     if (helena.jumpSequenceCounter > 19)
     {
       helena.jumpSequenceCounter = 0;
@@ -158,7 +180,7 @@ void updateHelena()
       stab[i].stabTimer++;
       if (stab[i].horizontal) stab[i].x++;
       else stab[i].y++;
-      if (stab[i].stabTimer > STAB_TIME)
+      if (stab[i].stabTimer > STAB_TIME * (helena.characteristics & 0B00000011))
       {
         stab[i].stabTimer = 0;
         stab[i].isActive = false;
@@ -169,7 +191,7 @@ void updateHelena()
 
 
   if (helena.x < 1) helena.life = HELENA_DEAD;
-  if (helena.life < 1) helena.life = 1;
+  //if (helena.life < 1) helena.life = 1;
   if (helena.life < HELENA_HELMET) helena.helmet = 0;
   if (helena.life == HELENA_NAKED) helena.characteristics = (helena.characteristics & 0B11111100) + WEAPON_DAGGER;
   else helena.characteristics = (helena.characteristics & 0B11111100) + pgm_read_byte(&weaponWithHelmet[helena.helmet]);
