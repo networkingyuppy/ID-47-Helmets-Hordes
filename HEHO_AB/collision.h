@@ -60,9 +60,9 @@ void checkCollisions()
         helena.characteristics |= 0B00100000;
         helena.life--;
       }
-      if (!(orc[i].characteristics & 0B01000000))
+      if (helena.helmet == HELMET_FOOTBALL)
       {
-        orc[i].characteristics |= 0B00100000;
+        orc[i].characteristics = 0B00100000;
       }
     }
 
@@ -114,9 +114,9 @@ void checkCollisions()
         helena.characteristics |= 0B00100000;
         helena.life--;
       }
-      if (!(spike[i].characteristics & 0B01000000))
+      if (helena.helmet == HELMET_FOOTBALL)
       {
-        spike[i].characteristics |= 0B00100000;
+        spike[i].characteristics = 0B00100000;
       }
     }
   }
@@ -138,9 +138,9 @@ void checkCollisions()
       helena.characteristics |= 0B00100000;
       helena.life--;
     }
-    if (!(badWalkingFlame.characteristics & 0B01000000))
+    if (helena.helmet == HELMET_FOOTBALL)
     {
-      badWalkingFlame.characteristics |= 0B00100000;
+      badWalkingFlame.characteristics = 0B00100000;
     }
   }
 
@@ -158,9 +158,9 @@ void checkCollisions()
       helena.characteristics |= 0B00100000;
       helena.life--;
     }
-    if (!(badFlame.characteristics & 0B01000000))
+    if (helena.helmet == HELMET_FOOTBALL)
     {
-      badFlame.characteristics |= 0B00100000;
+      badFlame.characteristics = 0B00100000;
     }
   }
   ////// Check collision Helena with Statue //////
@@ -178,9 +178,9 @@ void checkCollisions()
     {
       helena.x--;
     }
-    if (!(statue.characteristics & 0B01000000))
+    if (helena.helmet == HELMET_FOOTBALL)
     {
-      statue.characteristics |= 0B00100000;
+      statue.characteristics = 0B00100000;
     }
   }
 
@@ -198,9 +198,9 @@ void checkCollisions()
       helena.characteristics |= 0B00100000;
       helena.life--;
     }
-    if (!(arrow.characteristics & 0B01000000))
+    if (helena.helmet == HELMET_FOOTBALL)
     {
-      arrow.characteristics |= 0B00100000;
+      arrow.characteristics = 0B00100000;
     }
   }
   ////// Check collision Helena with Weed //////
@@ -231,7 +231,7 @@ void checkCollisions()
       helena.characteristics |= 0B00100000;
       helena.life--;
     }
-    if (!(badWeed.characteristics & 0B01000000))
+    if (helena.helmet == HELMET_FOOTBALL)
     {
       badWeed.characteristics |= 0B00100000;
     }
