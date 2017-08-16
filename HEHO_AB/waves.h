@@ -70,7 +70,7 @@ void wave001()
 {
   if (checkStartWave())
   {
-    dungeonChestsSetInLine(0, 1);
+    dungeonChestsSetInLine(0, HELMET_FOOTBALL);
   }
   updateSecretChest();
   checkEndWave();

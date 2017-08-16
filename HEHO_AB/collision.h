@@ -27,7 +27,7 @@ void checkCollisions()
     .width = STAB_COLLISION_WIDTH,
     .height = STAB_COLLISION_HEIGHT,
   };
-  byte currentTab = 1 - nextStab;
+  byte currentStab = 1 - nextStab;
 
 
   ////// Check collision Helena with Orcs ////////
@@ -42,20 +42,20 @@ void checkCollisions()
       .width = ORC_COLLISION_WIDTH,
       .height = ORC_COLLISION_HEIGHT
     };
-    if (stab[currentTab].isActive)
+    if (stab[currentStab].isActive)
     {
       if (((orc[i].characteristics & 0B00110000) == 0B00010000) && arduboy.collide(stabRect, enemyRect))
       {
         orc[i].characteristics = 0B00100000;
-        stab[currentTab].isActive = false;
-        stab[currentTab].isVisible = false;
+        stab[currentStab].isActive = false;
+        stab[currentStab].isVisible = false;
         playerScore += 500;
       }
     }
 
     if (((orc[i].characteristics & 0B00110000) == 0B00010000) && arduboy.collide(helenaRect, enemyRect))
     {
-      if (!(helena.characteristics & 0B00100000))
+      if (!(helena.characteristics & 0B00100000) && (helena.helmet != HELMET_FOOTBALL))
       {
         helena.characteristics |= 0B00100000;
         helena.life--;
@@ -89,7 +89,7 @@ void checkCollisions()
 
     if (((orc[i].characteristics & 0B00110000) == 0B00010000) && arduboy.collide(helenaRect, enemyRect))
     {
-      if (!(helena.characteristics & 0B00100000))
+      if (!(helena.characteristics & 0B00100000) && (helena.helmet != HELMET_FOOTBALL))
       {
         helena.characteristics |= 0B00100000;
         helena.life--;
@@ -109,7 +109,7 @@ void checkCollisions()
     };
     if (((spike[i].characteristics & 0B00110000) == 0B00010000) && arduboy.collide(helenaRect, enemyRect))
     {
-      if (!(helena.characteristics & 0B00100000))
+      if (!(helena.characteristics & 0B00100000) && (helena.helmet != HELMET_FOOTBALL))
       {
         helena.characteristics |= 0B00100000;
         helena.life--;
@@ -132,7 +132,7 @@ void checkCollisions()
 
   if (((badWalkingFlame.characteristics & 0B00110000) == 0B00010000) && arduboy.collide(helenaRect, enemyRect))
   {
-    if (!(helena.characteristics & 0B00100000))
+    if (!(helena.characteristics & 0B00100000) && (helena.helmet != HELMET_FOOTBALL))
     {
 
       helena.characteristics |= 0B00100000;
@@ -153,7 +153,7 @@ void checkCollisions()
   };
   if (((badFlame.characteristics & 0B00110000) == 0B00010000) && arduboy.collide(helenaRect, enemyRect))
   {
-    if (!(helena.characteristics & 0B00100000))
+    if (!(helena.characteristics & 0B00100000) && (helena.helmet != HELMET_FOOTBALL))
     {
       helena.characteristics |= 0B00100000;
       helena.life--;
@@ -174,7 +174,7 @@ void checkCollisions()
   };
   if (((statue.characteristics & 0B00110000) == 0B00010000) && arduboy.collide(helenaRect, enemyRect))
   {
-    if (!(helena.characteristics & 0B00100000))
+    if (!(helena.characteristics & 0B00100000) && (helena.helmet != HELMET_FOOTBALL))
     {
       helena.x--;
     }
@@ -193,7 +193,7 @@ void checkCollisions()
   };
   if (((arrow.characteristics & 0B00110000) == 0B00010000) && arduboy.collide(helenaRect, enemyRect))
   {
-    if (!(helena.characteristics & 0B00100000))
+    if (!(helena.characteristics & 0B00100000) && (helena.helmet != HELMET_FOOTBALL))
     {
       helena.characteristics |= 0B00100000;
       helena.life--;
@@ -213,20 +213,20 @@ void checkCollisions()
     .height = BADWEED_COLLISION_HEIGHT
   };
 
-  if (stab[currentTab].isActive)
+  if (stab[currentStab].isActive)
   {
     if (((badWeed.characteristics & 0B00110000) == 0B00010000) && arduboy.collide(stabRect, enemyRect))
     {
       badWeed.characteristics = 0B00100000;
-      stab[currentTab].isActive = false;
-      stab[currentTab].isVisible = false;
+      stab[currentStab].isActive = false;
+      stab[currentStab].isVisible = false;
       playerScore += 500;
     }
   }
 
   if (((badWeed.characteristics & 0B00110000) == 0B00010000) && arduboy.collide(helenaRect, enemyRect))
   {
-    if (!(helena.characteristics & 0B00100000))
+    if (!(helena.characteristics & 0B00100000) && (helena.helmet != HELMET_FOOTBALL))
     {
       helena.characteristics |= 0B00100000;
       helena.life--;
